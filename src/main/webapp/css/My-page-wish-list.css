@@ -1,0 +1,121 @@
+@charset "UTF-8";
+*{
+    margin:0;
+    padding:0;
+    list-style-type:none;
+    text-decoration:none;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size:1em;
+    font-weight:300;
+    color:#000;
+}
+body{
+    width:100%;
+    height:auto;
+    /* body에 스타일링을 지양해주십시오. */
+}
+#hdr{
+    width:100%;
+    min-height:150px;
+    height:auto;
+    box-sizing:border-box;
+    padding:0 50px 0 40px;
+    box-shadow:1px 1px 5px rgba(0, 0, 0, 0.1);
+    overflow:hidden;
+}
+#hdr .hdr-logo{
+    width:150px;
+    height:150px;
+    background:url("../img/logo.png") no-repeat;
+    background-size:cover;
+    float:left;
+}
+#hdr #nav{
+    float:right;
+}
+#hdr #nav ul{
+    float:right;
+}
+#hdr #nav li{
+    float:right;
+    padding:0px 20px;
+    line-height:150px;
+}
+#cntnr{
+    clear:both;
+    width:60%;
+    min-height:800px;
+    height:auto;
+    margin:0 auto;
+}
+#cntnr .cntnr-top-margin{
+    width:100%;
+    height:40px;
+}
+#cntnr .MpArm-arti{
+    width:100%;
+    min-height:200px;
+    height:auto;
+    border:1px solid #ccc;
+    box-sizing:border-box;
+    margin:0 0 20px 0;
+    padding:20px 8%;
+    overflow:hidden;
+}
+
+#cntnr .MpArm-arti i.fa-heart{
+    width:10%;
+    height:100%;
+    /* background:#eee; */
+    font-size:4em;
+    line-height:150px;
+    /* vertical-align:middle; */
+    color:#d96b6b;
+    /* color:#999; */
+    float:left;
+    text-align:center;
+}
+#cntnr .MpArm-arti p{
+    width:90%;
+    float:left;
+    /* background:#ddd; */
+    box-sizing:border-box;
+    font-size:0.95em;
+    line-height:2em;
+    margin:10px 0 0 0;
+    padding:0 0 0 50px;
+}
+
+#ftr{
+    width:100%;
+    min-height:200px;
+    height:auto;
+    background:#eee;
+    font-size:0.8em;
+    line-height:2em;
+}
+#ftr .wrapper{
+    width:60%;
+    min-height:200px;
+    height:auto;
+    margin:0 auto;
+}
+#ftr .wrapper #ftr-nav{
+    height:50px;
+}
+#ftr .wrapper #ftr-nav ul{
+    float:left;
+}
+#ftr .wrapper #ftr-nav ul li{
+    padding:20px 20px 15px 20px;
+    float:left;
+}
+#ftr .wrapper #ftr-nav ul li:first-child{
+    padding:20px 20px 15px 0px;
+}
+#ftr .wrapper .ftr-arti{
+    clear:both;
+}
+#ftr .wrapper .ftr-arti p{
+    padding:0 0 10px 0;
+}

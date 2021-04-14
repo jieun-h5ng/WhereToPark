@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+  <mapper namespace="ReviewDAO">
+	<select id="getReview" resultMap="reviewInfo">
+		<!-- 새 리뷰 작성에 예약정보 불러오기 -->
+		<![CDATA[
+		 SELECT parking_title, reservation.rsv_intime, rsv_outtime, rsv_id
+		 FROM reservation, parkingboard
+		 WHERE parkingboard.parking_id = reservation.parking_id
+		 AND rsv_id = #{rsv_id}; 
+		]]>
+	</select>
+	
+	<select id="getReviewList" resultMap="reviewInfo">
+		<!-- 리뷰 목록에 지난 리뷰 불러오기 -->
+		<![CDATA[
+			SELECT review_id, review.user_id, rsv_intime, rsv_outtime, parking_location, parking_title, review_rating, review_content
+			FROM parkingboard, reservation, review
+			WHERE parkingboard.parking_id = reservation.parking_id
+			AND	reservation.rsv_id = review.rsv_id
+			AND review.user_id = #{user_id};
+		]]>
+	</select>
+	<insert id="insertReview" parameterType="review">
+		<![CDATA[
+			INSERT INTO review (user_id, rsv_id, review_date, review_content, review_rating)
+			VALUES (#{user_id}, #{rsv_id}, now(), #{review_content}, #{review_rating})
+		]]>
+	</insert>
+	<delete id="deleteReview">
+		<![CDATA[
+			DELETE FROM review
+			WHERE review_id=#{review_id}
+		]]>
+	</delete>
+	<select id="updateReviewView" resultMap="reviewInfo">
+		<![CDATA[
+			SELECT review_id, rsv_intime, rsv_outtime, parking_title, review_rating, review_content
+			FROM review, reservation, parkingboard
+			WHERE reservation.parking_id = parkingboard.parking_id
+			AND reservation.rsv_id = review.rsv_id
+			AND review_id = #{review_id};
+		]]>
+	</select>
+	<update id="updateReview" parameterType="review">
+		<!-- UPDATE review SET review_id=#{review_id}, user_id=#{user_id}, rsv_id=#{rsv_id}, review_content=#{review_content}, review_rating=#{review_rating}
+		WHERE review_id=#{review_id} -->
+		<![CDATA[
+			UPDATE review SET review_content=#{review_content}, review_rating=#{review_rating}
+			WHERE review_id=#{review_id}
+		]]>
+	</update>
+
+		<select id = "getReviewOnParking" resultMap="reviewInfo">
+		<![CDATA[
+SELECT DISTINCT r.* , u.user_nickname, u.user_pic
+			FROM reservation AS rsv
+			JOIN review AS r 
+			ON rsv.rsv_id = r.rsv_id
+			JOIN parkingboard AS p
+			ON rsv.parking_id = p.parking_id
+            JOIN user AS u
+            ON rsv.parker_id = u.user_id
+			WHERE rsv.parking_id = #{parking_id}
+            ORDER BY r.review_date DESC
+			LIMIT #{page}, 3
+		]]>
+	</select> 
+	<select id = "countReview" parameterType ="int" resultType="java.util.HashMap">
+		<![CDATA[
+			SELECT count(review_id) total, round(avg(review_rating),1) avrg
+			FROM reservation AS rsv
+			JOIN review AS r 
+			ON rsv.rsv_id = r.rsv_id
+			JOIN parkingboard AS p
+			ON rsv.parking_id = p.parking_id
+			WHERE rsv.parking_id = #{parking_id}
+		]]>
+	</select> 
+
+	<resultMap id="reviewInfo" type="com.where2park.biz.review.ReviewVO">
+		<id property="review_id" column="review_id"/>
+		<result property="user_id" column="user_id"/>
+		<result property="review_date" column="review_date"/>
+		<result property="review_content" column="review_content"/>
+		<result property="review_rating" column="review_rating"/>
+		<collection property="rsvVO" column="rsv_id" resultMap="rsvInfo"/>
+		<collection property="parkingVO" column="parking_id" resultMap="parkingInfo"/>
+		<collection property = "userVO" column="user_id" resultMap = "userInfo"/>	
+	</resultMap>
+	<resultMap id="rsvInfo" type="com.where2park.biz.reservation.RsvVO">
+		<result property="rsv_id" column="rsv_id"/>
+		<result property="rsv_intime" column="rsv_intime"/>
+		<result property="rsv_outtime" column="rsv_outtime"/>
+	</resultMap>
+	<resultMap id="parkingInfo" type="parking">
+		<result property="parking_id" column="parking_id"/>
+		<result property="parking_location" column="parking_location"/>
+		<result property="parking_title" column="parking_title"/>
+	</resultMap>
+	<resultMap id="userInfo" type = "user">
+		<result property ="user_nickname" column = "user_nickname"/>
+		<result property = "user_pic" column = "user_pic"/>
+	</resultMap>
+</mapper>

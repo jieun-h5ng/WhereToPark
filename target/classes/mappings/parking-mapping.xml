@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ParkingDAO">
+	<resultMap id="parkingResult" type="parking">
+		<id property="parking_id" column="parking_id" />
+		<result property="parking_intime" column='parking_intime' />
+		<result property="parking_outtime" column='parking_outtime' />
+		<association property="rsvVO" column="parking_id"
+			resultMap="rsvResult" />
+		<association property="reviewVO" column="parking_id"
+			resultMap="reviewResult" />
+	</resultMap>
+	<resultMap id="rsvResult" type="rsv">
+		<id property='rsv_id' column='rsv_id' />
+		<result property="parking_id" column="parking_id" />
+		<result property="rsv_intime" column='rsv_intime' />
+		<result property="rsv_outtime" column='rsv_outtime' />
+	</resultMap>
+	<resultMap id="reviewResult" type="review">
+		<id property="review_id" column="review_id"/>
+		<result property="user_id" column="user_id"/>
+		<result property="rsv_id" column="rsv_id"/>
+		<result property="review_date" column="review_date"/>
+		<result property="review_content" column="review_content"/>
+		<result property="review_rating" column="review_rating"/>
+	</resultMap>
+	
+	
+	<!-- 은지 메인 페이지 검색용 -->
+	<select id="mainGetParkingList" resultType="parking">
+		<![CDATA[
+		SELECT * 
+		FROM PARKINGBOARD
+		WHERE parking_location LIKE CONCAT('%', #{parking_location}, '%')
+		AND parking_intime <= #{parking_intime}
+		AND parking_outtime >= #{parking_outtime}
+		AND parking_type = '장기'
+		]]>
+	</select>
+	
+	<select id="getRecommendation" resultType="parking">
+		<![CDATA[
+		SELECT *
+		FROM parkingboard
+		WHERE parking_deleted = 0
+		ORDER BY (6371*acos(cos(radians(#{parking_lat}))*cos(radians(parking_lat))*cos(radians(parking_lng)-radians(#{parking_lng}))
+				 +sin(radians(#{parking_lat}))*sin(radians(parking_lat))))
+		LIMIT 3;
+		]]>
+	</select>
+	
+	<!-- 지은 검색에서 쓸 것 -->
+	<select id="getAllParkingList" resultType="parking">
+	<![CDATA[
+		SELECT * 
+		FROM PARKINGBOARD
+		WHERE parking_type = '장기' 
+		AND parking_deleted = 0 
+	]]>
+	</select>
+	<select id="getLongParkingList" resultType="parking">
+	<![CDATA[
+		SELECT * 
+		FROM PARKINGBOARD
+		WHERE (parking_title LIKE CONCAT('%', #{parking_title}, '%') 
+		OR parking_content LIKE CONCAT('%', #{parking_content}, '%')
+		OR parking_location LIKE CONCAT('%', #{parking_content}, '%'))
+		AND parking_location LIKE CONCAT('%', #{parking_location}, '%')
+		AND parking_type = '장기' 
+		AND parking_deleted = 0 
+		AND parking_price <= #{parking_price}
+		AND parking_intime <= #{parking_intime}
+		AND parking_outtime >= #{parking_outtime}
+	]]>
+	</select>
+		<select id = "getDateList" resultType="parking" resultMap = "parkingResult">
+<![CDATA[
+		Select rsv_intime, rsv_outtime
+		From reservation
+		join parkingboard using (parking_id)
+		where parking_id = #{parking_id}
+	]]>
+	</select>
+	<!-- 지은 주차장 상세페이지에서 조회할 리뷰 -->
+	<select id = "getReviewOnParking" resultMap="parkingResult">
+		<![CDATA[
+			SELECT DISTINCT r.* 
+			FROM reservation AS rsv
+			JOIN review AS r 
+			ON rsv.rsv_id = r.rsv_id
+			JOIN parkingboard AS p
+			ON rsv.parking_id = p.parking_id
+			WHERE rsv.parking_id = #{parking_id};
+		]]>
+	</select>
+	<!-- 지은 검색 여기까지 -->
+	
+	<!-- 나예 파킹 -->
+	<select id="getParking" resultType="parking">
+	<![CDATA[
+		SELECT *
+		FROM parkingboard
+		WHERE parking_id = #{parking_id} ;
+	]]>
+	</select>
+	
+   <select id="getParkingList" resultType="parking">
+   <![CDATA[
+      SELECT * 
+      FROM parkingboard
+      WHERE owner_id = #{owner_id}
+      ORDER BY parking_intime DESC;
+   ]]>
+   </select>
+
+	<insert id="insertParking">
+	<![CDATA[
+		INSERT INTO parkingboard(owner_id, parking_type, parking_title, parking_content, parking_pic, parking_location, parking_cartype, parking_price, parking_intime, parking_outtime, parking_deleted, parking_lat, parking_lng)
+		VALUES(#{owner_id}, #{parking_type}, #{parking_title}, #{parking_content} , #{parking_pic},#{parking_location},#{parking_cartype},#{parking_price},#{parking_intime},#{parking_outtime},#{parking_deleted},#{parking_lat}, #{parking_lng})
+	]]>
+	</insert>
+
+	<update id="updateParking">
+	<![CDATA[
+		UPDATE parkingboard SET parking_type=#{parking_type}, parking_title=#{parking_title}, parking_content=#{parking_content} , 
+		parking_pic=#{parking_pic},parking_location=#{parking_location},parking_cartype=#{parking_cartype},parking_price=#{parking_price},parking_intime=#{parking_intime},parking_outtime=#{parking_outtime},parking_lat=#{parking_lat},parking_lng=#{parking_lng}
+		WHERE parking_id = #{parking_id}
+	]]>
+	</update>
+
+   <update id="updateParking_deleted">
+   <![CDATA[
+      UPDATE parkingboard SET parking_deleted=2
+      WHERE parking_id = #{parking_id}
+   ]]>
+   </update>
+
+   <update id="updateParking_down">
+   <![CDATA[
+      UPDATE parkingboard SET parking_deleted=1
+      WHERE parking_id = #{parking_id}
+   ]]>
+   </update>
+
+   <update id="updateParking_ori">
+   <![CDATA[
+      UPDATE parkingboard SET parking_deleted=0
+      WHERE parking_id = #{parking_id}
+   ]]>
+   </update>
+
+   <delete id="deleteParking">
+   <![CDATA[
+      DELETE parkingboard
+      WHERE parking_id = #{parking_id}
+      
+   ]]>
+   </delete>
+   
+</mapper>

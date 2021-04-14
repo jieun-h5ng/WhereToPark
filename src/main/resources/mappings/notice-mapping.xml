@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="NoticeDAO">
+	<resultMap id="NoticeResult" type="com.where2park.biz.notice.NoticeVO">
+		<id property="user_id" column="USER_ID" />
+		<result property="user_id" column="USER_ID" />
+		<result property="not_type" column="NOT_TYPE" />
+		<result property="not_message" column="NOT_MESSAGE" />
+		<result property="not_url" column="NOT_URL" />
+		<result property="not_datetime" column="NOT_DATETIME" />
+		<result property="not_read_datetime" column="NOT_READ_DATETIME" />
+		<collection property="rsvVO" column="rsv_id" resultMap="rsvNotice"/>
+		<collection property="parkingVO" column="parking_id" resultMap="parkingNotice"/>	
+	</resultMap>
+		<resultMap id="rsvNotice" type="com.where2park.biz.reservation.RsvVO">
+		<result property="rsv_id" column="RSV_ID"/>
+		<result property="parker_id" column="PARKER_ID"/>
+		<result property="rsv_intime" column="RSV_INTIME"/>
+		<result property="rsv_outtime" column="RSV_OUTTIME"/>
+	</resultMap>
+	<resultMap id="parkingNotice" type="com.where2park.biz.parking.ParkingVO">
+		<result property="parking_id" column="parking_id"/>
+		<result property="parking_location" column="parking_location"/>
+		<result property="parking_title" column="parking_title"/>
+		<result property="owner_id" column="OWNER_ID"/>
+	</resultMap>
+	
+<!-- 	<resultMap id="NoticeResult" type="notice">
+		<id property="user_id" column="USER_ID" />
+		<result property="user_id" column="USER_ID" />
+		<result property="parking_id" column="PARKING_ID" />
+		<result property="not_type" column="NOT_TYPE" />
+		<result property="not_message" column="NOT_MESSAGE" />
+		<result property="not_url" column="NOT_URL" />
+		<result property="not_datetime" column="NOT_DATETIME" />
+		<result property="not_read_datetime" column="NOT_READ_DATETIME" />
+	</resultMap> -->
+	<select id="selectNotice" resultType="notice">
+	<![CDATA[
+		SELECT * 
+		FROM NOTIFICATION
+		WHERE user_id = #{user_id}
+		ORDER BY not_datetime DESC
+		LIMIT #{pageNum}, 4;  
+	]]>
+	</select>
+	
+	<select id="selectNoticeUser" resultMap="NoticeResult">
+	<![CDATA[
+		SELECT reservation.parker_id, owner_id, parkingboard.parking_id, rsv_id
+		FROM parkingboard, reservation
+		WHERE parkingboard.parking_id = reservation.parking_id
+		AND rsv_id = #{rsv_id};
+	]]>
+	</select>
+	
+    <insert id="insertNotice">
+	<![CDATA[
+ 		INSERT INTO notification (user_id, parking_id, rsv_id, not_type, not_message, not_url, not_datetime)
+ 		VALUES (#{user_id}, #{parking_id}, #{rsv_id}, #{not_type}, #{not_message}, #{not_url}, now())
+	]]>
+	</insert>
+	
+	<update id="updateNoticeReadDate">
+		<![CDATA[
+		UPDATE NOTIFICATION
+		SET not_read_datetime = now()
+		WHERE not_read_datetime IS NULL 
+		AND user_id = #{user_id};
+		]]>
+	</update>
+	
+	<delete id="deleteNotice">
+		<![CDATA[
+		DELETE FROM NOTIFICATION
+		WHERE not_id = #{not_id};
+		]]>
+	</delete>
+<!-- 	
+	<update id="updateMessageReadDate">
+		<![CDATA[
+			UPDATE chatmassages 
+			SET message_read_datetime = now()
+			WHERE message_read_datetime IS NULL
+			AND NOT user_id = #{user_id}
+			AND chatroom_id = #{chatroom_id};
+		]]>
+	</update>
+ -->	
+
+</mapper>

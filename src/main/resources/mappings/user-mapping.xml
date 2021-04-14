@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="UserDAO">
+	<!-- 로그인 -->
+	<select id="getUser" resultType="user">
+	<![CDATA[
+		SELECT * 
+		FROM user
+		WHERE user_email= #{user_email} AND user_password = #{user_password}
+	]]>
+	</select>
+	<!-- 카톡 로그인 -->
+	<select id="kakaogetUser" resultType="user">
+	<![CDATA[
+		SELECT * 
+		FROM user
+		WHERE user_email= #{user_email}
+	]]>
+	</select>
+	<insert id="insertUser">
+	<![CDATA[
+		INSERT INTO user(user_email, user_password, user_nickname, user_phone, user_pic)
+		VALUES(#{user_email}, #{user_password}, #{user_nickname}, #{user_phone} , #{user_pic})
+	]]>
+	</insert>
+	
+	<insert id="insertCarInfo">
+	<![CDATA[
+		INSERT INTO carinfo(user_id, car_num, car_type, car_location)
+		VALUES(#{user_id}, #{car_num}, #{car_type}, #{car_location})
+	]]>
+	</insert>
+	
+	<!-- 회원 탈퇴 -->
+	<delete id="deleteUser">
+	<![CDATA[
+		DELETE 
+		FROM user
+		WHERE user_id = #{user_id}
+	]]>
+	</delete>
+	
+	<!-- 닉네임 중복체크 -->
+	<select id="nickChk" resultType="int">
+	<![CDATA[
+		SELECT COUNT(*)  
+		FROM user
+		WHERE user_nickname= #{user_nickname}
+	]]>
+	</select>
+	
+	<!-- 이메일 존재 여부 -->
+	<select id="findemail" resultType="int">
+	<![CDATA[
+		SELECT COUNT(*)  
+		FROM user
+		WHERE user_email= #{user_email}
+	]]>
+	</select>
+	
+	
+	<!--비번 변경 	-->	
+	<update id="upadtePw">
+	<![CDATA[
+		UPDATE user SET user_password = #{user_password}
+		WHERE user_email = #{user_email}
+	]]>
+	</update>
+	  
+	 <!-- 자동차정보입력인포  -->
+	 <select id="getUsercarInfo" resultType="user">
+	<![CDATA[
+		SELECT * 
+		FROM user
+		WHERE user_nickname= #{user_nickname} 
+	]]>
+	</select> 
+	
+	 <!-- 회원정보 --> 
+	<select id="getUserinfo" resultType="user">
+	<![CDATA[
+		SELECT *
+		FROM user 
+		JOIN carinfo USING (user_id)
+		WHERE user_id = #{user_id}
+	]]>
+	</select>	
+	
+	<!-- 회원정보수정	 -->
+	<update id="updateUser">
+	<![CDATA[
+		UPDATE user u INNER JOIN carinfo c
+		ON u.user_id = c.user_id
+		SET u.user_nickname = #{user_nickname}, u.user_password=#{user_password}, u.user_phone=#{user_phone}, u.user_pic=#{user_pic},
+		 c.car_num=#{car_num}, c.car_type = #{car_type} , c.car_location = #{car_location}
+		WHERE u.user_id = #{user_id} ; 
+		
+	]]>
+	</update>
+	
+	<!-- 비번체크 -->
+	<select id="checkPw" resultType="int">
+	<![CDATA[
+		SELECT COUNT(*)  
+		FROM user
+		WHERE user_id= #{user_id} AND user_password= #{user_password}
+	]]>
+	</select>
+	<!-- 비번체크
+	<select id="checkPw" resultType="user">
+	<![CDATA[
+		SELECT user_password
+		FROM user
+		WHERE user_id= #{user_id} AND user_password= #{user_password}
+	]]>
+	</select>
+	 -->
+	
+	
+	
+</mapper>

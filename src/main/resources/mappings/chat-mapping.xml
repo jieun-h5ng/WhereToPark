@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ChatDAO">
+	<resultMap id="chatResult" type="chat">
+		<id property="message_id" column="MESSAGE_ID" />
+		<result property="chatroom_id" column="CHATROOM_ID" />
+		<result property="user_id" column="USER_ID" />
+		<result property="message_content" column="MESSAGE_CONTENT" />
+		<result property="message_datetime" column="MESSAGE_DATETIME" />
+		<result property="message_read_datetime" column="MESSAGE_READ_DATETIME" />
+	</resultMap>
+	
+	<insert id="insertChatroom">
+	<![CDATA[
+		INSERT INTO CHATROOM (rsv_id, parker_id)
+		VALUES (#{rsv_id}, #{parker_id}); 
+	]]>
+	</insert>
+	<!-- 집계함수사용해서 code가 없다면 없는 채팅방이라는 메세지 출력 -->
+	<select id="selectChatroom" resultType="chat">
+	<![CDATA[
+		SELECT IFNULL (MAX(chatroom_id), 0) AS chatroom_id
+		FROM CHATROOM
+		WHERE rsv_id = #{rsv_id}; 
+	]]>
+	</select>
+	
+	<select id="selectNotReadMessage" resultType="int">
+	<![CDATA[
+		SELECT COUNT(*) FROM chatmessages, chatroom
+		WHERE message_read_datetime IS NULL
+		AND NOT user_id = #{userVO.user_id}
+		AND chatmessages.chatroom_id = chatroom.chatroom_id
+		AND chatroom.rsv_id = #{rsv_id};
+	]]>
+	</select>
+	
+	<update id="updateMessageReadDate">
+		<![CDATA[
+			UPDATE chatmessages 
+			SET message_read_datetime = now()
+			WHERE message_read_datetime IS NULL
+			AND NOT user_id = #{user_id}
+			AND chatroom_id = #{chatroom_id};
+		]]>
+	</update>
+	
+<!-- 	<insert id="insertChat" >
+		INSERT INTO CHATMASSAGES (chatroom_id, user_id, message_content, message_datetime)
+		VALUES
+		<foreach collection="list" item="item" separator=" , " >
+		( #{item.chatroom_id},
+		  #{item.user_id},
+		  #{item.message_content}, 
+		  #{item.message_datetime})
+		</foreach>  
+	</insert> -->
+	<insert id="insertChat" >
+		INSERT INTO CHATMESSAGES (chatroom_id, user_id, message_content, message_datetime)
+		VALUES
+		( #{chatroom_id},
+		  #{user_id},
+		  #{message_content}, 
+		  #{message_datetime});
+	</insert>
+	
+	<select id="selectChat" resultMap="chatResult">
+	<![CDATA[
+		SELECT *
+		FROM CHATMESSAGES
+		WHERE chatroom_id = #{chatroom_id}; 
+	]]>
+	</select>
+
+</mapper>
