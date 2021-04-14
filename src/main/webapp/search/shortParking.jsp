@@ -57,7 +57,7 @@
 								data: form,
 								async: false,
 								success: function (result) {
-									//var LP_list = JSON.parse(result);
+									//var SP_list = JSON.parse(result);
 									console.log(result);
 									var obj = result.title;
 									var list = $(".search-result-list");
@@ -72,7 +72,7 @@
 										+ "<tr><td>" + element.parking_location + "</td></tr>"	
 										+ "<tr><td> " + element.parking_type + "</td></tr>"
 										+ "<tr><td>예약시작: " + element.parking_intime + "</td></tr>"
-										+ "<tr><td>1일 " + element.parking_price + "원</td></tr>";
+										+ "<tr><td>1시간 " + element.parking_price + "원</td></tr>";
 										list.append(txt);
 										
 									});
@@ -137,8 +137,8 @@
 				<div class="search-condition">
 					<input type="hidden" id="sdateVal" name="sdate" />
 					<input type="hidden" id="edateVal" name="edate" />
-					<input type="button" value="시작날짜" id="sdate" />
-					<input type="button" value="종료날짜" id="edate" />
+					<input type="button" value="주차날짜" id="sdate" />
+					<input type="button" value="주차시간" id="sTime" />
 					<script>
 						$("#sdate").datepicker(
 							{
@@ -167,55 +167,14 @@
 								}
 							});
 
-						$("#edate").datepicker(
-							{
-								dateFormat: 'yy-mm-dd',
-								prevText: '< prev',
-								nextText: 'next >',
-								monthNames: ['1월', '2월', '3월', '4월',
-									'5월', '6월', '7월', '8월', '9월',
-									'10월', '11월', '12월'],
-								monthNamesShort: ['1월', '2월', '3월',
-									'4월', '5월', '6월', '7월', '8월',
-									'9월', '10월', '11월', '12월'],
-								dayNames: ['일', '월', '화', '수', '목',
-									'금', '토'],
-								dayNamesShort: ['일', '월', '화', '수',
-									'목', '금', '토'],
-								dayNamesMin: ['일', '월', '화', '수',
-									'목', '금', '토'],
-								showMonthAfterYear: true,
-								changeYear: false,
-								yearSuffix: ' - ',
-								minDate: "sdate",
-								maxDate: "+1m",
-							});
-						$.datepicker.setDefaults($.datepicker.regional['ko']);
-
-						$('#edate').datepicker();
-						if ($("#sdate").val() == "") {
-							$('#edate').datepicker("option", "minDate", "1d");
-						} else
-							$('#edate').datepicker("option", "minDate", $("#sdate").val());
-						$('#edate').datepicker("option", "onClose", function (selectedDate) {
-							$("#sdate").datepicker("option", "maxDate", selectedDate);
-							$("#edateVal").attr("value", selectedDate);
-						});
-
-						$("#sdate").datepicker();
-						$('#sdate').datepicker("option", "maxDate", $("#edate").val());
-						$('#sdate').datepicker("option", "onClose", function (selectedDate) {
-							$("#edate").datepicker("option", "minDate", selectedDate);
-							$("#sdateVal").attr("value", selectedDate);
-						});
-
+						$("#sTime").timepicker();
 
 
 					</script>
 				</div>
 				<div class="search-condition">
 					<input type="range" name="price" id="slider" min="500" max="50000"
-						step="500" /> 하루 당 <span id="won"></span> 원
+						step="500" /> 시간 당 <span id="won"></span> 원
 					<script>
 						$("#won").html(document.getElementById("slider").value);
 						$("#slider").click(function () {
@@ -234,7 +193,7 @@
 			</div>
 			<div class="search-result">
 				<div class="search-result-list">
-					<c:forEach var="parking" items="${LP_List}" varStatus="wishListStatus">
+					<c:forEach var="parking" items="${SP_List}" varStatus="wishListStatus">
 
                      <table class="parking-lot" border="1">
                         <tr>
@@ -254,7 +213,7 @@
                            <td><a href="searchParkingDetail.do?parking_id=${parking.parking_id}">예약가능: ${parking.parking_intime}</a></td>
                         </tr>
                         <tr>
-                           <td><a href="searchParkingDetail.do?parking_id=${parking.parking_id}">1일 ${parking.parking_price} 원</a></td>
+                           <td><a href="searchParkingDetail.do?parking_id=${parking.parking_id}">1시간 ${parking.parking_price} 원</a></td>
                         </tr>
                         <!-- 찜 기능 작업중에 있습니다 -->
                         <tr>
@@ -360,7 +319,7 @@
 						// 초기화면에서 마커를 표시
 						
 						 positions = [
-						 <c:forEach var="parking" items="${LP_List}">
+						 <c:forEach var="parking" items="${SP_List}">
 						 	{
 						 		content: '<div>${parking.parking_title}</div>',
 					 		latlng: new kakao.maps.LatLng(${parking.parking_lat}, ${parking.parking_lng})

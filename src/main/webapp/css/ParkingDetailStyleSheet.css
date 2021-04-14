@@ -65,6 +65,7 @@ span.ui-state-default{
     display: inline;
 }
 .segment{
+    width: 90%;
     margin-bottom: 50px;
 }
 .pk-content{
@@ -86,7 +87,6 @@ span.ui-state-default{
     padding: 20px;
     text-align: right;
     box-shadow: 1px 1px 2px #ccc;
-    margin-right: 40px;
     margin-top: 60px;
 }
 
