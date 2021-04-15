@@ -4,7 +4,6 @@
     var currentLong;
     var currentLat;
 
-
     function getLocation(){
         if(navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function(position){

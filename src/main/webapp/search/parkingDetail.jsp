@@ -164,6 +164,9 @@
 
 							<input type="hidden" name="rsv_intime" value="" id="hidden_sdate" />
 							<input type="hidden" name="rsv_outtime" value="" id="hidden_edate" />
+							
+							<!-- 오너 아이디 - 은지 -->
+							<input type="hidden" name="parkingVO.owner_id" value="${p_detail.owner_id}"/>
 
 							<script>
 			var today = new Date();
@@ -306,8 +309,7 @@
 										onclick="alert('로그인이 필요한 기능입니다.');location.href='<%=request.getContextPath()%>/user/userLogin.jsp' " />
 								</c:when>
 								<c:when test="${!empty sessionScope.userId and p_detail.owner_id ne userId}">
-									<input type="submit" value="주차장 예약하기" id="pk-book-btn"
-										onclick="send();" />
+									<input type="submit" value="주차장 예약하기" id="pk-book-btn"/>
 								</c:when>
 								<c:when test="${!empty sessionScope.userId and p_detail.owner_id eq userId}">
 									<input type="button" value="주차장 예약하기" id="pk-book-btn"

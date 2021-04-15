@@ -21,7 +21,6 @@ public class Chatroom {
 	@Autowired
 	@Qualifier("chatService")
 	ChatService chatService;
-	
 	private Map<WebSocketSession, Integer> chatroom = new HashMap<>();
 	
 	public Chatroom() {
@@ -31,15 +30,9 @@ public class Chatroom {
 	public void saveChatting (ChatVO vo){
 		Timestamp now = new Timestamp(System.currentTimeMillis());
 		vo.setMessage_datetime(now);
-
 		System.out.println("=====>chatroom save Chatting<======");
-		System.out.println(vo.getChatroom_id());
-		System.out.println(vo.getUser_id());
-		System.out.println(vo.getMessage_datetime());
-		System.out.println(vo.getMessage_content());
-
 		chatService.insertChat(vo);
-	}
+	}//채팅 저장 
 	
 	public Map<WebSocketSession, Integer> saveSession (WebSocketSession session, Integer chatroom_id ) {
 		if(!chatroom.containsKey(session)) { //chatroom에 파라미터로 받은 세션과 동일한 세션이 없으면 추가해줌 
@@ -50,9 +43,8 @@ public class Chatroom {
 		}
 		System.out.println(chatroom.get(session) + " : chatroom에 새롭게 추가된 세션");
 		}
-		
 		return chatroom;
-	}
+	}//세션을 나누어서 분류
 	
 	public int searchSession (WebSocketSession session) {
 		int check = 0;
@@ -61,13 +53,10 @@ public class Chatroom {
 				check ++;
 			}
 		}
-		
 		return check;
-	}
+	}//방에 접속한 인원이 몇인지 체크
 	
 	public void deleteSession(WebSocketSession session) {
 		chatroom.remove(session);
-	}
-	
-	
+	}//채팅방을 나갈때 세션 제거
 }
