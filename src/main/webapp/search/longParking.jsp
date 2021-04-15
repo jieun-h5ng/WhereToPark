@@ -18,8 +18,6 @@
 		<link
 			href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
 			rel="stylesheet">
-		<link rel="stylesheet"
-			href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 		<title>장기주차 검색하기</title>
 		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -233,7 +231,9 @@
 				</div>
 			</div>
 			<div class="search-result">
+
 				<div class="search-result-list">
+				
 					<c:forEach var="parking" items="${LP_List}" varStatus="wishListStatus">
 
                      <table class="parking-lot" border="1">
@@ -269,6 +269,7 @@
                      </table>
                   
                </c:forEach>
+
                <script>
                   var cnt = 0;
                   //insert WishList
@@ -305,12 +306,13 @@
                            xhr.send(parkingId);
                      } 
                   }
-                  
+
                </script>
                <!-- 여기까지 찜 기능 작업중에 있습니다 -->
 				</div>
 
 			</div>
+			
 			<div class="search-map">
 				<div id="map" style="width: 100%; height: 100%;"></div>
 

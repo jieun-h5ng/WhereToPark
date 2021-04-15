@@ -14,17 +14,17 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="preconnect" href="https://fonts.gstatic.com">
-		<link rel="stylesheet" type="text/css" href="css/SearchParkingStyleSheet.css">
+		<link href="css/SearchParkingStyleSheet.css" rel="stylesheet" type="text/css" >
 		<link
 			href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
 			rel="stylesheet">
-		<link rel="stylesheet"
-			href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-		<title>장기주차 검색하기</title>
+		<title>단기주차 검색하기</title>
 		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		<link rel="stylesheet" href="css/jquery.timepicker.min.css">
+		
 	</head>
-
+<script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
 	<body>
 		<div id="cntnr" style="width: 100%;">
 			<div class="search-bar">
@@ -45,7 +45,7 @@
 								area: $("#district").val(),
 								keyword: $("#keyword").val(),
 								sdate: $("#sdateVal").val(),
-								edate: $("#edateVal").val(),
+								sTime: $("#sTimeVal").val(),
 								price: $("#slider").val(),
 								area: $("#district").val()
 							};
@@ -136,9 +136,8 @@
 				</div>
 				<div class="search-condition">
 					<input type="hidden" id="sdateVal" name="sdate" />
-					<input type="hidden" id="edateVal" name="edate" />
 					<input type="button" value="주차날짜" id="sdate" />
-					<input type="button" value="주차시간" id="sTime" />
+					<input type="button" value="주차시간" class="hasTimepicker" id="sTime" name="sTime"/>
 					<script>
 						$("#sdate").datepicker(
 							{
@@ -166,15 +165,32 @@
 									var sdate = $(this).val
 								}
 							});
+						$('#sdate').datepicker("setDate", "today");
+						$('#sdate').datepicker("option", "onClose", function (selectedDate) {
+							$("#sdateVal").attr("value", selectedDate);
+						});
 
-						$("#sTime").timepicker();
-
+						$("#sTime").timepicker({
+							
+							    timeFormat: 'h:mm p',
+							    interval: 60,
+							    minTime: '0',
+							    maxTime: '11:00pm',
+							    defaultTime: '11',
+							    startTime: '0:00am',
+							    dynamic: false,
+							    dropdown: true,
+							    scrollbar: true,
+							    zindex: 9
+							    
+						
+						});
 
 					</script>
 				</div>
 				<div class="search-condition">
-					<input type="range" name="price" id="slider" min="500" max="50000"
-						step="500" /> 시간 당 <span id="won"></span> 원
+					<input type="range" name="price" id="slider" min="500" max="10000"
+						step="100" /> 시간 당 <span id="won"></span> 원
 					<script>
 						$("#won").html(document.getElementById("slider").value);
 						$("#slider").click(function () {

@@ -150,6 +150,8 @@ public class MainSearchController {
 	@RequestMapping(value="/searchParkingDetail.do", method=RequestMethod.GET)
 	public String searchParkingDetail(ParkingVO vo, Model model) {
 		ParkingVO parking = parkingService.getParking(vo);
+		String type = parking.getParking_type();
+		
 		model.addAttribute("p_detail", parking);
 		model.addAttribute("booked", parkingService.getDateList(vo));
 		//model.addAttribute("p_reviews", parkingService.getReviewOnParking(vo));
@@ -160,9 +162,11 @@ public class MainSearchController {
 		//js에서 자꾸 parking_id 못읽어서 세션에 저장함... - 은지
 		session.setAttribute("parkingId", vo.getParking_id());
 		session.setAttribute("parkingInfo", parking);
-
+if(type.equals("장기")) {
 		return "search/parkingDetail.jsp";
-	}
+}else {
+		return "search/parkingDetail_short.jsp";}
+}
 	
 	
 	@RequestMapping(value="/searchParkingDetail.do", method=RequestMethod.POST)

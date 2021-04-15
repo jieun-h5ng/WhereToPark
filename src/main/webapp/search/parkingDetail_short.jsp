@@ -21,6 +21,7 @@
 <title>주차장 상세 페이지</title>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="css/jquery.timepicker.min.css">
 <style>
 #cntnr {
 	width: 80%;
@@ -122,7 +123,7 @@
   }
 </style>
 </head>
-
+<script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
 <body>
 	<div id="cntnr">
 		<!-- 각자의 파트는 이곳에서부터 작업하실 수 있습니다. -->
@@ -156,125 +157,56 @@
 
 						<div class="pk-price" style="font-size: larger; font-weight: 500;">
 							${p_detail.parking_price}<span
-								style="font-size: small; font-weight: 300;"> 원/시간</span>
+								style="font-size: small; font-weight: 300;"> 원/일</span>
 						</div>
 						<div class="pk-pickday">
-							<input type="button" value="시작날짜" id="sdate" onchange="call()" />
-							<input type="button" value="종료날짜" id="edate" onchange="call()" />
+							<input type="text" value="시작날짜" id="sdate" disabled/><br>
+							<input type="button" class="hasTimepicker" value="시작시간" id="stime"/>
+							<input type="button" class="hasTimepicker" value="종료시간" id="etime"/>
 
 							<input type="hidden" name="rsv_intime" value="" id="hidden_sdate" />
 							<input type="hidden" name="rsv_outtime" value="" id="hidden_edate" />
-						<c:if test="${p_detail.type eq '단기'}">
-							<input type="text" name="time1" value="" placeholder="시간선택"  id="time1" required size="8" maxlength="5">
-</c:if>
+
 							<script>
-			var today = new Date();
 			var inDate = "${p_detail.parking_intime}";
-			inDate = inDate.substr(0,10)
-			var outDate = "${p_detail.parking_outtime}";
-			if(today > new Date(inDate)){
-				 var min = today;
-			}else{
-             var min = inDate;
-             }
-                 var max = outDate.substr(0,10);
-                 
-                        function disableAllTheseDays(date) {
-                            var dateRange = [];
-                            var dateString = jQuery.datepicker.formatDate('yy-mm-dd', date);
- 
- // jstl을 이용 서버에서 처리
-<c:forEach var="rsv" items="${booked}">
-<fmt:formatDate var="rsvInDt" value="${rsv.rsvVO.rsv_intime}" pattern="YYYY-MM-dd"/>
-<fmt:formatDate var="rsvOutDt" value="${rsv.rsvVO.rsv_outtime}" pattern="YYYY-MM-dd"/>
-                            var startdate = "${rsvInDt}";
-                            var enddate = "${rsvOutDt}";
-
-                            for (var d = new Date(startdate); d <= new Date(enddate); d.setDate(d.getDate() + 1)) {
-                                dateRange.push($.datepicker.formatDate('yy-mm-dd', d));
-                            }
-</c:forEach>
-                            return [dateRange.indexOf(dateString) == -1];
-                       
-
-                        }
-                        $("#sdate").datepicker({
-                            dateFormat: 'yy-mm-dd',
-                            prevText: '< prev',
-                            nextText: 'next >',
-                            monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-                            monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-                            dayNames: ['일', '월', '화', '수', '목', '금', '토'],
-                            dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
-                            dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
-                            showMonthAfterYear: true,
-                            changeMonth: false,
-                            changeYear: false,
-                            yearSuffix: ' - ',
-                            minDate: min,
-                            maxDate: max
-                       <c:if test="${rsvInDt ne null}">
-                            ,beforeShowDay: disableAllTheseDays
-                       </c:if>
-                        });
-                        $("#edate").datepicker({
-                            dateFormat: 'yy-mm-dd',
-                            prevText: '< prev',
-                            nextText: 'next >',
-                            monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-                            monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-                            dayNames: ['일', '월', '화', '수', '목', '금', '토'],
-                            dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
-                            dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
-                            showMonthAfterYear: true,
-                            changeMonth: false,
-                            changeYear: false,
-                            yearSuffix: ' - ',
-                            minDate: min,
-                            maxDate: max
-                       <c:if test="${rsvInDt ne null}">
-                            ,beforeShowDay: disableAllTheseDays
-                       </c:if>
-                        });
-                        //$.datepicker.setDefaults($.datepicker.regional['ko']);
-
-                        $("#sdate").datepicker();
-                        if ($("#edate").val() == "종료날짜") {
-                            $('#sdate').datepicker("option", "maxDate", max);}
-                        else{
-                            $('#sdate').datepicker("option", "maxDate", $("#edate").val());
-                        }
-                        $('#edate').datepicker();
-					 	if ($("#sdate").val() == "") {
-                            $('#edate').datepicker("option", "minDate", min);}
-                      	else{$('#edate').datepicker("option", "minDate", $("#sdate").val());}
-                        $('#edate').datepicker("option", "onClose", function (selectedDate) {
-                        	if(selectedDate==true)
-                            $("#sdate").datepicker("option", "maxDate", selectedDate);
-                        	else
-                        		$("#sdate").datepicker("option", "maxDate", max);
-                        });
-                        $('#sdate').datepicker("option", "onClose", function (selectedDate) {
-                        	if(selectedDate==true)
-                                $("#edate").datepicker("option", "minDate", selectedDate);
-                            else
-                                $("#edate").datepicker("option", "minDate", min);
-                        });
-                  
-
-                        $("#time1").timepicker({
-                        	step: 5,            //시간간격 : 5분
-                        	timeFormat: "H:i"    //시간:분 으로표시
-                        });
+			inDate = inDate.substr(0,10);
+			$("#sdate").attr("value", inDate);
+			
+						$("#stime").timepicker({
+							    timeFormat: 'h:mm p',
+							    interval: 60,
+							    minTime: '0',
+							    maxTime: '11:00pm',
+							    defaultTime: '11',
+							    startTime: '0:00am',
+							    dynamic: false,
+							    dropdown: true,
+							    scrollbar: true,
+							    zindex: 9
+						});
+						$("#etime").timepicker({
+							
+						    timeFormat: 'h:mm p',
+						    interval: 60,
+						    minTime: '0',
+						    maxTime: '11:00pm',
+						    defaultTime: '11',
+						    startTime: '0:00am',
+						    dynamic: false,
+						    dropdown: true,
+						    scrollbar: true,
+						    zindex: 9
+					
+					});
 
                     </script>
 						</div>
 						<div class="pk-total-price">
 
-							${p_detail.parking_price} 원 X <span id="days">0</span> 일 = <span
+							${p_detail.parking_price} 원 X <span id="hours">0</span> 시간 = <span
 								id="won" value="" style="font-size: larger; font-weight: 500;">
 								0</span>원 <input type="hidden" id="hidden_price" name="rsv_price" />
-						</div>
+					</div>
 						<div class="pk-btn">
 							<c:choose>
 							<c:when test="${empty sessionScope.userId}">

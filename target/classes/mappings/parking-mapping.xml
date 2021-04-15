@@ -58,6 +58,7 @@
 		FROM PARKINGBOARD
 		WHERE parking_type = '장기' 
 		AND parking_deleted = 0
+		AND parking_outtime>= now()
 		ORDER BY parking_id DESC
 	]]>
 	</select>
@@ -67,6 +68,7 @@
 		FROM PARKINGBOARD
 		WHERE parking_type = '단기' 
 		AND parking_deleted = 0
+		AND parking_outtime>= now()
 		ORDER BY parking_id DESC 
 	]]>
 	</select>

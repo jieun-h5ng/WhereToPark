@@ -287,11 +287,18 @@
                     </script>
 						</div>
 						<div class="pk-total-price">
-
+<c:choose>
+							<c:when test="${p_detail.parking_type eq '장기'}">
 							${p_detail.parking_price} 원 X <span id="days">0</span> 일 = <span
 								id="won" value="" style="font-size: larger; font-weight: 500;">
 								0</span>원 <input type="hidden" id="hidden_price" name="rsv_price" />
-						</div>
+						</c:when>
+						<c:when test="${p_detail.parking_type eq '단기'}">
+							${p_detail.parking_price} 원 X <span id="hours">0</span> 시간 = <span
+								id="won" value="" style="font-size: larger; font-weight: 500;">
+								0</span>원 <input type="hidden" id="hidden_price" name="rsv_price" />
+						</c:when>
+						</c:choose></div>
 						<div class="pk-btn">
 							<c:choose>
 							<c:when test="${empty sessionScope.userId}">
