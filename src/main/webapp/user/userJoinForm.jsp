@@ -45,7 +45,7 @@
         }
         td{
         	height: 50px;
-           	padding: 30px 0 10px 0;
+           	padding: 20px 0 0 0;
         }
 
         input option {
@@ -947,7 +947,10 @@
 2) 시행일자 : 2018년 05월 01일 
 								   
 								   </textarea>
+								  <br><br>
 								  
+								  <input type="checkbox" id="check_3" class="normal" >
+								  <label for="check_2">이벤트 등 프로모션 알림 메일 수신 (선택)</label><br>
 							</div>
 						
 						</td>

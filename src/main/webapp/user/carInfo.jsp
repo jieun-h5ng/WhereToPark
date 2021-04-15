@@ -36,21 +36,24 @@
             font-size:2em;
 		    text-align:center;
 		    font-weight:400;
-		    padding:0 0 20px 0;
+		    padding:0 0 10px 0;
             
         }
         #cartype{
             margin-top: 80px;
             /* border: red solid 1px; */
-            height: 180px;
+            height: 150px;
         }
         #carnum{
             /* border: yellow solid 1px; */
-            height: 180px;
+            height: 150px;
         }
         #location{
             /* border: green solid 1px; */
             height: 350px;
+        }
+        #carinfo_A{
+        	margin:0 auto;
         }
         .text_title{
             font-weight: bolder;
@@ -160,7 +163,6 @@
                    		어따세워 이용시 필요한 부가정보입니다.
                    		<span id="name">${user.user_nickname}</span> 님 추가정보 입력사항입니다.
     	            </h3>
-                		
                    		
                    		<input type="hidden"  name="user_id" value="${user.user_id}">
                    		 
@@ -168,7 +170,7 @@
                         <div class="text_title">
                           	  차종
                         </div>
-                        <div>
+                        <div id = "carinfo_A">
                         <input type="radio" name="car_type" id="c1" value="대형"  class="radio"> 
                             <label for="c1">대형</label> 
                         <input type="radio" name="car_type" id="c2" value="중형" class="radio"> 

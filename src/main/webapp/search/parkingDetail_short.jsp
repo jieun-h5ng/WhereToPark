@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+   pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib uri="http://java.sun.com/jstl/core_rt" prefix="c"%>
 <%@ include file="../header.jsp"%>
@@ -12,24 +12,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <script src="https://kit.fontawesome.com/415f6f6023.js"
-	crossorigin="anonymous"></script>
+   crossorigin="anonymous"></script>
 <link rel="stylesheet" type="text/css"
-	href="css/ParkingDetailStyleSheet.css">
+   href="css/ParkingDetailStyleSheet.css">
 <link
-	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
-	rel="stylesheet">
+   href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
+   rel="stylesheet">
 <title>주차장 상세 페이지</title>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <link rel="stylesheet" href="css/jquery.timepicker.min.css">
 <style>
 #cntnr {
-	width: 80%;
+   width: 80%;
 }
 
 .description {
-	width: 90%;
-	margin: 0 auto;
+   width: 90%;
+   margin: 0 auto;
 }
  /*추천 알고리즘*/
    #cntnr #recommendation {
@@ -125,118 +125,134 @@
 </head>
 <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
 <body>
-	<div id="cntnr">
-		<!-- 각자의 파트는 이곳에서부터 작업하실 수 있습니다. -->
-		<div class="cntnr-top-margin"></div>
-		<div class="title segment"><input type="hidden" name="parking_title"
-							value="${p_detail.parking_title}" />
-						<button type="button" id="cartype" disbled>${p_detail.parking_cartype}</button>
-						<h1 style="font-size:2em; font-weight:500;display:inline">${p_detail.parking_title}</h1>
-						<p><span id="inOut">${p_detail.parking_intime} - ${p_detail.parking_outtime}</span></p>
-		</div>
-		<div class="segment pk-pic"
-			style="background-image: url(./images/${p_detail.parking_pic});">
+   <div id="cntnr">
+      <!-- 각자의 파트는 이곳에서부터 작업하실 수 있습니다. -->
+      <div class="cntnr-top-margin"></div>
+      <div class="title segment"><input type="hidden" name="parking_title"
+                     value="${p_detail.parking_title}" />
+                  <button type="button" id="cartype" disbled>${p_detail.parking_cartype}</button>
+                  <h1 style="font-size:2em; font-weight:500;display:inline">${p_detail.parking_title}</h1>
+                  <p><span id="inOut">${p_detail.parking_intime} - ${p_detail.parking_outtime}</span></p>
+      </div>
+      <div class="segment pk-pic"
+         style="background-image: url(./images/${p_detail.parking_pic});">
 
-		</div>
-		<form method="post" action="kakaopay.do">
-			<div class="description">
-				<div class="segment pk-content">
-					<input type="hidden" name="parking_id"
-						value="${p_detail.parking_id}"> <input type="hidden"
-						name="parker_id" value="${userId}">
-					<!-- 문제 부분 -->
-					<div class="pk-info">
-					<h1>${p_detail.parking_title}</h1>
-						<hr>
-						<p>위치: ${p_detail.parking_location}</p>
-						<p>주차가능: ${p_detail.parking_cartype}</p>
-						<p>${p_detail.parking_content}</p>
+      </div>
+      <form method="post" action="kakaopay.do">
+         <div class="description">
+            <div class="segment pk-content">
+               <input type="hidden" name="parking_id"
+                  value="${p_detail.parking_id}"> <input type="hidden"
+                  name="parker_id" value="${userId}">
+               <!-- 문제 부분 -->
+               <div class="pk-info">
+               <h1>${p_detail.parking_title}</h1>
+                  <hr>
+                  <p>위치: ${p_detail.parking_location}</p>
+                  <p>주차가능: ${p_detail.parking_cartype}</p>
+                  <p>${p_detail.parking_content}</p>
 
-					</div>
-					<div class="segment pk-condition">
+               </div>
+               <div class="segment pk-condition">
 
-						<div class="pk-price" style="font-size: larger; font-weight: 500;">
-							${p_detail.parking_price}<span
-								style="font-size: small; font-weight: 300;"> 원/일</span>
-						</div>
-						<div class="pk-pickday">
-							<input type="text" value="시작날짜" id="sdate" disabled/><br>
-							<input type="button" class="hasTimepicker" value="시작시간" id="stime"/>
-							<input type="button" class="hasTimepicker" value="종료시간" id="etime"/>
+                  <div class="pk-price" style="font-size: larger; font-weight: 500;">
+                     ${p_detail.parking_price}<span
+                        style="font-size: small; font-weight: 300;"> 원/일</span>
+                  </div>
+                  <div class="pk-pickday">
+                     <input type="text" value="시작날짜" id="sdate" disabled/><br>
+                     <input type="button" class="hasTimepicker" value="시작시간" id="stime" onchange="call()" />
+                     <input type="button" class="hasTimepicker" value="종료시간" id="etime" onchange="call()" />
 
-							<input type="hidden" name="rsv_intime" value="" id="hidden_sdate" />
-							<input type="hidden" name="rsv_outtime" value="" id="hidden_edate" />
+                     <input type="hidden" name="rsv_intime" value="" id="hidden_sdate" />
+                     <input type="hidden" name="rsv_outtime" value="" id="hidden_edate" />
 
-							<script>
-			var inDate = "${p_detail.parking_intime}";
-			inDate = inDate.substr(0,10);
-			$("#sdate").attr("value", inDate);
-			
-						$("#stime").timepicker({
-							    timeFormat: 'h:mm p',
-							    interval: 60,
-							    minTime: '0',
-							    maxTime: '11:00pm',
-							    defaultTime: '11',
-							    startTime: '0:00am',
-							    dynamic: false,
-							    dropdown: true,
-							    scrollbar: true,
-							    zindex: 9
-						});
-						$("#etime").timepicker({
-							
-						    timeFormat: 'h:mm p',
-						    interval: 60,
-						    minTime: '0',
-						    maxTime: '11:00pm',
-						    defaultTime: '11',
-						    startTime: '0:00am',
-						    dynamic: false,
-						    dropdown: true,
-						    scrollbar: true,
-						    zindex: 9
-					
-					});
+                     <script>
+         var inDate = "${p_detail.parking_intime}";
+         inDate = inDate.substr(0,10);
+         $("#sdate").attr("value", inDate);
+         
+                  $("#stime").timepicker({
+                         timeFormat: 'h:mm p',
+                         interval: 60,
+                         minTime: '0',
+                         maxTime: '11:00pm',
+                         defaultTime: '11',
+                         startTime: '0:00am',
+                         dynamic: false,
+                         dropdown: true,
+                         scrollbar: true,
+                         zindex: 9
+                  });
+                  $("#etime").timepicker({
+                     
+                      timeFormat: 'h:mm p',
+                      interval: 60,
+                      minTime: '0',
+                      maxTime: '11:00pm',
+                      defaultTime: '11',
+                      startTime: '0:00am',
+                      dynamic: false,
+                      dropdown: true,
+                      scrollbar: true,
+                      zindex: 9
+               
+               });
 
+                  function call(){
+                     var time1 = document.getElementById("stime").value;
+                     var time2 = document.getElementById("etime").value;
+                     var d1 = document.getElementById("sdate").value;
+
+                     var t1 = new Date("2019-09-03"+stime);
+                     var t2 = new Date("2019-09-03"+etime);
+
+                     var interval = t2-t1;
+                     // 간격 의 값은 8612000(밀리초) 가 된다.
+
+                     var HH = Math.floor((interval % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)); //시
+                     var mm = Math.floor((interval % (1000 * 60 * 60)) / (1000 * 60));//분
+                     
+                     $("#hours").attr("value", HH+" 시간 "+mm+" 분");
+                  }
                     </script>
-						</div>
-						<div class="pk-total-price">
+                  </div>
+                  <div class="pk-total-price">
 
-							${p_detail.parking_price} 원 X <span id="hours">0</span> 시간 = <span
-								id="won" value="" style="font-size: larger; font-weight: 500;">
-								0</span>원 <input type="hidden" id="hidden_price" name="rsv_price" />
-					</div>
-						<div class="pk-btn">
-							<c:choose>
-							<c:when test="${empty sessionScope.userId}">
-									<input type="button" value="주차장 예약하기" id="pk-book-btn"
-										onclick="alert('로그인이 필요한 기능입니다.');location.href='<%=request.getContextPath()%>/user/userLogin.jsp' " />
-								</c:when>
-								<c:when test="${!empty sessionScope.userId and p_detail.owner_id ne userId}">
-									<input type="submit" value="주차장 예약하기" id="pk-book-btn"
-										onclick="send();" />
-								</c:when>
-								<c:when test="${!empty sessionScope.userId and p_detail.owner_id eq userId}">
-									<input type="button" value="주차장 예약하기" id="pk-book-btn"
-										onclick="alert('자기 자신의 주차장은 예약할 수 없습니다');" />
-								</c:when>
-							</c:choose>
-							<!-- parking의 owner_id 가 세션user와 동일한 경우 예외처리 -->
-						</div>
-						<!-- 문제 부분 -->
-					</div>
-				</div>
-		</form>
+                     ${p_detail.parking_price} 원 X <span id="hours">0</span> 시간 = <span
+                        id="won" value="" style="font-size: larger; font-weight: 500;">
+                        0</span>원 <input type="hidden" id="hidden_price" name="rsv_price" />
+               </div>
+                  <div class="pk-btn">
+                     <c:choose>
+                     <c:when test="${empty sessionScope.userId}">
+                           <input type="button" value="주차장 예약하기" id="pk-book-btn"
+                              onclick="alert('로그인이 필요한 기능입니다.');location.href='<%=request.getContextPath()%>/user/userLogin.jsp' " />
+                        </c:when>
+                        <c:when test="${!empty sessionScope.userId and p_detail.owner_id ne userId}">
+                           <input type="submit" value="주차장 예약하기" id="pk-book-btn"
+                              onclick="send();" />
+                        </c:when>
+                        <c:when test="${!empty sessionScope.userId and p_detail.owner_id eq userId}">
+                           <input type="button" value="주차장 예약하기" id="pk-book-btn"
+                              onclick="alert('자기 자신의 주차장은 예약할 수 없습니다');" />
+                        </c:when>
+                     </c:choose>
+                     <!-- parking의 owner_id 가 세션user와 동일한 경우 예외처리 -->
+                  </div>
+                  <!-- 문제 부분 -->
+               </div>
+            </div>
+      </form>
 
-		<div class="segment pk-location">
-			<h1 class="pk-subject">위치</h1>
-			<div class="search-map">
-				<div id="map" style="width: 100%; height: 100%;"></div>
+      <div class="segment pk-location">
+         <h1 class="pk-subject">위치</h1>
+         <div class="search-map">
+            <div id="map" style="width: 100%; height: 100%;"></div>
 
-				<script type="text/javascript"
-					src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=8bc49bed18e50dd654165896729f2ea4"></script>
-				<script>
+            <script type="text/javascript"
+               src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=8bc49bed18e50dd654165896729f2ea4"></script>
+            <script>
                     var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
                         mapOption = {
                             center: new kakao.maps.LatLng(${p_detail.parking_lat}, ${p_detail.parking_lng}), // 지도의 중심좌표
@@ -268,83 +284,83 @@
                     // 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
                     infowindow.open(map, marker); 
                 </script>
-			</div>
+         </div>
 
 
-		</div>
-		<div class="segment pk-review">
-			<h1 class="pk-subject">후기</h1>
-			<table id="rv-table" width=100%>
-				<thead>
-					<tr>
-						<th style="text-align: right;">별점 <span
-							style="font-size: 25pt; font-weight: 500;">${totalReview[0].avrg}</span></th>
-					</tr>
-				</thead>
-				<tbody id="review-by-page">
-					<c:forEach var="review" items="${p_reviews}" varStatus="i">
-						<tr>
-							<td>
-								<table class="rv-indiv">
-									<tr>
-										<td class='rv-pic'><img
-											src="images/profile/${p_reviews[i.index].userVO.user_pic}" /></td>
-										<fmt:formatDate var="reviewDt"
-											value="${p_reviews[i.index].review_date}"
-											pattern="YYYY년  MM월 dd일" />
-										<td>${p_reviews[i.index].userVO.user_nickname}<br>${reviewDt}
-										</td>
-									<tr>
-										<td colspan="2">
-											<p class="mp-rvl-p mp-rvl-rate"
-												data-rate="${p_reviews[i.index].review_rating}">
-												<input type="radio" name="review_rating" value="1"
-													class="rtng"
-													<c:if test="${p_reviews[i.index].review_rating eq '1'}">checked</c:if>
-													id="rtng1" title="1"><label for="rtng1"
-													class="starLabel"><i class="fas fa-star"></i></label> <input
-													type="radio" name="review_rating" value="2" class="rtng"
-													<c:if test="${p_reviews[i.index].review_rating eq '2'}">checked</c:if>
-													id="rtng2" title="2"><label for="rtng2"
-													class="starLabel"><i class="fas fa-star"></i></label> <input
-													type="radio" name="review_rating" value="3" class="rtng"
-													<c:if test="${p_reviews[i.index].review_rating eq '3'}">checked</c:if>
-													id="rtng3" title="3"><label for="rtng3"
-													class="starLabel"><i class="fas fa-star"></i></label> <input
-													type="radio" name="review_rating" value="4" class="rtng"
-													<c:if test="${p_reviews[i.index].review_rating eq '4'}">checked</c:if>
-													id="rtng4" title="4"><label for="rtng4"
-													class="starLabel"><i class="fas fa-star"></i></label> <input
-													type="radio" name="review_rating" value="5" class="rtng"
-													<c:if test="${p_reviews[i.index].review_rating eq '5'}">checked</c:if>
-													id="rtng5" title="5"><label for="rtng5"
-													class="starLabel"><i class="fas fa-star"></i></label>
-											</p> <script>
-												$(document).ready(function(){
-													var rating = $('.mp-rvl-rate');
-													
-													rating.each(function(){
-														var targetScore = $(this).attr('data-rate');
-														console.log(targetScore);
-														
-														$(this).find('input:nth-child(-n+' + targetScore*2 +') + label i').css({color:"#e4c61c"});
-														$(this).find('input:nth-child(n+' + targetScore*2 +') + label i').css({color:"#ccc"});
-													});
-												});
-											</script> <br> ${p_reviews[i.index].review_content}
-										</td>
+      </div>
+      <div class="segment pk-review">
+         <h1 class="pk-subject">후기</h1>
+         <table id="rv-table" width=100%>
+            <thead>
+               <tr>
+                  <th style="text-align: right;">별점 <span
+                     style="font-size: 25pt; font-weight: 500;">${totalReview[0].avrg}</span></th>
+               </tr>
+            </thead>
+            <tbody id="review-by-page">
+               <c:forEach var="review" items="${p_reviews}" varStatus="i">
+                  <tr>
+                     <td>
+                        <table class="rv-indiv">
+                           <tr>
+                              <td class='rv-pic'><img
+                                 src="images/profile/${p_reviews[i.index].userVO.user_pic}" /></td>
+                              <fmt:formatDate var="reviewDt"
+                                 value="${p_reviews[i.index].review_date}"
+                                 pattern="YYYY년  MM월 dd일" />
+                              <td>${p_reviews[i.index].userVO.user_nickname}<br>${reviewDt}
+                              </td>
+                           <tr>
+                              <td colspan="2">
+                                 <p class="mp-rvl-p mp-rvl-rate"
+                                    data-rate="${p_reviews[i.index].review_rating}">
+                                    <input type="radio" name="review_rating" value="1"
+                                       class="rtng"
+                                       <c:if test="${p_reviews[i.index].review_rating eq '1'}">checked</c:if>
+                                       id="rtng1" title="1"><label for="rtng1"
+                                       class="starLabel"><i class="fas fa-star"></i></label> <input
+                                       type="radio" name="review_rating" value="2" class="rtng"
+                                       <c:if test="${p_reviews[i.index].review_rating eq '2'}">checked</c:if>
+                                       id="rtng2" title="2"><label for="rtng2"
+                                       class="starLabel"><i class="fas fa-star"></i></label> <input
+                                       type="radio" name="review_rating" value="3" class="rtng"
+                                       <c:if test="${p_reviews[i.index].review_rating eq '3'}">checked</c:if>
+                                       id="rtng3" title="3"><label for="rtng3"
+                                       class="starLabel"><i class="fas fa-star"></i></label> <input
+                                       type="radio" name="review_rating" value="4" class="rtng"
+                                       <c:if test="${p_reviews[i.index].review_rating eq '4'}">checked</c:if>
+                                       id="rtng4" title="4"><label for="rtng4"
+                                       class="starLabel"><i class="fas fa-star"></i></label> <input
+                                       type="radio" name="review_rating" value="5" class="rtng"
+                                       <c:if test="${p_reviews[i.index].review_rating eq '5'}">checked</c:if>
+                                       id="rtng5" title="5"><label for="rtng5"
+                                       class="starLabel"><i class="fas fa-star"></i></label>
+                                 </p> <script>
+                                    $(document).ready(function(){
+                                       var rating = $('.mp-rvl-rate');
+                                       
+                                       rating.each(function(){
+                                          var targetScore = $(this).attr('data-rate');
+                                          console.log(targetScore);
+                                          
+                                          $(this).find('input:nth-child(-n+' + targetScore*2 +') + label i').css({color:"#e4c61c"});
+                                          $(this).find('input:nth-child(n+' + targetScore*2 +') + label i').css({color:"#ccc"});
+                                       });
+                                    });
+                                 </script> <br> ${p_reviews[i.index].review_content}
+                              </td>
 
-									</tr>
-									</td>
-									</tr>
-								</table>
-							</td>
-						</tr>
-					</c:forEach>
+                           </tr>
+                           </td>
+                           </tr>
+                        </table>
+                     </td>
+                  </tr>
+               </c:forEach>
 
-				</tbody>
-			</table>
-			<script>
+            </tbody>
+         </table>
+         <script>
             $(document).ready(function(){
                paging(${totalReview[0].total},1);
 
@@ -423,10 +439,10 @@
            });
        }
          </script>
-			<input type="hidden" name="page" id="pageNum" value="1" />
-			<nav>
-				<ul class="paging" id="pages">
-					<!-- <li><a href="#"><span aria-hidden="true">«</span><span
+         <input type="hidden" name="page" id="pageNum" value="1" />
+         <nav>
+            <ul class="paging" id="pages">
+               <!-- <li><a href="#"><span aria-hidden="true">«</span><span
                      class="sr-only">Previous</span></a></li>      
                <li><a href="#">1</a></li>
                <li><a href="#">2</a></li>
@@ -435,19 +451,19 @@
                <li><a href="#">5</a></li>
                <li><a href="#"><span aria-hidden="true">»</span><span
                      class="sr-only">Next</span></a></li> -->
-				</ul>
-			</nav>
-		</div>
-	</div>
-	<div class="segment pk-recommendation">
-		<h1 class="pk-subject">이 주차장도 추천해요 !</h1>
-		<div id="recommendation">
+            </ul>
+         </nav>
+      </div>
+   </div>
+   <div class="segment pk-recommendation">
+      <h1 class="pk-subject">이 주차장도 추천해요 !</h1>
+      <div id="recommendation">
       </div>
       
-		
-	</div>
-	<!-- 각자의 파트는 이곳까지 작업해주시면 되겠습니다. -->
-	</div>
+      
+   </div>
+   <!-- 각자의 파트는 이곳까지 작업해주시면 되겠습니다. -->
+   </div>
 </body>
 <script src="header_js.jsp"></script>
 <script src="index_js.jsp"></script>
