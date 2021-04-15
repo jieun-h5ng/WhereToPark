@@ -153,7 +153,7 @@
    .main-search {
       background-color: #367FFF;
       height: 400px;
-      padding: 190px 20% 190px 20%;
+      padding: 40px 20% 190px 20%;
       box-sizing: border-box;
    }
    
@@ -371,8 +371,8 @@
 	    margin: 0 auto;
 	    text-align: center;
 	    color: #fff;
-	    font-size: 1.5em;
-	    padding: 20px;
+	    font-size: 1.2em;
+	    padding: 40px;
    }
    .material-icons{
    		vertical-align: sub;
@@ -381,7 +381,62 @@
 	   	display:inline;
 	   	vertical-align: sub;
    }
+   img{
+   		width: 60px;
+    	vertical-align: bottom
+   }
+   .image_back{
+   		margin-bottom:10px;
+   }
 </style>
+<script src="js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript">
+		$(document).ready(function(){
+			reqWeather();
+			
+			function reqWeather(){
+				$.ajax({
+					url : "http://localhost:5000/query/WEATHER",
+					type : "POST",
+					success : function(data){
+						console.log(data);
+						var json_obj = JSON.parse(data);
+						console.log(json_obj);
+						console.log("지역: " + json_obj.local);
+						console.log("온도: " + json_obj.temp);
+						console.log("설명: " + json_obj.text);
+						
+
+						
+						
+						$('#weather_address').html(json_obj.local);
+						$('#weather_temp').html(json_obj.temp);
+						//$('#weather_text').html(json_obj.text);
+						
+						var desc = json_obj.text;
+						
+						if(desc.indexOf('맑음') !== -1){
+							$('#weather_img').attr('src', './images/sun.png');
+						}else if(desc.indexOf('구름많음') !== -1){
+							$('#weather_img').attr('src', './images/cloudy-1.png');
+						}else if(desc.indexOf('흐림') !== -1){
+							$('#weather_img').attr('src', './images/cloudy_02.png');
+						}else if(desc.indexOf('흐리고 비') !== -1){
+							$('#weather_img').attr('src', './images/rainy_01.png');
+						}else if(desc.indexOf('비') !== -1){
+							$('#weather_img').attr('src', './images/rainy_02.png');
+						}
+					}
+				});
+			}
+			
+			//10초마다 호출
+			setInterval(reqWeather, 1000*10);
+			
+			
+		})
+	
+</script>
 </head>
 <body>
 <body>
@@ -420,98 +475,33 @@
         </div>
     </div>
    <div class="main-margin">
-   -		<div id="weather">
-  			 <!-- 날씨 크롤링 -->
-        	<c:if test="${text == '맑음'}">
-                 	 ${address}  ${temp} 
-                  		<span class="material-icons" style=color:red >
-                 		 wb_sunny 
-                  </span>  
-                 </c:if>
-                 <c:if test="${text == '구름많음'}">
-                       <span class="material-icons">
-                  gps_fixed
-                  </span>${address} ${temp} 
-                  <span class="material-icons" style=color:blue>
-                  cloud
-                  </span>(${text})
-                 </c:if>
-                 <c:if test="${text == '흐림'}"> 
-                       <span class="material-icons">
-                  gps_fixed
-                  </span>${address} ${temp} 
-                  <span class="material-icons" style=color:gray>
-                  cloud
-                  </span>(${text})
-                 </c:if>
-                 <c:if test="${text == '흐리고 비'}">
-                       <span class="material-icons">
-                  gps_fixed
-                  </span>${address} ${temp} 
-                  <span class="material-icons" style=color:blue>
-                  grain
-                  </span>(${text})
-                 </c:if>
-                 <c:if test="${text == '비'}">
-                       <span class="material-icons">
-                  gps_fixed
-                  </span>${address} ${temp} 
-                  
-                       <span class="material-icons" style=color:blue>
-                  grain
-                  </span>(${text})
-                 </c:if>
-   			</div>
-   			
+   -		
    			</div>
    
    <div class="main-search">
-   			
    			<div id="weather">
-  			 <!-- 날씨 크롤링 -->
-        	<c:if test="${text == '맑음'}">
-        			 ${temp} 
-                  		<span class="material-icons" style=color:red >
-                 		 wb_sunny 
-	                  </span>  
+   				<span id='weather_text'></span>
+				<div class="image_back">
+        			<span id='weather_temp' style="font-size:50px; color:#fff;"> Unknown  </span> 
+        					<img id='weather_img' src="">
+        					 
         			 <br/>
+        		</div>
+        		<span id='weather_address' style="font-size:1.2em; color:#fff;"> Unknown </span>
+   				
+   				
+  			 <!-- 날씨 크롤링 
+       		<c:if test="${text == '맑음'}">
+        		<div class="image_back">
+        			<span style="font-size:50px; color:#fff;"> ${temp}  </span> 
+        					<img src="images/sun.png">
+        			 <br/>
+        		</div>
                  	 ${address}  
                   
-                  
-                 </c:if>
-                 <c:if test="${text == '구름많음'}">
-                       <span class="material-icons">
-                  gps_fixed
-                  </span>${address} ${temp} 
-                  <span class="material-icons" style=color:blue>
-                  cloud
-                  </span>(${text})
-                 </c:if>
-                 <c:if test="${text == '흐림'}"> 
-                       <span class="material-icons">
-                  gps_fixed
-                  </span>${address} ${temp} 
-                  <span class="material-icons" style=color:gray>
-                  cloud
-                  </span>(${text})
-                 </c:if>
-                 <c:if test="${text == '흐리고 비'}">
-                       <span class="material-icons">
-                  gps_fixed
-                  </span>${address} ${temp} 
-                  <span class="material-icons" style=color:blue>
-                  grain
-                  </span>(${text})
-                 </c:if>
-                 <c:if test="${text == '비'}">
-                       <span class="material-icons">
-                  gps_fixed
-                  </span>${address} ${temp} 
-                  
-                       <span class="material-icons" style=color:blue>
-                  grain
-                  </span>(${text})
-                 </c:if>
+             </c:if>-->
+                 
+                 
    			</div>
    			
    			
