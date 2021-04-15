@@ -130,29 +130,29 @@ public class MainSearchController {
 	}
 
 	@RequestMapping(value ="/searchShortParkingList.do", method=RequestMethod.POST)
-	@ResponseBody
-	public HashMap<String, Object> searchShortParkingList(@RequestParam(value = "area", defaultValue = " ", required = false) String area,
-			@RequestParam(value = "sdate",defaultValue = "2021-04-09", required = false) String sdate,
-			@RequestParam(value = "edate",defaultValue = "2021-04-12", required = false) String edate,
-			@RequestParam(value = "keyword", defaultValue = "", required = false) String keyword,
-			@RequestParam(value = "price", defaultValue = "2000", required = false) int price, ParkingVO vo, Model model) {
-		System.out.println("지역: " + area);
-		System.out.println("키워드: " + keyword); 
-		System.out.println("시작날짜: " + sdate);
-		System.out.println("종료날짜: " + edate);
-		System.out.println("가격: " + price);
-		vo.setParking_title(keyword);
-		vo.setParking_content(keyword);
-		vo.setParking_price(price);
-		vo.setParking_intime(sdate);
-		vo.setParking_outtime(edate);
-		vo.setParking_location(area);
-		
-		HashMap<String, Object> parkingList = new HashMap<String, Object>();
-		parkingList.put("title",parkingService.getShortParkingList(vo));
-//		model.addAttribute("LP_List", parkingService.getLongParkingList(vo));
-		return parkingList;
-	}
+	   @ResponseBody
+	   public HashMap<String, Object> searchShortParkingList(@RequestParam(value = "area", defaultValue = " ", required = false) String area,
+	         @RequestParam(value = "sdate",defaultValue = "2021-04-09", required = false) String sdate,
+	         @RequestParam(value = "stime",defaultValue = "00:00", required = false) String stime,
+	         @RequestParam(value = "keyword", defaultValue = "", required = false) String keyword,
+	         @RequestParam(value = "price", defaultValue = "2000", required = false) int price, ParkingVO vo, Model model) {
+	      System.out.println("지역: " + area);
+	      System.out.println("키워드: " + keyword); 
+	      String sdatetime =sdate+" "+stime;
+	      System.out.println("시작시간: " + sdatetime);
+	      System.out.println("가격: " + price);
+	      vo.setParking_title(keyword);
+	      vo.setParking_content(keyword);
+	      vo.setParking_price(price);
+	      vo.setParking_intime(sdatetime);
+	      vo.setParking_location(area);
+	      
+	      HashMap<String, Object> parkingList = new HashMap<String, Object>();
+	      parkingList.put("title",parkingService.getShortParkingList(vo));
+//	      model.addAttribute("LP_List", parkingService.getLongParkingList(vo));
+	      return parkingList;
+	   }
+	
 //지은 주차장 상세 페이지
 	@RequestMapping(value="/searchParkingDetail.do", method=RequestMethod.GET)
 	public String searchParkingDetail(ParkingVO vo, Model model) {

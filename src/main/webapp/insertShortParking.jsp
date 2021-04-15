@@ -15,8 +15,11 @@
 
 <!-- 데이트피커 -->
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="css/jquery.timepicker.min.css">
 
 <style>
 	*{
@@ -292,52 +295,10 @@
 	 		console.log(coordXY);
 	 	})	
 	 	*/
-	 	/*
-	 	$('.timepicker').timepicker({
-	 	    timeFormat: 'h:mm p',
-	 	    interval: 60,
-	 	    minTime: '10',
-	 	    maxTime: '6:00pm',
-	 	    defaultTime: '11',
-	 	    startTime: '10:00',
-	 	    dynamic: false,
-	 	    dropdown: true,
-	 	    scrollbar: true
-	 	});
-	    
-	    $.datepicker.regional["ko"] = {
-	        prevText: "이전달",
-	        nextText: "다음달",
-	        currentText: "오늘",
-	        monthNames: ["1월(JAN)","2월(FEB)","3월(MAR)","4월(APR)","5월(MAY)","6월(JUN)", "7월(JUL)","8월(AUG)","9월(SEP)","10월(OCT)","11월(NOV)","12월(DEC)"],
-	        monthNamesShort: ["1월","2월","3월","4월","5월","6월", "7월","8월","9월","10월","11월","12월"],
-	        dayNames: ["일","월","화","수","목","금","토"],
-	        dayNamesShort: ["일","월","화","수","목","금","토"],
-	        dayNamesMin: ["일","월","화","수","목","금","토"],
-			changeMonth: true, // month 셀렉트박스 사용
-			changeYear: true, // year 셀렉트박스 사용
-	        weekHeader: "Wk",
-	        dateFormat: "yy-mm-dd",
-	        firstDay: 0,
-	        isRTL: false,
-	        showMonthAfterYear: true,
-	        yearSuffix: "",
-	        minDate: "0d",
-	        maxDate: "+1m",
-	
-	        // timepicker 설정
-	        timeFormat:'HH:mm:ss',
-	        controlType:'select',
-	        oneLine:true,
-	
-	        onclick: function () {
-	                var sdate = $(this).val
-	        }
-	    };
-	    */
+		
 	})
 	
-	
+	/*
 	var today = new Date();
 	var dd = today.getDate();
 	var mm = today.getMonth() + 1; //January is 0!
@@ -350,6 +311,9 @@
 	}
 	var today = mm + '/' + dd + '/' + yyyy;
 	document.getElementById('parking_outtime').value = today;
+	*/
+	
+	
 	
 </script>
 
@@ -464,7 +428,8 @@
 						<th>시작 날짜</th>
 						<td>
 						<!-- 
-						<input type="button" value="시작날짜" id="sdate" name="parking_intime"  /> 
+						<input type="button" value="2021-04-15" id="sdate"  > 
+						<input type="button" value="주차시간" class="hasTimepicker" id="sTime" />
 						 -->
 						<input type="datetime-local" value="시작날짜"  name="parking_intime" id="parking_intime" /> 
 						</td>
@@ -524,7 +489,9 @@
 			</div>
 			
 		</form>
+		<script>
 
+		</script>
 		<!-- 각자의 파트는 이곳까지 작업해주시면 되겠습니다. -->
 	</div>
 	<jsp:include page="tail.jsp"></jsp:include>
