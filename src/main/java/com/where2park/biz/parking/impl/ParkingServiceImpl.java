@@ -125,5 +125,14 @@ public class ParkingServiceImpl implements ParkingService {
 		
 	}
 
+	public List<ParkingVO> getAllShortParkingList(ParkingVO vo) {
+		// TODO Auto-generated method stub
+		return parkingDAO.getAllShortParkingList(vo);
+	}
+
+	public List<ParkingVO> getShortParkingList(ParkingVO vo) {
+		// TODO Auto-generated method stub
+		return parkingDAO.getShortParkingList(vo);
+	}
 
 }

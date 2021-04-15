@@ -85,14 +85,14 @@ public class MainSearchController {
 //지은 장기주차 검색 페이지
 	
 	@RequestMapping(value ="/searchParkingList.do", method=RequestMethod.GET) // 겟요청
-	public String searchParkingList(ParkingVO vo, Model model) {
+	public String searchLongParkingList(ParkingVO vo, Model model) {
 		model.addAttribute("LP_List", parkingService.getAllParkingList(vo));
 		return "search/longParking.jsp"; // 다시새로나오는 중.. ajax필요
 	}
 
 	@RequestMapping(value ="/searchParkingList.do", method=RequestMethod.POST)
 	@ResponseBody
-	public HashMap<String, Object> searchParkingList(@RequestParam(value = "area", defaultValue = " ", required = false) String area,
+	public HashMap<String, Object> searchLongParkingList(@RequestParam(value = "area", defaultValue = " ", required = false) String area,
 			@RequestParam(value = "sdate",defaultValue = "2021-04-09", required = false) String sdate,
 			@RequestParam(value = "edate",defaultValue = "2021-04-12", required = false) String edate,
 			@RequestParam(value = "keyword", defaultValue = "", required = false) String keyword,
@@ -114,11 +114,44 @@ public class MainSearchController {
 //		model.addAttribute("LP_List", parkingService.getLongParkingList(vo));
 		return parkingList;
 	}
+	
+	//단기주차장 검색 
+	@RequestMapping(value ="/searchShortParkingList.do", method=RequestMethod.GET) // 겟요청
+	public String searchShortParkingList(ParkingVO vo, Model model) {
+		model.addAttribute("SP_List", parkingService.getAllShortParkingList(vo));
+		return "search/shortParking.jsp"; 
+	}
 
+	@RequestMapping(value ="/searchShortParkingList.do", method=RequestMethod.POST)
+	@ResponseBody
+	public HashMap<String, Object> searchShortParkingList(@RequestParam(value = "area", defaultValue = " ", required = false) String area,
+			@RequestParam(value = "sdate",defaultValue = "2021-04-09", required = false) String sdate,
+			@RequestParam(value = "edate",defaultValue = "2021-04-12", required = false) String edate,
+			@RequestParam(value = "keyword", defaultValue = "", required = false) String keyword,
+			@RequestParam(value = "price", defaultValue = "2000", required = false) int price, ParkingVO vo, Model model) {
+		System.out.println("지역: " + area);
+		System.out.println("키워드: " + keyword); 
+		System.out.println("시작날짜: " + sdate);
+		System.out.println("종료날짜: " + edate);
+		System.out.println("가격: " + price);
+		vo.setParking_title(keyword);
+		vo.setParking_content(keyword);
+		vo.setParking_price(price);
+		vo.setParking_intime(sdate);
+		vo.setParking_outtime(edate);
+		vo.setParking_location(area);
+		
+		HashMap<String, Object> parkingList = new HashMap<String, Object>();
+		parkingList.put("title",parkingService.getShortParkingList(vo));
+//		model.addAttribute("LP_List", parkingService.getLongParkingList(vo));
+		return parkingList;
+	}
 //지은 주차장 상세 페이지
 	@RequestMapping(value="/searchParkingDetail.do", method=RequestMethod.GET)
 	public String searchParkingDetail(ParkingVO vo, Model model) {
 		ParkingVO parking = parkingService.getParking(vo);
+		String type = parking.getParking_type();
+		
 		model.addAttribute("p_detail", parking);
 		model.addAttribute("booked", parkingService.getDateList(vo));
 		//model.addAttribute("p_reviews", parkingService.getReviewOnParking(vo));
@@ -129,9 +162,11 @@ public class MainSearchController {
 		//js에서 자꾸 parking_id 못읽어서 세션에 저장함... - 은지
 		session.setAttribute("parkingId", vo.getParking_id());
 		session.setAttribute("parkingInfo", parking);
-
+if(type.equals("장기")) {
 		return "search/parkingDetail.jsp";
-	}
+}else {
+		return "search/parkingDetail_short.jsp";}
+}
 	
 	
 	@RequestMapping(value="/searchParkingDetail.do", method=RequestMethod.POST)
