@@ -378,7 +378,19 @@ a {
 					</div>
 					<div class="border-btn">
 						<div id="border-btn-ori">
-							<a href="updateParking_ori.do?parking_id=${parking.parking_id }" style=color:white>다시공유하기</a>
+						
+								<c:choose>
+									<c:when test="${parking.parking_type eq '단기'}">
+										<a href="shortgetParking.do?parking_id=${parking.parking_id }" style=color:white>다시공유하기</a>
+									</c:when>
+									<c:when test="${parking.parking_type eq '장기'}">
+										<a href="longgetParking.do?parking_id=${parking.parking_id }" style=color:white>다시공유하기</a>
+									</c:when>
+								</c:choose>
+						
+							<!-- 
+							 <a href="updateParking_ori.do?parking_id=${parking.parking_id }" style=color:white>다시공유하기</a>
+							 -->
 						</div>
 
 					</div>

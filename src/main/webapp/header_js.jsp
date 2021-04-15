@@ -31,7 +31,10 @@ function sortUrl(){  //접속해있는 url에따라서 각각 알림의 타입�
     console.log("알림 : " + now);
     if(now.includes("review_wrt")){
         rating();
-        noticeParkingId = selectUserNotice();
+        const info = selectUserNotice();
+        noticeParkingId = info.parking_id;
+        noticeParkingTitle = info.parkingVO.parking_title;
+        var noticeParkingType = info.parkingVO.parking_type;
         notType = "review";
         notMessage = noticeParkingTitle  + "글에 새로운 리뷰가 등록되었습니다.";
         sendMessage = " [ " + noticeParkingId + "] "+ noticeParkingTitle + "예약건에 관한 리뷰가 등록되었습니다";
@@ -40,7 +43,6 @@ function sortUrl(){  //접속해있는 url에따라서 각각 알림의 타입�
     }else if(now.includes("notice")){
         selectNotice(1);
     }
-    
 }
 
 function getRsvDelete(rsvId, noticeParkingId, noticeUser, parkingTitle){
@@ -53,8 +55,6 @@ function getRsvDelete(rsvId, noticeParkingId, noticeUser, parkingTitle){
     sendMessage = " [ " +this.noticeParkingId + " ] " + this.noticeParkingTitle+"에 등록된 예약이 취소되었습니다.";
     notUrl = "getRsvList.do";  //예약건 모아보는 페이지로 이동
     console.log("getRsvDelete : " + this.rsvId, this.noticeParkingId, this.noticeUser);
-    //insertNotice();
-    //ws.send(JSON.stringify({ user_id: this.noticeUser, not_type: notType, rsv_id: this.rsvId, not_message: sendMessage, not_url : notUrl }));
     send();
 }
 
@@ -100,11 +100,12 @@ function chatNoticeModal(data){
     modal[0].setAttribute("style", "display : block");
     
     const content = document.getElementsByClassName("modal-body");
-    content[0].innerHTML = "<i class='fas fa-envelope-square'></i>" + " " + data.not_message + " " + "<i class='fas fa-envelope-square'></i>" + "</br>" +"상담하기로 이동하시겠습니까?";
-    
+    content[0].innerHTML = "<i class='fas fa-envelope-square'></i>" + " " + data.not_message + " " + "<i class='fas fa-envelope-square'></i>" + "</br>" 
+    					   +"상담하기로 이동하시겠습니까?";
     const modalYes = document.getElementById("modalYes");
     modalYes.onclick = function (){
-		window.open(data.not_url, '', 'width=350, height=400, status=no, toolbar=no, scrollbars=no, location=no');   	
+		window.open(data.not_url, '', 'width=350, height=400, status=no, toolbar=no, scrollbars=no, location=no');   
+		modal[0].setAttribute("style", "display : none");	
     }
     
     const modalNo = document.getElementById("modalNo");
@@ -139,10 +140,12 @@ function insertNotice() {
 
 function selectUserNotice() {
     var xhr = new XMLHttpRequest();
+    var parseData;
     xhr.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             var data = xhr.responseText;
-            var parseData = JSON.parse(data);
+            parseData = JSON.parse(data);
+            console.log(data);
             noticeUser = parseData.user_id;
             noticeParkingId = parseData.parking_id;
             noticeParkingTitle = parseData.parkingVO.parking_title;
@@ -153,5 +156,5 @@ function selectUserNotice() {
     console.log(rsvId + " : selectUserNotice ajax 실행중....");
     xhr.open("GET", "selectNoticeUser.do?rsv_id=" + rsvId, false); //ajax는 비동기식 통신으로는 값을 전달하지 못하기때문에 동기식으로 설정
     xhr.send();
-    return noticeParkingId;
+    return parseData;
 }

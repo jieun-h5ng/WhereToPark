@@ -45,13 +45,13 @@
 								area: $("#district").val(),
 								keyword: $("#keyword").val(),
 								sdate: $("#sdateVal").val(),
-								sTime: $("#sTimeVal").val(),
+								stime: $("#sTimeVal").val(),
 								price: $("#slider").val(),
 								area: $("#district").val()
 							};
 							$.ajax({
 								type: "post",
-								url: "searchParkingList.do",
+								url: "searchShortParkingList.do",
 								dataType: "json",
 								contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 								data: form,
@@ -64,8 +64,7 @@
 									list.empty();
 									
 									obj.forEach(element => {
-										var txt = "<a href='searchParkingDetail.do?parking_id=" + element.parking_id + "'><table class='parking-lot' border='1'>"
-
+										var txt = "<a href='searchParkingDetail_short.do?parking_id=" + element.parking_id + "'><table class='parking-lot' border='1'>"
 
 										txt += "<tr><td><img id='pkpic'src='images/" + element.parking_pic + "'/></td></tr>"
 										+ "<tr><td>" + element.parking_title + "</td></tr>"
@@ -137,7 +136,8 @@
 				<div class="search-condition">
 					<input type="hidden" id="sdateVal" name="sdate" />
 					<input type="button" value="주차날짜" id="sdate" />
-					<input type="button" value="주차시간" class="hasTimepicker" id="sTime" name="sTime"/>
+					<input type="button" value="주차시간" class="hasTimepicker" id="sTime" />
+					<input type="hidden" value="" name="stime" id = "sTimeVal"/>
 					<script>
 						$("#sdate").datepicker(
 							{
@@ -172,18 +172,23 @@
 
 						$("#sTime").timepicker({
 							
-							    timeFormat: 'h:mm p',
+							    timeFormat: 'HH:mm',
 							    interval: 60,
 							    minTime: '0',
-							    maxTime: '11:00pm',
+							    maxTime: '23:00',
 							    defaultTime: '11',
-							    startTime: '0:00am',
+							    startTime: '11:00',
 							    dynamic: false,
 							    dropdown: true,
 							    scrollbar: true,
 							    zindex: 9
 							    
 						
+						});
+						$('#sTime').timepicker("option", "change", function () {
+							var t = $("#sTime").val();
+							var ptime = t+":00";
+							$("#sTimeVal").attr("value", ptime);
 						});
 
 					</script>

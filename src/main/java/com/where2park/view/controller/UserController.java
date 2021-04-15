@@ -1,8 +1,6 @@
 package com.where2park.view.controller;
 
 import java.io.*;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.Random;
 
 import javax.mail.internet.MimeMessage;
@@ -54,6 +52,7 @@ public class UserController {
 			System.out.println("너 user?" + user);
 			if (user != null) {
 				//크롤링
+				/*
 				String line = "";
 				try{
 		            //파일 객체 생성
@@ -84,7 +83,7 @@ public class UserController {
 		            System.out.println(e);
 		        }
 				//크롤링 끝
-				
+				*/
 				session.setAttribute("userId", user.getUser_id());
 				session.setAttribute("userNickName", user.getUser_nickname());
 				return "index.jsp";
