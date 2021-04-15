@@ -464,7 +464,7 @@
 
    function noticeConnection(message){
       notType = "chatting";
-      sendMessage = "[ " + message  + " ]" + "새로운 채팅이 도착하였습니다.";
+      sendMessage =  message;
       notUrl = window.location.href;
       ns.send(JSON.stringify({ user_id: noticeUser, not_type: notType, rsv_id: rsvId, not_message: sendMessage, not_url : notUrl }));
       console.log("채팅알림메세지보내는중");

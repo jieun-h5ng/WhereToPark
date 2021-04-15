@@ -111,4 +111,14 @@ public class ParkingDAOMybatis {
 		return mybatis.selectList("ReviewDAO.countReview",vo);
 	}
 
+
+	public List<ParkingVO> getAllShortParkingList(ParkingVO vo) {
+		// TODO Auto-generated method stub
+		return mybatis.selectList("ParkingDAO.getAllShortParkingList",vo);
+	}
+	public List<ParkingVO> getShortParkingList(ParkingVO vo) {
+		// TODO Auto-generated method stub
+		return mybatis.selectList("ParkingDAO.getShortParkingList",vo);
+	}
+
 }

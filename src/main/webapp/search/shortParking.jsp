@@ -14,15 +14,17 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="preconnect" href="https://fonts.gstatic.com">
-		<link rel="stylesheet" type="text/css" href="css/SearchParkingStyleSheet.css">
+		<link href="css/SearchParkingStyleSheet.css" rel="stylesheet" type="text/css" >
 		<link
 			href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
 			rel="stylesheet">
-		<title>장기주차 검색하기</title>
+		<title>단기주차 검색하기</title>
 		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		<link rel="stylesheet" href="css/jquery.timepicker.min.css">
+		
 	</head>
-
+<script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
 	<body>
 		<div id="cntnr" style="width: 100%;">
 			<div class="search-bar">
@@ -43,7 +45,7 @@
 								area: $("#district").val(),
 								keyword: $("#keyword").val(),
 								sdate: $("#sdateVal").val(),
-								edate: $("#edateVal").val(),
+								sTime: $("#sTimeVal").val(),
 								price: $("#slider").val(),
 								area: $("#district").val()
 							};
@@ -55,7 +57,7 @@
 								data: form,
 								async: false,
 								success: function (result) {
-									//var LP_list = JSON.parse(result);
+									//var SP_list = JSON.parse(result);
 									console.log(result);
 									var obj = result.title;
 									var list = $(".search-result-list");
@@ -70,7 +72,7 @@
 										+ "<tr><td>" + element.parking_location + "</td></tr>"	
 										+ "<tr><td> " + element.parking_type + "</td></tr>"
 										+ "<tr><td>예약시작: " + element.parking_intime + "</td></tr>"
-										+ "<tr><td>1일 " + element.parking_price + "원</td></tr>";
+										+ "<tr><td>1시간 " + element.parking_price + "원</td></tr>";
 										list.append(txt);
 										
 									});
@@ -134,9 +136,8 @@
 				</div>
 				<div class="search-condition">
 					<input type="hidden" id="sdateVal" name="sdate" />
-					<input type="hidden" id="edateVal" name="edate" />
-					<input type="button" value="시작날짜" id="sdate" />
-					<input type="button" value="종료날짜" id="edate" />
+					<input type="button" value="주차날짜" id="sdate" />
+					<input type="button" value="주차시간" class="hasTimepicker" id="sTime" name="sTime"/>
 					<script>
 						$("#sdate").datepicker(
 							{
@@ -164,56 +165,32 @@
 									var sdate = $(this).val
 								}
 							});
-
-						$("#edate").datepicker(
-							{
-								dateFormat: 'yy-mm-dd',
-								prevText: '< prev',
-								nextText: 'next >',
-								monthNames: ['1월', '2월', '3월', '4월',
-									'5월', '6월', '7월', '8월', '9월',
-									'10월', '11월', '12월'],
-								monthNamesShort: ['1월', '2월', '3월',
-									'4월', '5월', '6월', '7월', '8월',
-									'9월', '10월', '11월', '12월'],
-								dayNames: ['일', '월', '화', '수', '목',
-									'금', '토'],
-								dayNamesShort: ['일', '월', '화', '수',
-									'목', '금', '토'],
-								dayNamesMin: ['일', '월', '화', '수',
-									'목', '금', '토'],
-								showMonthAfterYear: true,
-								changeYear: false,
-								yearSuffix: ' - ',
-								minDate: "sdate",
-								maxDate: "+1m",
-							});
-						$.datepicker.setDefaults($.datepicker.regional['ko']);
-
-						$('#edate').datepicker();
-						if ($("#sdate").val() == "") {
-							$('#edate').datepicker("option", "minDate", "1d");
-						} else
-							$('#edate').datepicker("option", "minDate", $("#sdate").val());
-						$('#edate').datepicker("option", "onClose", function (selectedDate) {
-							$("#sdate").datepicker("option", "maxDate", selectedDate);
-							$("#edateVal").attr("value", selectedDate);
-						});
-
-						$("#sdate").datepicker();
-						$('#sdate').datepicker("option", "maxDate", $("#edate").val());
+						$('#sdate').datepicker("setDate", "today");
 						$('#sdate').datepicker("option", "onClose", function (selectedDate) {
-							$("#edate").datepicker("option", "minDate", selectedDate);
 							$("#sdateVal").attr("value", selectedDate);
 						});
 
-
+						$("#sTime").timepicker({
+							
+							    timeFormat: 'h:mm p',
+							    interval: 60,
+							    minTime: '0',
+							    maxTime: '11:00pm',
+							    defaultTime: '11',
+							    startTime: '0:00am',
+							    dynamic: false,
+							    dropdown: true,
+							    scrollbar: true,
+							    zindex: 9
+							    
+						
+						});
 
 					</script>
 				</div>
 				<div class="search-condition">
-					<input type="range" name="price" id="slider" min="500" max="50000"
-						step="500" /> 하루 당 <span id="won"></span> 원
+					<input type="range" name="price" id="slider" min="500" max="10000"
+						step="100" /> 시간 당 <span id="won"></span> 원
 					<script>
 						$("#won").html(document.getElementById("slider").value);
 						$("#slider").click(function () {
@@ -231,10 +208,8 @@
 				</div>
 			</div>
 			<div class="search-result">
-
 				<div class="search-result-list">
-				
-					<c:forEach var="parking" items="${LP_List}" varStatus="wishListStatus">
+					<c:forEach var="parking" items="${SP_List}" varStatus="wishListStatus">
 
                      <table class="parking-lot" border="1">
                         <tr>
@@ -254,7 +229,7 @@
                            <td><a href="searchParkingDetail.do?parking_id=${parking.parking_id}">예약가능: ${parking.parking_intime}</a></td>
                         </tr>
                         <tr>
-                           <td><a href="searchParkingDetail.do?parking_id=${parking.parking_id}">1일 ${parking.parking_price} 원</a></td>
+                           <td><a href="searchParkingDetail.do?parking_id=${parking.parking_id}">1시간 ${parking.parking_price} 원</a></td>
                         </tr>
                         <!-- 찜 기능 작업중에 있습니다 -->
                         <tr>
@@ -269,7 +244,6 @@
                      </table>
                   
                </c:forEach>
-
                <script>
                   var cnt = 0;
                   //insert WishList
@@ -306,13 +280,12 @@
                            xhr.send(parkingId);
                      } 
                   }
-
+                  
                </script>
                <!-- 여기까지 찜 기능 작업중에 있습니다 -->
 				</div>
 
 			</div>
-			
 			<div class="search-map">
 				<div id="map" style="width: 100%; height: 100%;"></div>
 
@@ -362,7 +335,7 @@
 						// 초기화면에서 마커를 표시
 						
 						 positions = [
-						 <c:forEach var="parking" items="${LP_List}">
+						 <c:forEach var="parking" items="${SP_List}">
 						 	{
 						 		content: '<div>${parking.parking_title}</div>',
 					 		latlng: new kakao.maps.LatLng(${parking.parking_lat}, ${parking.parking_lng})

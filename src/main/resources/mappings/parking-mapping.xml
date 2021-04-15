@@ -36,7 +36,7 @@
 		WHERE parking_location LIKE CONCAT('%', #{parking_location}, '%')
 		AND parking_intime <= #{parking_intime}
 		AND parking_outtime >= #{parking_outtime}
-		AND parking_type = '장기'
+		AND parking_type = #{parking_type}
 		]]>
 	</select>
 	
@@ -57,7 +57,19 @@
 		SELECT * 
 		FROM PARKINGBOARD
 		WHERE parking_type = '장기' 
-		AND parking_deleted = 0 
+		AND parking_deleted = 0
+		AND parking_outtime>= now()
+		ORDER BY parking_id DESC
+	]]>
+	</select>
+		<select id="getAllShortParkingList" resultType="parking">
+	<![CDATA[
+		SELECT * 
+		FROM PARKINGBOARD
+		WHERE parking_type = '단기' 
+		AND parking_deleted = 0
+		AND parking_outtime>= now()
+		ORDER BY parking_id DESC 
 	]]>
 	</select>
 	<select id="getLongParkingList" resultType="parking">
@@ -69,6 +81,21 @@
 		OR parking_location LIKE CONCAT('%', #{parking_content}, '%'))
 		AND parking_location LIKE CONCAT('%', #{parking_location}, '%')
 		AND parking_type = '장기' 
+		AND parking_deleted = 0 
+		AND parking_price <= #{parking_price}
+		AND parking_intime <= #{parking_intime}
+		AND parking_outtime >= #{parking_outtime}
+	]]>
+	</select>
+	<select id="getShortParkingList" resultType="parking">
+	<![CDATA[
+		SELECT * 
+		FROM PARKINGBOARD
+		WHERE (parking_title LIKE CONCAT('%', #{parking_title}, '%') 
+		OR parking_content LIKE CONCAT('%', #{parking_content}, '%')
+		OR parking_location LIKE CONCAT('%', #{parking_content}, '%'))
+		AND parking_location LIKE CONCAT('%', #{parking_location}, '%')
+		AND parking_type = '단기' 
 		AND parking_deleted = 0 
 		AND parking_price <= #{parking_price}
 		AND parking_intime <= #{parking_intime}

@@ -12,7 +12,7 @@ padding: 30px;
 .search-result{
     display: inline;
     float: left;
-width: 40%;
+width: 38%;
 height: 700px;
 overflow-y: scroll;
 }
@@ -20,7 +20,7 @@ overflow-y: scroll;
 .search-map{
     display: inline;
     float: left;
-width: 60%;
+width: 62%;
 height: 700px;
 }
 /*여기까지는 보라씨한테 스타일시트 받으면 html 헤드에 올린다
@@ -86,21 +86,36 @@ span.ui-state-default{
     width: 100px;
     height: 30px;
 }
+/*단기 timepicker용*/
+
+.ui-state-hover{
+	background-color:#367FFF;
+	color: white;	
+	
+}
+
+
 
 /*여기는 검색한 리스트 css*/
 .parking-lot{
-	width:250px;
-	margin: 20px;
-	float: left;
-	border-collapse:collapse;
+    width: 250px;
+    margin:10px 0px 10px 20px;
+    float: left;
+    /* border-collapse: collapse; */
+    border: none;
+    border-radius: 5px;
+    box-shadow: 2px 2px 10px rgb(0 0 0 / 20%);
 }
 .parking-lot td{
-padding: 10px
+padding: 5px 10px;
+border: none;
 }
 #pkpic{
     width: 230px;
     height: 150px;
     object-fit: cover;
+    margin: 6px 0px 0px 0px;
+    border-radius: 4px;
 }
 
 /*여기는 selectParking */

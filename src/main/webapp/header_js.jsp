@@ -100,7 +100,7 @@ function chatNoticeModal(data){
     modal[0].setAttribute("style", "display : block");
     
     const content = document.getElementsByClassName("modal-body");
-    content[0].innerHTML = data.not_message;
+    content[0].innerHTML = "<i class='fas fa-envelope-square'></i>" + " " + data.not_message + " " + "<i class='fas fa-envelope-square'></i>" + "</br>" +"상담하기로 이동하시겠습니까?";
     
     const modalYes = document.getElementById("modalYes");
     modalYes.onclick = function (){

@@ -216,7 +216,7 @@
                 </c:if>
                 <li><a href="<%=request.getContextPath()%>/parking/selectParkingType.jsp">내 주차장 공유하기</a></li>
                 <li><a href="<%=request.getContextPath()%>/searchParkingList.do">장기주차</a></li>
-                <li><a href="#">단기주차</a></li>
+                <li><a href="<%=request.getContextPath()%>/searchShortParkingList.do">단기주차</a></li>
             </ul>
         </div>
     </div>
