@@ -66,9 +66,16 @@ public class MainSearchController {
 		vo.setParking_intime(intime);
 		vo.setParking_outtime(outtime);
 		
-		model.addAttribute("LP_List", parkingService.mainGetParkingList(vo));
-		System.out.println(parkingService.mainGetParkingList(vo));
-		return "search/longParking.jsp";
+		if(outtime.substring(0, 10).equals(intime.substring(0, 10))) {
+			System.out.println("단기");
+			vo.setParking_type("단기");
+			model.addAttribute("SP_List", parkingService.mainGetParkingList(vo));
+			return "search/shortParking.jsp";
+		}else {
+			vo.setParking_type("장기");
+			model.addAttribute("LP_List", parkingService.mainGetParkingList(vo));
+			return "search/longParking.jsp";
+		}
 	}
 	
 	@RequestMapping("/mainRecommendation.do")

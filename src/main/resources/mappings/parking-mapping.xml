@@ -36,7 +36,7 @@
 		WHERE parking_location LIKE CONCAT('%', #{parking_location}, '%')
 		AND parking_intime <= #{parking_intime}
 		AND parking_outtime >= #{parking_outtime}
-		AND parking_type = '장기'
+		AND parking_type = #{parking_type}
 		]]>
 	</select>
 	
