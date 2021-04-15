@@ -21,9 +21,10 @@
 		<result property="rsv_outtime" column="RSV_OUTTIME"/>
 	</resultMap>
 	<resultMap id="parkingNotice" type="com.where2park.biz.parking.ParkingVO">
-		<result property="parking_id" column="parking_id"/>
-		<result property="parking_location" column="parking_location"/>
-		<result property="parking_title" column="parking_title"/>
+		<result property="parking_id" column="PARKING_ID"/>
+		<result property="parking_location" column="PARKING_LOCATION"/>
+		<result property="parking_title" column="PARKING_TITLE"/>
+		<result property="parking_type" column="PARKING_TYPE"/>
 		<result property="owner_id" column="OWNER_ID"/>
 	</resultMap>
 	
@@ -49,7 +50,7 @@
 	
 	<select id="selectNoticeUser" resultMap="NoticeResult">
 	<![CDATA[
-		SELECT reservation.parker_id, owner_id, parkingboard.parking_id, rsv_id
+		SELECT reservation.parker_id, owner_id, parkingboard.parking_id, parkingboard.parking_title, parkingboard.parking_type, rsv_id
 		FROM parkingboard, reservation
 		WHERE parkingboard.parking_id = reservation.parking_id
 		AND rsv_id = #{rsv_id};

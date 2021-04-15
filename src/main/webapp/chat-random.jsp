@@ -295,7 +295,7 @@
 </body>
 <script>
     var ws;
-   var ns;
+    var ns;
     var userId = "${userId}";
     var chatroom = "${chatroom}";
     var rsvId = "${rsvId}";
@@ -308,7 +308,7 @@
     var cnt = 0;
     var noticeUser; //알림받게될 유저 
     var noticeParkingId; //글번호 
-   var chatNoticeNum = 0; //안읽음 채팅 알림 세기 
+    var chatNoticeNum = 0; //안읽음 채팅 알림 세기 
     
 
     window.onload = function () {
@@ -349,8 +349,6 @@
         read_date = data.check;
         var msgId = data.user_id;
         var msg = data.message_content;
-        //console.log("*********** " + read_date);
-        //console.log("cnt : " + cnt);
         var currentDate = new Date();
         var date = currentDate.getFullYear()+"-"+(currentDate.getMonth()+1) +"-"+currentDate.getDate() +" "+ currentDate.getHours() +":"+ currentDate.getMinutes();
         var message = new Array();
@@ -360,19 +358,12 @@
                       message_read_date : read_date,
                       message_type : start}); 
 
-        //메소드 분리하기     
         if(read_date == 1 && start == "start"){  //맨처음에 혼자 접속했을때 
             cnt = 2;
-            console.log("1#################cnt출력 " + cnt +": "+ read_date);
-            //selectUserNotice();
-         
          }else if(read_date == 2 && start =="start" && cnt==1){  // 상대방이 두번째 세번째 접속했을떄...
             cnt = 2;
-            console.log("2##################cnt출력 " + cnt+": " + read_date);
          }else if(read_date == 1 && cnt == 0){ // 내가 혼자방에 남아있는데 메세지 보냈을때!
              cnt = 1;
-             console.log("3##################cnt출력 " + cnt+": " + read_date);
-             //selectUserNotice();
          }
         
       if(read_date == 1 && start == "text!"){ //알림
@@ -380,18 +371,13 @@
          console.log("채팅알람보내기 동작시작");
       }
 
-        if(read_date == 2 && cnt == 2){  // 두명이면 새로고침해서 메세지 읽음표시하기 ㅠ (채팅치는중이였으면 내용사라짐)
-            console.log("리로드##################cnt출력 " + cnt +": "+ read_date);
+        if(read_date == 2 && cnt == 2){  // 두명이면 새로고침해서 메세지 읽음표시하기 
             location.reload();
-            
         }
-
-        //console.log("메세지타입 출력 : " + message[0].message_type);
         if(start != "start"){
             sortChat(message, 0);
             readCheck();
         }
-
     }
 
     function disconnect() {
@@ -416,8 +402,7 @@
         for (let i = 0; i < message.length; i++) {
             sortChat(message, i);
         }
-    }
-
+    }//지난채팅내용
 
     function sortChat(message, i) {
         if((message[i].message_read_date == null || message[i].message_read_date == "" || message[i].message_read_date == 1)){
@@ -430,22 +415,19 @@
         var date = message[i].message_datetime;
         
         if (userId == message[i].user_id) {
-            //console.log(userId, message[i].user_id);
             var my = document.createElement("div");
             my.setAttribute('class', 'chatboxmessage ltr');
-            my.innerHTML = my.innerHTML + "<span class='chatboxmessagefrom'> 🚗 </span>" + "<div class='chatboxmessagecontent'>" + "<time datetime=''>" + date + "<span id='readCheck'>&nbsp" + check + "&nbsp</span>" +" </time>" + message[i].message_content + "</div></br>";
+            my.innerHTML = my.innerHTML + "<span class='chatboxmessagefrom'> 🚗 </span>" + "<div class='chatboxmessagecontent'>" + "<time datetime=''>"
+            				+ date + "<span id='readCheck'>&nbsp" + check + "&nbsp</span>" +" </time>" + message[i].message_content + "</div></br>";
             my_chat_content.appendChild(my);
       } else {      
-            //console.log(userId, message[i].user_id);
             var you = document.createElement("div");
             you.setAttribute('class', 'chatboxmessage');
-         	you.innerHTML = you.innerHTML +"<span class='chatboxmessagefrom'> 🚘 </span>" + "<div class='chatboxmessagecontent'>" + "<time datetime=''> " + date + "<span id='readCheck'>&nbsp" + check + "&nbsp</span>" + "</time>" + message[i].message_content  +"</div></br>";
+         	you.innerHTML = you.innerHTML +"<span class='chatboxmessagefrom'> 🚘 </span>" + "<div class='chatboxmessagecontent'>" + "<time datetime=''> " 
+         					+ date + "<span id='readCheck'>&nbsp" + check + "&nbsp</span>" + "</time>" + message[i].message_content  +"</div></br>";
         	my_chat_content.appendChild(you);
-
         }
-      
         my_chat_content.scrollTop = my_chat_content.scrollHeight;
-
     }
 
     function readCheck (){
@@ -455,39 +437,36 @@
                 console.log("ajax를 통한 updateMessageRead실행");
             }
         };
-
         xhr.open("GET", "updateMessageRead.do?chatroom_id="+ chatroom + "&user_id=" + userId, true);
         xhr.send();
     }
 
-   
-
-   function noticeConnection(message){
+    function noticeConnection(message){
       notType = "chatting";
       sendMessage =  message;
       notUrl = window.location.href;
       ns.send(JSON.stringify({ user_id: noticeUser, not_type: notType, rsv_id: rsvId, not_message: sendMessage, not_url : notUrl }));
       console.log("채팅알림메세지보내는중");
-   }   
+    }//채팅알림  
 
     function selectUserChatNotice(message) {
     	console.log(message);
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function () {
-        if (this.readyState === 4 && this.status === 200) {
-            var data = xhr.responseText;
-            var parseData = JSON.parse(data);
-        	noticeUser = parseData.user_id;
-         	console.log("아이디출력좀해보라라" + noticeUser);
-            noticeParkingId = parseData.parking_id;
-            console.log("채팅알림이갈 상대 user_id" + noticeUser + ", parking_id :" + noticeParkingId);
-         	noticeConnection(message);
-        }
-    };
-    console.log(rsvId + " : selectUserNotice ajax 실행중....");
-    xhr.open("GET", "selectNoticeUser.do?rsv_id=" + rsvId, true);
-    xhr.send();
-   } //알림페이지에  뜨게 안하면 노필요 
+   		var xhr = new XMLHttpRequest();
+    	xhr.onreadystatechange = function () {
+        	if (this.readyState === 4 && this.status === 200) {
+            	var data = xhr.responseText;
+            	var parseData = JSON.parse(data);
+        		noticeUser = parseData.user_id;
+         		console.log("아이디출력좀해보라라" + noticeUser);
+            	noticeParkingId = parseData.parking_id;
+            	console.log("채팅알림이갈 상대 user_id" + noticeUser + ", parking_id :" + noticeParkingId);
+         		noticeConnection(message);
+        	}
+    	};
+    	console.log(rsvId + " : selectUserNotice ajax 실행중....");
+    	xhr.open("GET", "selectNoticeUser.do?rsv_id=" + rsvId, true);
+    	xhr.send();
+   }
 
 
 </script>

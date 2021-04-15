@@ -68,10 +68,8 @@ public class NoticeController {
 	@ResponseBody
 	public NoticeVO selectNoticeUser(NoticeVO vo) {
 		NoticeVO ownerInfo = noticeService.selectNoticeUser(vo);
-
 		vo.setParking_id(ownerInfo.getParkingVO().getParking_id());
-		//vo.setUser_id(ownerInfo.getParkingVO().getOwner_id());
-		
+		vo.setParkingVO(ownerInfo.getParkingVO());
 		if(ownerInfo.getParkingVO().getOwner_id() != (int)session.getAttribute("userId") ) {
 			vo.setUser_id(ownerInfo.getParkingVO().getOwner_id());
 			System.out.println("NoticeController 오너아이디오ㅏ 유저아이디 불일치" + vo.getUser_id() + ownerInfo.getParkingVO().getOwner_id());
@@ -79,6 +77,7 @@ public class NoticeController {
 			vo.setUser_id(ownerInfo.getRsvVO().getParker_id());
 			System.out.println("NoticeController 오너아이디와 유저아이디 일치" + vo.getUser_id() + ownerInfo.getRsvVO().getParker_id());
 		}
+		
 		return vo;
 	} // 알림을 받을 유저의 정보 (user_id와 parking_id, rsv_id) 
 	
