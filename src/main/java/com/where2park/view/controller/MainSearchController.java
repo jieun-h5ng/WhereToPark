@@ -81,7 +81,6 @@ public class MainSearchController {
 	@RequestMapping("/mainRecommendation.do")
 	@ResponseBody
 	public List<ParkingVO> getRecommendation(ParkingVO vo) throws Exception {
-		System.out.println("되는거냐?");
 		System.out.println(vo.getParking_lat());
 		System.out.println(vo.getParking_lng());
 		

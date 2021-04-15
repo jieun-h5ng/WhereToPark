@@ -312,7 +312,7 @@
     
 
     window.onload = function () {
-        last_chat();
+        lastChat();
         connect();
     }
 
@@ -390,7 +390,7 @@
         console.log("Re-Connection Chatting!!")
     }
 
-    function last_chat() {
+    function lastChat() {
         var message = new Array();
         <c:forEach items="${message}" var="msg">
             message.push({user_id : "${msg.user_id}",
