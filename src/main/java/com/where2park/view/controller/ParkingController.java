@@ -67,6 +67,7 @@ public class ParkingController {
 	@RequestMapping("/longgetParking.do")
 	public String longgetParking(ParkingVO vo, Model model) {
 		model.addAttribute("parking", parkingService.getParking(vo));
+		
 		return "parking/longgetParking.jsp";
 	}
 
@@ -98,7 +99,9 @@ public class ParkingController {
 			e.printStackTrace();
 		}
 		vo.setParking_pic(parking_pic);
+		vo.setParking_deleted(0);
 		parkingService.updateParking(vo);
+		System.out.println("수정 vo" + vo);
 		return "getParkingList.do";
 	}
 

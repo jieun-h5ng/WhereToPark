@@ -161,8 +161,8 @@
                   </div>
                   <div class="pk-pickday">
                      <input type="text" value="시작날짜" id="sdate" disabled/><br>
-                     <input type="button" class="hasTimepicker" value="시작시간" id="stime" onchange="call()" />
-                     <input type="button" class="hasTimepicker" value="종료시간" id="etime" onchange="call()" />
+                     <input type="button" class="hasTimepicker" value="시작시간" id="stime"/>
+                     <input type="button" class="hasTimepicker" value="종료시간" id="etime"/>
 
                      <input type="hidden" name="rsv_intime" value="" id="hidden_sdate" />
                      <input type="hidden" name="rsv_outtime" value="" id="hidden_edate" />
@@ -173,48 +173,59 @@
          $("#sdate").attr("value", inDate);
          
                   $("#stime").timepicker({
-                         timeFormat: 'h:mm p',
+                         timeFormat: 'HH:mm',
                          interval: 60,
                          minTime: '0',
-                         maxTime: '11:00pm',
+                         maxTime: '23:00',
                          defaultTime: '11',
                          startTime: '0:00am',
                          dynamic: false,
                          dropdown: true,
                          scrollbar: true,
-                         zindex: 9
+                         zindex: 9,
+                         change: call
                   });
                   $("#etime").timepicker({
                      
-                      timeFormat: 'h:mm p',
+                      timeFormat: 'HH:mm',
                       interval: 60,
                       minTime: '0',
-                      maxTime: '11:00pm',
+                      maxTime: '23:00',
                       defaultTime: '11',
                       startTime: '0:00am',
                       dynamic: false,
                       dropdown: true,
                       scrollbar: true,
-                      zindex: 9
+                      zindex: 9,
+                      change: call
                
                });
+
 
                   function call(){
                      var time1 = document.getElementById("stime").value;
                      var time2 = document.getElementById("etime").value;
                      var d1 = document.getElementById("sdate").value;
-
-                     var t1 = new Date("2019-09-03"+stime);
-                     var t2 = new Date("2019-09-03"+etime);
+                     var s = time1+":00";
+                     var e = time2+":00";
+                    
+                     var t1 = new Date("2019-09-03 "+s);
+                     var t2 = new Date("2019-09-03 "+e);
 
                      var interval = t2-t1;
                      // 간격 의 값은 8612000(밀리초) 가 된다.
 
                      var HH = Math.floor((interval % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)); //시
-                     var mm = Math.floor((interval % (1000 * 60 * 60)) / (1000 * 60));//분
                      
-                     $("#hours").attr("value", HH+" 시간 "+mm+" 분");
+                     var totalPrice = ${p_detail.parking_price} * HH;
+                     $("#hours").text(HH);
+                     $('#won').text(totalPrice);
+                     $('#hidden_price').attr('value',totalPrice)
+                     //$('#hidden_sdate').attr('value',sdd);
+                    // $('#hidden_edate').attr('value',edd);
+                     
                   }
+                  
                     </script>
                   </div>
                   <div class="pk-total-price">
