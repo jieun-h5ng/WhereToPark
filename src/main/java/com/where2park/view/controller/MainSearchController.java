@@ -164,7 +164,7 @@ public class MainSearchController {
 		model.addAttribute("totalReview",parkingService.countReview(vo));
 		model.addAttribute("p_reviews", parkingService.getReviewOnParking(vo));
 	
-		
+		model.addAttribute("recomm" , parkingService.getRecommendation(vo));
 		//js에서 자꾸 parking_id 못읽어서 세션에 저장함... - 은지
 		session.setAttribute("parkingId", vo.getParking_id());
 		session.setAttribute("parkingInfo", parking);

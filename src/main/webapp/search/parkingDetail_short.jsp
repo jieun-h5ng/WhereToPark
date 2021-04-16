@@ -118,6 +118,20 @@
   float:left;
   margin: 15px;
   }
+   #type{
+display: inline;
+    width: 45px;
+    height: 27px;
+    background-color: #fff4f4;
+    border: 1px solid wheat;
+    border-radius: 4px;
+    color: #ff2c2c;
+    padding: 2px;
+    text-align: center;
+    font-size: 11pt;
+    /* float: left; */
+    margin: 3px;
+  }
   #inOut{
   font-color:#367FFF;
   }
@@ -132,7 +146,14 @@
                      value="${p_detail.parking_title}" />
                   <button type="button" id="cartype" disbled>${p_detail.parking_cartype}</button>
                   <h1 style="font-size:2em; font-weight:500;display:inline">${p_detail.parking_title}</h1>
-                  <p><span id="inOut">${p_detail.parking_intime} - ${p_detail.parking_outtime}</span></p>
+                  <p><span id="inOut"></span> <button type="button" id="type" disbled>${p_detail.parking_type}</button></p>
+                  <script>
+                  var ind = "${p_detail.parking_intime}";
+                  var outd = "${p_detail.parking_outtime}";
+                  ind = ind.substr(0,16);
+                  outd = outd.substr(11,5);
+                  $("#inOut").text(ind+" ㅡ "+outd);
+                  </script>
       </div>
       <div class="segment pk-pic"
          style="background-image: url(./images/${p_detail.parking_pic});">
@@ -160,13 +181,15 @@
                         style="font-size: small; font-weight: 300;"> 원/일</span>
                   </div>
                   <div class="pk-pickday">
-                     <input type="text" value="시작날짜" id="sdate" disabled/><br>
+                     <input type="text" value="시작날짜" id="sdate" style="background-color:transparent;border:none;" disabled><br>
                      <input type="button" class="hasTimepicker" value="시작시간" id="stime"/>
                      <input type="button" class="hasTimepicker" value="종료시간" id="etime"/>
 
                      <input type="hidden" name="rsv_intime" value="" id="hidden_sdate" />
                      <input type="hidden" name="rsv_outtime" value="" id="hidden_edate" />
 
+							<!-- 오너 아이디 - 은지 -->
+							<input type="hidden" name="parkingVO.owner_id" value="${p_detail.owner_id}"/>
                      <script>
          var inDate = "${p_detail.parking_intime}";
          inDate = inDate.substr(0,10);
@@ -205,12 +228,13 @@
                   function call(){
                      var time1 = document.getElementById("stime").value;
                      var time2 = document.getElementById("etime").value;
-                     var d1 = document.getElementById("sdate").value;
+                     var d1 ="${p_detail.parking_intime}";
+                     var date = d1.substr(0,11);
                      var s = time1+":00";
                      var e = time2+":00";
                     
-                     var t1 = new Date("2019-09-03 "+s);
-                     var t2 = new Date("2019-09-03 "+e);
+                     var t1 = new Date(date+s);
+                     var t2 = new Date(date+e);
 
                      var interval = t2-t1;
                      // 간격 의 값은 8612000(밀리초) 가 된다.
@@ -218,11 +242,12 @@
                      var HH = Math.floor((interval % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)); //시
                      
                      var totalPrice = ${p_detail.parking_price} * HH;
+                   
                      $("#hours").text(HH);
                      $('#won').text(totalPrice);
                      $('#hidden_price').attr('value',totalPrice)
-                     //$('#hidden_sdate').attr('value',sdd);
-                    // $('#hidden_edate').attr('value',edd);
+                    $('#hidden_sdate').attr('value',t1);
+                     $('#hidden_edate').attr('value',t2);
                      
                   }
                   
@@ -469,6 +494,37 @@
    <div class="segment pk-recommendation">
       <h1 class="pk-subject">이 주차장도 추천해요 !</h1>
       <div id="recommendation">
+      		<c:forEach items="${recomm}" var= "rcm">
+			<a href="searchParkingDetail.do?parking_id=${rcm.parking_id}">
+			<table class="recommendation-box">
+			<tr>
+               <td><img class='reco-img' src='images/${rcm.parking_pic}'/></td>
+            </tr>
+            <tr>
+               <td id="recommendation-title" class="reco-title">${rcm.parking_title}</td>
+            </tr>
+            <tr>
+               <td>${rcm.parking_location}</td>
+            </tr>
+               <tr>
+               <td class="reco-type">${rcm.parking_type}</td>
+            </tr>
+            
+             <tr>
+               <td class="reco-cartype">${rcm.parking_cartype}</td>
+            </tr>
+            <tr>
+               <td class="reco-intime"> ${rcm.parking_intime}</td>
+            </tr>
+             <tr>
+               <td class="reco-content">${rcm.parking_content}</td>
+            </tr>
+            <tr>
+               <td class="reco-price">1일 ${rcm.parking_price} 원</td>
+            </tr>
+            <!-- 찜 기능 작업중에 있습니다 -->
+           </table></a>
+		</c:forEach>
       </div>
       
       

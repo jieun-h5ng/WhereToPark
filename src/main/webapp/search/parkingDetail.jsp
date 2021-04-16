@@ -31,13 +31,13 @@
 	margin: 0 auto;
 }
  /*추천 알고리즘*/
-   #cntnr #recommendation {
+   #recommendation {
       width: 100%;
       /* height: 350px; */
       max-height: 350px;
       /*border: 1px solid #ccc;*/
       box-sizing: border-box;
-      margin: 0 0 20px 0;
+      margin: 0 auto;
       position: relative;
       z-index: 997;
    }
@@ -54,11 +54,12 @@
       height: 350px;
       border: 1px solid #ccc;
       box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
-      margin: 0 5% 0 0;
+      margin: 0 1.6%;
       float: left;
       box-sizing: border-box;
       border-radius: 2px;
       cursor: pointer;
+      display:inline;
       /* position : absolute; */
    }
    
@@ -70,7 +71,7 @@
    }
 
    .recommendation-box:last-child {
-      margin: 0;
+     /* margin: 0;*/
    }
    
    .reco-content{
@@ -131,7 +132,14 @@
 							value="${p_detail.parking_title}" />
 						<button type="button" id="cartype" disbled>${p_detail.parking_cartype}</button>
 						<h1 style="font-size:2em; font-weight:500;display:inline">${p_detail.parking_title}</h1>
-						<p><span id="inOut">${p_detail.parking_intime} - ${p_detail.parking_outtime}</span></p>
+						<p><span id="inOut"></span></p>
+				  <script>
+                  var ind = "${p_detail.parking_intime}";
+                  var outd = "${p_detail.parking_outtime}";
+                  ind = ind.substr(0,10);
+                  outd = outd.substr(0,10);
+                  $("#inOut").text(ind+" ㅡ "+outd);
+                  </script>
 		</div>
 		<div class="segment pk-pic"
 			style="background-image: url(./images/${p_detail.parking_pic});">
@@ -536,6 +544,37 @@
 	<div class="segment pk-recommendation">
 		<h1 class="pk-subject">이 주차장도 추천해요 !</h1>
 		<div id="recommendation">
+		<c:forEach items="${recomm}" var= "rcm">
+			<a href="searchParkingDetail.do?parking_id=${rcm.parking_id}">
+			<table class="recommendation-box">
+			<tr>
+               <td><img class='reco-img' src='images/${rcm.parking_pic}'/></td>
+            </tr>
+            <tr>
+               <td id="recommendation-title" class="reco-title">${rcm.parking_title}</td>
+            </tr>
+            <tr>
+               <td>${rcm.parking_location}</td>
+            </tr>
+               <tr>
+               <td class="reco-type">${rcm.parking_type}</td>
+            </tr>
+            
+             <tr>
+               <td class="reco-cartype">${rcm.parking_cartype}</td>
+            </tr>
+            <tr>
+               <td class="reco-intime"> ${rcm.parking_intime}</td>
+            </tr>
+             <tr>
+               <td class="reco-content">${rcm.parking_content}</td>
+            </tr>
+            <tr>
+               <td class="reco-price">1일 ${rcm.parking_price} 원</td>
+            </tr>
+            <!-- 찜 기능 작업중에 있습니다 -->
+           </table></a>
+		</c:forEach>
       </div>
       
 		

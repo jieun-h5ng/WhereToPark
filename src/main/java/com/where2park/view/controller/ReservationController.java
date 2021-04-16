@@ -73,8 +73,8 @@ class ReservationController {
 	@RequestMapping("/kakaopay.do")
 	public String payment(RsvVO vo, Model model) {
 		System.out.println("결제 API 시작");
-		System.out.println(vo.getParkingVO().getOwner_id() + "오너아이디 ㅠ ㅠ");
-
+//		System.out.println(vo.getParkingVO().getOwner_id() + "오너아이디 ㅠ ㅠ");
+		//단기주차장 예약할 떄 parkingVO가 null이라서 오류발생..
 		System.out.println(vo);
 		model.addAttribute("rsvInfo", vo);
 		return "rsv/kakaopay.jsp";
