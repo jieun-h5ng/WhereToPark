@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-    <%@taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
+<%@taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
         <!DOCTYPE html>
         <html lang="en">
 
@@ -122,37 +122,38 @@
 
                 /*알림창 설정*/
                 #cntnr .notice {
-                    width: 100%;
-                    height: 150px;
+                    width: 80%;
+                    height: 180px;
                     box-sizing: border-box;
-                    margin: 10px 0 30px 0;
-                    padding: 10px 10px 10px 10px;
+                    margin: 10px auto 30px auto;
+                    padding: 20px;
                     border: 1px solid #ccc;
                     border-radius: 2px;
                     background-color: rgb(255, 255, 255);
                     box-shadow: 2px 2px rgb(151, 151, 151);
                     cursor: pointer;
+                    overflow: hidden;
                 }
 
                 #notice-bell {
                     color: rgb(228, 212, 92);
-                    font-size: 70px;
+                    font-size: 60px;
                     font-weight: lighter;
-                    /* float: left; */
-                    margin: 4% 8% 4% 8%;
+                    float: left;
+                    margin: 3% 8% 4% 8%;
                 }
 
                 #notice-title {
-                    float: right;
-                    font-size: 1.5em;
-                    width: 70%;
+                    float: left;
+                    font-size: 1.8em;
+                    width: 50%;
                 }
 
                 #Btn {
                     width: 20px;
                     height: 20px;
                     float: right;
-                    margin: -170px 10px 0 0;
+                    margin: -185px 13% 0 0;
                 }
 
                 #deleteBtn {
@@ -164,18 +165,18 @@
                 }
 
                 #notice-date {
-                    float: right;
-                    width: 70%;
+                    float: left;
+                    width: 50%;
                     font-size: 1em;
-                    margin-top: -60px;
+                    padding-top: 15px;
                 }
 
                 #notice-content {
-                    float: right;
-                    width: 70%;
+                    float: left;
+                    width: 90%;
+                    margin: 0 5% 0 5%;
                     font-size: 1em;
-                    margin-top: -50px;
-
+                    padding-top: 10px;
                 }
 
                 #notice-pagination {

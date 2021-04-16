@@ -156,16 +156,26 @@
       padding: 40px 20% 190px 20%;
       box-sizing: border-box;
    }
-   
+
+
    .main-wrapper {
       width: 100%;
+      height: 100px;
+      /* margin-left: 5%; */
+   }
+
+   #main-wrapper-back{
+      width: 95%;
+      height: 38px;
+      background-color: white;
+      margin : -72px 0 0 18px;
    }
 
    .search-text{
       font-size: 16px;
       color: whitesmoke;
       font-weight: 500;
-      margin : 0 0 0 3px;
+      margin : 0 0 0 20px;
    }
 
    .search-type {
@@ -176,26 +186,25 @@
       font-size:14px;
    }
    
-   .search-type input {
+   .search-type .main-input-box {
       height: 26px;
-      min-width: 160px;
-      width: 99.3%;
-      margin: 5px 0 0 0;
+      width: 95%;
+      margin: 5px 0 0 20px;
       border: 5px solid white;
       border-radius: 0px;
       cursor: pointer;
    }
    
    #search-button {
-      width: 35px;
-      height: 35px;
-      margin: 28px 20px 0 10px;
+      width: 36px;
+      height: 36px;
+      margin: -36px 20px 0 200px;
       float: right;
       -webkit-appearance: none;
         -moz-appearance: none;
         appearance: none;
-      border-radius: 2px;
-      border: 0;
+      border-radius: 0px;
+      border : 0 ;
       cursor: pointer;
       background-image: url("<%=request.getContextPath()%>/images/searchIcon.png");
       background-color: white;
@@ -300,7 +309,14 @@
       font-size: 20px;
       font-weight: 500;
    }
-   
+   #chatNoticeMessage{
+      width: 50%;
+      font-size: 18px;
+   }
+   #chatNoticeMessage .fa-envelope-square{
+      font-size: 20px;
+      color: #428bca;
+   }
    .btn-default {
       -webkit-appearance: none;
         -moz-appearance: none;
@@ -346,7 +362,7 @@
    .modal-header{padding:15px;border-bottom:1px solid #e5e5e5;min-height:16.428571429px}
    .modal-header .close{margin-top:-2px}
    .modal-title{margin:0;line-height:1.428571429}
-   .modal-body{position:relative;padding:20px}
+   .modal-body{position:relative;padding:20px;}
    .modal-footer{margin-top:15px;padding:19px 20px 20px;text-align:right;border-top:1px solid #e5e5e5}
    .modal-footer .btn+.btn{margin-left:5px;margin-bottom:0}
    .modal-footer .btn-group .btn+.btn{margin-left:-1px}
@@ -443,13 +459,6 @@
    <div id="hdr">
         <a href="<%=request.getContextPath()%>/index.jsp"><div class="hdr-logo"></div></a>
         	
-                 
-        
-        
-        
-        
-        
-
         <div id="nav">
             <ul>
                 <c:if test="${empty sessionScope.userId or empty sessionScope.userNickName }">
@@ -504,26 +513,25 @@
                  
    			</div>
    			
-   			
-   			
-   
-   
       <div class="main-wrapper">
+
          <form action="getSearchParkingList.do" method="post">
             <div class="search-type">
-               <span class="search-text">장소 검색</span><input type="text" name="parking_location"
+               <span class="search-text">장소 검색</span><input class="main-input-box" type="text" name="parking_location"
                   value="${parkingVO.parking_location}" />
             </div>
             <div class="search-type">
-               <span class="search-text">대여 시각</span><input type="datetime-local" class="calender"
+               <span class="search-text">대여 시각</span><input class="main-input-box" type="datetime-local" class="calender"
                   name="parking_intime" value="${parkingVO.parking_intime}" />
             </div>
             <div class="search-type">
-               <span class="search-text">반납 시각</span><input type="datetime-local" class="calender"
+               <span class="search-text">반납 시각</span><input class="main-input-box" type="datetime-local" class="calender"
                   name="parking_outtime" value="${parkingVO.parking_outtime}" />
             </div>
             <input id="search-button" type="submit" value="">
          </form>
+      </div>
+      <div id="main-wrapper-back">
       </div>
    </div>
    <div class="main-margin"></div>

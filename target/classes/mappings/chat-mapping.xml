@@ -47,16 +47,6 @@
 		]]>
 	</update>
 	
-<!-- 	<insert id="insertChat" >
-		INSERT INTO CHATMASSAGES (chatroom_id, user_id, message_content, message_datetime)
-		VALUES
-		<foreach collection="list" item="item" separator=" , " >
-		( #{item.chatroom_id},
-		  #{item.user_id},
-		  #{item.message_content}, 
-		  #{item.message_datetime})
-		</foreach>  
-	</insert> -->
 	<insert id="insertChat" >
 		INSERT INTO CHATMESSAGES (chatroom_id, user_id, message_content, message_datetime)
 		VALUES
