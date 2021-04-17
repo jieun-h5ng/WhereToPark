@@ -27,6 +27,22 @@
    href="css/My-page-reservation.css">
 <title>어따세워: 예약 내역</title>
 <style>
+#noRsv{
+      background-image: url('<%=request.getContextPath()%>/images/error-bg.png');
+      margin: 0 10% 0 10%;
+       width : 80%;
+       height : 500px;
+       background-size: 1800px 1000px; /*창크기에 따라 같이 움직이게 해주는 속성(여백없음), contain은 여백있이 */
+       background-position: center center;
+   }
+#noRsv_text{
+text-align: center;
+    font-size: 22px;
+    font-weight: 400;
+    opacity: 0.7;
+    padding-top: 400px;
+      
+   }
 </style>
 </head>
 
@@ -35,6 +51,13 @@
       <div class="cntnr-top-margin"></div>
       <p class="mp-title">예약 내역</p>
       <!-- 각자의 파트는 이곳에서부터 작업하실 수 있습니다. -->
+      <c:if test="${RsvList[0].parkingVO.parking_title eq null}">
+  
+            <div id = noRsv>
+               <p id="noRsv_text">예약한 주차장이 없습니다. 주차장을 예약해주세요🙂</p>
+               </div>
+
+      </c:if>
       <c:forEach var="rsv" items="${RsvList}" varStatus="status">
          <div class="MpRsv-arti">
             <a href="getRsv.do?rsv_id=${rsv.rsv_id}"><div class="mp-rsv-info">
@@ -47,19 +70,10 @@
                </p>
                <p class="mp-rsv-p mp-rsv-address">
                ${rsv.parkingVO.parking_title}<br>
-               <c:choose>
-               <c:when test = "${rsv.parkingVO.owner_id eq userId}">
-               <span style="font-size:smaller;">예약자 : ${rsv.userVO.user_nickname}</span>
-               <input type="hidden" id =nNoticeUserId${status.index} value="${rsv.parker_id}" />
-               </c:when>
-               <c:when test = "${rsv.parker_id eq userId}">
+
                <span style="font-size:smaller;">${rsv.parkingVO.parking_location}</span></p>
                <input type="hidden" id =nNoticeUserId${status.index} value="${rsv.parkingVO.owner_id}" />
-               </c:when>
-               <c:otherwise>
-                값전달오류
-               </c:otherwise>
-               </c:choose>
+
             </div></a>
             <!--알림보내기위해서 값 전달-->
             <input type="hidden" id=nRsvId${status.index} value="${rsv.rsv_id}" />

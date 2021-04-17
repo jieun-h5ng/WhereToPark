@@ -26,101 +26,19 @@
 	width: 80%;
 }
 
-.description {
-	width: 90%;
-	margin: 0 auto;
+.hasTimepicker{
+text-align: center;
+	width: 100px;
+    height: 35px;
+    margin: 3px;
+    color: #367fff;
+    border: 1px solid #b1ceff;
+    border-radius: 4px;
+    background-color: white;
+    box-shadow: 1px 1px 3px #ddd;
+    cursor: pointer;
 }
- /*추천 알고리즘*/
-   #recommendation {
-      width: 100%;
-      /* height: 350px; */
-      max-height: 350px;
-      /*border: 1px solid #ccc;*/
-      box-sizing: border-box;
-      margin: 0 auto;
-      position: relative;
-      z-index: 997;
-   }
-   
-   #recommendation-title {
-      font-size: 1.5em;
-      font-weight: bold;
-      text-align: center;
-   }
-   
-   .recommendation-box {
-      width: 30%;
-      min-height: 240px;
-      height: 350px;
-      border: 1px solid #ccc;
-      box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
-      margin: 0 1.6%;
-      float: left;
-      box-sizing: border-box;
-      border-radius: 2px;
-      cursor: pointer;
-      display:inline;
-      /* position : absolute; */
-   }
-   
-   .reco-img{
-      /* background-color:blue; */
-      width: 100%;   
-      height: 200px;
-      border-radius: 2px;
-   }
 
-   .recommendation-box:last-child {
-     /* margin: 0;*/
-   }
-   
-   .reco-content{
-      margin: 0 2% 0 2% ;
-   }
-   .reco-type{
-      font-size: 13px;
-      font-weight: bold;
-   }
-   .reco-title{
-      font-weight: bold;
-      font-size: 15px;
-      border-bottom: 1px solid #ccc;
-      padding: 5px 0 5px 0;
-   }
-   .reco-cartype{
-      font-size: 15px;
-      font-weight: 400;
-      padding: 5px 0 0 0;
-   }
-   .reco-price{
-      font-size: 15px;
-      font-weight: 400;
-      padding: 5px 0 0 0;
-   }
-   .reco-intime{
-      font-size: 12px;
-      padding-top: 2px;
-   }
-  .title{
-  margin:30px 30px 50px 0;
-  }
-  #cartype{
-  display: inline;
-  width: 80px;
-  height: 50px;
-  background-color: #367FFF;
-  border: none;
-  border-radius:7px;
-  color: white;
-  padding: 5px;
-  text-align: center;
-  font-size:1.5em;
-  float:left;
-  margin: 15px;
-  }
-  #inOut{
-  font-color:#367FFF;
-  }
 </style>
 </head>
 
@@ -132,7 +50,7 @@
 							value="${p_detail.parking_title}" />
 						<button type="button" id="cartype" disbled>${p_detail.parking_cartype}</button>
 						<h1 style="font-size:2em; font-weight:500;display:inline">${p_detail.parking_title}</h1>
-						<p><span id="inOut"></span></p>
+						<p><span id="inOut"></span><button type="button" id="type" disbled>${p_detail.parking_type}</button></p>
 				  <script>
                   var ind = "${p_detail.parking_intime}";
                   var outd = "${p_detail.parking_outtime}";
@@ -167,8 +85,8 @@
 								style="font-size: small; font-weight: 300;"> 원/일</span>
 						</div>
 						<div class="pk-pickday">
-							<input type="button" value="시작날짜" id="sdate" onchange="call()" />
-							<input type="button" value="종료날짜" id="edate" onchange="call()" />
+							<input type="text" class='hasTimepicker' id="sdate" onchange="call()" readonly/>
+							<input type="text" class='hasTimepicker' id="edate" onchange="call()" readonly/>
 
 							<input type="hidden" name="rsv_intime" value="" id="hidden_sdate" />
 							<input type="hidden" name="rsv_outtime" value="" id="hidden_edate" />
@@ -245,30 +163,25 @@
                             ,beforeShowDay: disableAllTheseDays
                        </c:if>
                         });
-                        //$.datepicker.setDefaults($.datepicker.regional['ko']);
+                        
 
-                        $("#sdate").datepicker();
-                        if ($("#edate").val() == "종료날짜") {
-                            $('#sdate').datepicker("option", "maxDate", max);}
-                        else{
-                            $('#sdate').datepicker("option", "maxDate", $("#edate").val());
-                        }
-                        $('#edate').datepicker();
-					 	if ($("#sdate").val() == "") {
-                            $('#edate').datepicker("option", "minDate", min);}
-                      	else{$('#edate').datepicker("option", "minDate", $("#sdate").val());}
-                        $('#edate').datepicker("option", "onClose", function (selectedDate) {
-                        	if(selectedDate==true)
+               		  $('#edate').datepicker("option", "onClose", function (selectedDate) {
+                        	if(selectedDate.length==10)
                             $("#sdate").datepicker("option", "maxDate", selectedDate);
                         	else
                         		$("#sdate").datepicker("option", "maxDate", max);
+                        	
+                        	
                         });
                         $('#sdate').datepicker("option", "onClose", function (selectedDate) {
-                        	if(selectedDate==true)
+                        	if(selectedDate.length==10)
                                 $("#edate").datepicker("option", "minDate", selectedDate);
                             else
                                 $("#edate").datepicker("option", "minDate", min);
+                        	
                         });
+                        $("#sdate").val("시작날짜");
+                        $("#edate").val("종료날짜");
                   
                         function call(){
                             var sdd = document.getElementById("sdate").value;
@@ -376,76 +289,86 @@
 		</div>
 		<div class="segment pk-review">
 			<h1 class="pk-subject">후기</h1>
-			<table id="rv-table" width=100%>
-				<thead>
-					<tr>
-						<th style="text-align: right;">별점 <span
-							style="font-size: 25pt; font-weight: 500;">${totalReview[0].avrg}</span></th>
-					</tr>
-				</thead>
-				<tbody id="review-by-page">
-					<c:forEach var="review" items="${p_reviews}" varStatus="i">
-						<tr>
-							<td>
-								<table class="rv-indiv">
-									<tr>
-										<td class='rv-pic'><img
-											src="images/profile/${p_reviews[i.index].userVO.user_pic}" /></td>
-										<fmt:formatDate var="reviewDt"
-											value="${p_reviews[i.index].review_date}"
-											pattern="YYYY년  MM월 dd일" />
-										<td>${p_reviews[i.index].userVO.user_nickname}<br>${reviewDt}
-										</td>
-									<tr>
-										<td colspan="2">
-											<p class="mp-rvl-p mp-rvl-rate"
-												data-rate="${p_reviews[i.index].review_rating}">
-												<input type="radio" name="review_rating" value="1"
-													class="rtng"
-													<c:if test="${p_reviews[i.index].review_rating eq '1'}">checked</c:if>
-													id="rtng1" title="1"><label for="rtng1"
-													class="starLabel"><i class="fas fa-star"></i></label> <input
-													type="radio" name="review_rating" value="2" class="rtng"
-													<c:if test="${p_reviews[i.index].review_rating eq '2'}">checked</c:if>
-													id="rtng2" title="2"><label for="rtng2"
-													class="starLabel"><i class="fas fa-star"></i></label> <input
-													type="radio" name="review_rating" value="3" class="rtng"
-													<c:if test="${p_reviews[i.index].review_rating eq '3'}">checked</c:if>
-													id="rtng3" title="3"><label for="rtng3"
-													class="starLabel"><i class="fas fa-star"></i></label> <input
-													type="radio" name="review_rating" value="4" class="rtng"
-													<c:if test="${p_reviews[i.index].review_rating eq '4'}">checked</c:if>
-													id="rtng4" title="4"><label for="rtng4"
-													class="starLabel"><i class="fas fa-star"></i></label> <input
-													type="radio" name="review_rating" value="5" class="rtng"
-													<c:if test="${p_reviews[i.index].review_rating eq '5'}">checked</c:if>
-													id="rtng5" title="5"><label for="rtng5"
-													class="starLabel"><i class="fas fa-star"></i></label>
-											</p> <script>
-												$(document).ready(function(){
-													var rating = $('.mp-rvl-rate');
-													
-													rating.each(function(){
-														var targetScore = $(this).attr('data-rate');
-														console.log(targetScore);
-														
-														$(this).find('input:nth-child(-n+' + targetScore*2 +') + label i').css({color:"#e4c61c"});
-														$(this).find('input:nth-child(n+' + targetScore*2 +') + label i').css({color:"#ccc"});
-													});
-												});
-											</script> <br> ${p_reviews[i.index].review_content}
-										</td>
+			<c:choose>
+         <c:when test="${totalReview[0].avrg eq null}">
+         <div id="noRsv">
+         	<p id="noRsv_text">주차장의 첫 번째 후기를 남겨주세요😎</p>
+         </div>
+         </c:when>
+         <c:when test="${totalReview[0].avrg ne null}">
+         <table id="rv-table" width=100%>
+            <thead>
+            
+            
+               <tr>
+                  <th style="text-align: right;">별점 <span
+                     style="font-size: 25pt; font-weight: 500;">${totalReview[0].avrg}</span></th>
+               </tr>
+            </thead>
+            <tbody id="review-by-page">
+               <c:forEach var="review" items="${p_reviews}" varStatus="i">
+                  <tr>
+                     <td>
+                        <table class="rv-indiv">
+                           <tr>
+                              <td class='rv-pic'><img
+                                 src="images/profile/${p_reviews[i.index].userVO.user_pic}" /></td>
+                              <fmt:formatDate var="reviewDt"
+                                 value="${p_reviews[i.index].review_date}"
+                                 pattern="YYYY년  MM월 dd일" />
+                              <td>${p_reviews[i.index].userVO.user_nickname}<br>${reviewDt}
+                              </td>
+                           <tr>
+                              <td colspan="2">
+                                 <p class="mp-rvl-p mp-rvl-rate"
+                                    data-rate="${p_reviews[i.index].review_rating}">
+                                    <input type="radio" name="review_rating" value="1"
+                                       class="rtng"
+                                       <c:if test="${p_reviews[i.index].review_rating eq '1'}">checked</c:if>
+                                       id="rtng1" title="1"><label for="rtng1"
+                                       class="starLabel"><i class="fas fa-star"></i></label> <input
+                                       type="radio" name="review_rating" value="2" class="rtng"
+                                       <c:if test="${p_reviews[i.index].review_rating eq '2'}">checked</c:if>
+                                       id="rtng2" title="2"><label for="rtng2"
+                                       class="starLabel"><i class="fas fa-star"></i></label> <input
+                                       type="radio" name="review_rating" value="3" class="rtng"
+                                       <c:if test="${p_reviews[i.index].review_rating eq '3'}">checked</c:if>
+                                       id="rtng3" title="3"><label for="rtng3"
+                                       class="starLabel"><i class="fas fa-star"></i></label> <input
+                                       type="radio" name="review_rating" value="4" class="rtng"
+                                       <c:if test="${p_reviews[i.index].review_rating eq '4'}">checked</c:if>
+                                       id="rtng4" title="4"><label for="rtng4"
+                                       class="starLabel"><i class="fas fa-star"></i></label> <input
+                                       type="radio" name="review_rating" value="5" class="rtng"
+                                       <c:if test="${p_reviews[i.index].review_rating eq '5'}">checked</c:if>
+                                       id="rtng5" title="5"><label for="rtng5"
+                                       class="starLabel"><i class="fas fa-star"></i></label>
+                                 </p> <script>
+                                    $(document).ready(function(){
+                                       var rating = $('.mp-rvl-rate');
+                                       
+                                       rating.each(function(){
+                                          var targetScore = $(this).attr('data-rate');
+                                          console.log(targetScore);
+                                          
+                                          $(this).find('input:nth-child(-n+' + targetScore*2 +') + label i').css({color:"#e4c61c"});
+                                          $(this).find('input:nth-child(n+' + targetScore*2 +') + label i').css({color:"#ccc"});
+                                       });
+                                    });
+                                 </script> <br> ${p_reviews[i.index].review_content}
+                              </td>
 
-									</tr>
-									</td>
-									</tr>
-								</table>
-							</td>
-						</tr>
-					</c:forEach>
-
-				</tbody>
-			</table>
+                           </tr>
+                           </td>
+                           </tr>
+                        </table>
+                     </td>
+                  </tr>
+               </c:forEach>
+            </tbody>
+         </table>
+         </c:when>
+         </c:choose>
 			<script>
             $(document).ready(function(){
                paging(${totalReview[0].total},1);

@@ -22,7 +22,9 @@
 		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<link rel="stylesheet" href="css/jquery.timepicker.min.css">
-		
+<style>
+
+</style>
 	</head>
 <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
 	<body>
@@ -67,7 +69,7 @@
 										var txt = "<a href='searchParkingDetail_short.do?parking_id=" + element.parking_id + "'><table class='parking-lot' border='1'>"
 
 										txt += "<tr><td><img id='pkpic'src='images/" + element.parking_pic + "'/></td></tr>"
-										+ "<tr><td>" + element.parking_title + "</td></tr>"
+										+ "<tr><td><span id='tt'>" + element.parking_title + "</span></td></tr>"
 										+ "<tr><td>" + element.parking_location + "</td></tr>"	
 										+ "<tr><td> " + element.parking_type + "</td></tr>"
 										+ "<tr><td>예약시작: " + element.parking_intime + "</td></tr>"
@@ -135,7 +137,7 @@
 				</div>
 				<div class="search-condition">
 					<input type="hidden" id="sdateVal" name="sdate" />
-					<input type="button" value="주차날짜" id="sdate" />
+					<input type="button" value="주차날짜" class="hasTimepicker" id="sdate" />
 					<input type="button" value="주차시간" class="hasTimepicker" id="sTime" />
 					<input type="hidden" value="" name="stime" id = "sTimeVal"/>
 					<script>
@@ -222,7 +224,7 @@
                         </tr>
                      
                         <tr>
-                           <td><a href="searchParkingDetail.do?parking_id=${parking.parking_id}">${parking.parking_title}</a></td>
+                           <td><a href="searchParkingDetail.do?parking_id=${parking.parking_id}"><span id='tt'>${parking.parking_title}</span></a></td>
                         </tr>
                         <tr>
                            <td><a href="searchParkingDetail.do?parking_id=${parking.parking_id}">${parking.parking_location}</a></td>
