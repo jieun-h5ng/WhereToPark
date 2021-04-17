@@ -49,7 +49,7 @@
 		<![CDATA[
 		SELECT *
 		FROM parkingboard
-		WHERE parking_deleted = 0
+		WHERE parking_deleted = 0 and parking_id != #{parking_id}
 		ORDER BY (6371*acos(cos(radians(#{parking_lat}))*cos(radians(parking_lat))*cos(radians(parking_lng)-radians(#{parking_lng}))
 				 +sin(radians(#{parking_lat}))*sin(radians(parking_lat))))
 		LIMIT 3;

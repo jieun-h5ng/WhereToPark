@@ -21,6 +21,14 @@
 		<title>장기주차 검색하기</title>
 		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		<style>
+
+#tt{
+font-weight:500;
+}
+
+		
+		</style>
 	</head>
 
 	<body>
@@ -66,7 +74,7 @@
 
 
 										txt += "<tr><td><img id='pkpic'src='images/" + element.parking_pic + "'/></td></tr>"
-										+ "<tr><td>" + element.parking_title + "</td></tr>"
+										+ "<tr><td><span id='tt'>" + element.parking_title + "'</span>'</td></tr>"
 										+ "<tr><td>" + element.parking_location + "</td></tr>"	
 										+ "<tr><td> " + element.parking_type + "</td></tr>"
 										+ "<tr><td>예약시작: " + element.parking_intime + "</td></tr>"
@@ -135,8 +143,8 @@
 				<div class="search-condition">
 					<input type="hidden" id="sdateVal" name="sdate" />
 					<input type="hidden" id="edateVal" name="edate" />
-					<input type="button" value="시작날짜" id="sdate" />
-					<input type="button" value="종료날짜" id="edate" />
+					<input type="text" class="hasTimepicker" id="sdate" readonly/>
+					<input type="text" class="hasTimepicker" id="edate" readonly/>
 					<script>
 						$("#sdate").datepicker(
 							{
@@ -190,22 +198,20 @@
 							});
 						$.datepicker.setDefaults($.datepicker.regional['ko']);
 
-						$('#edate').datepicker();
-						if ($("#sdate").val() == "") {
-							$('#edate').datepicker("option", "minDate", "1d");
-						} else
-							$('#edate').datepicker("option", "minDate", $("#sdate").val());
-						$('#edate').datepicker("option", "onClose", function (selectedDate) {
-							$("#sdate").datepicker("option", "maxDate", selectedDate);
-							$("#edateVal").attr("value", selectedDate);
-						});
+	               		  $('#edate').datepicker("option", "onClose", function (selectedDate) {
+	                        	if(selectedDate.length==10)
+	                            $("#sdate").datepicker("option", "maxDate", selectedDate);
+	            
+	                        	
+	                        });
+	                        $('#sdate').datepicker("option", "onClose", function (selectedDate) {
+	                        	if(selectedDate.length==10)
+	                                $("#edate").datepicker("option", "minDate", selectedDate);
 
-						$("#sdate").datepicker();
-						$('#sdate').datepicker("option", "maxDate", $("#edate").val());
-						$('#sdate').datepicker("option", "onClose", function (selectedDate) {
-							$("#edate").datepicker("option", "minDate", selectedDate);
-							$("#sdateVal").attr("value", selectedDate);
-						});
+	                        	
+	                        });
+	                        $("#sdate").val("시작날짜");
+	                        $("#edate").val("종료날짜");
 
 
 
@@ -241,7 +247,11 @@
                         </tr>
                      
                         <tr>
+<<<<<<< HEAD
                            <td><a href="searchParkingDetail.do?parking_id=${parking.parking_id}">제목: ${parking.parking_title}</a></td>
+=======
+                           <td><a href="searchParkingDetail.do?parking_id=${parking.parking_id}"><span id="tt">${parking.parking_title}</span></a></td>
+>>>>>>> f044d71e6a317abe98e1c5174d2796cccfadc3d2
                         </tr>
                         <tr>
                            <td><a href="searchParkingDetail.do?parking_id=${parking.parking_id}">위치: ${parking.parking_location}</a></td>
@@ -355,8 +365,7 @@
 							message = 'geolocation을 사용할수 없어요..'
 
 						displayMarker(locPosition, message);
-					}
-
+						}
 					// 지도에 마커와 인포윈도우를 표시하는 함수입니다
 					function displayMarker(locPosition, a_positions) {
 						imageSrc = "<%=request.getContextPath()%>/LOGO.png", // 마커이미지의 주소입니다    
@@ -392,19 +401,20 @@
 
 							// 인포윈도우를 생성합니다
 							var infowindow = new kakao.maps.InfoWindow({
-								content: a_positions[i].content,
-								removable:false
+								content: a_positions[i].content
 							});
-							
 							infowindows.push(infowindow);
 
 							// 인포윈도우를 마커위에 표시합니다 
 							infowindow.open(map, marker);
 
-							// 지도 중심좌표를 접속위치로 변경합니다
-							map.setCenter(locPosition);
 						}
+						
+						// 지도 중심좌표를 접속위치로 변경합니다
+						map.setCenter(locPosition);
 					}
+
+
 				</script>
 			</div>
 		</div>

@@ -10,7 +10,7 @@
     <script src="https://kit.fontawesome.com/415f6f6023.js" crossorigin="anonymous"></script>
     <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-1.12.4.min.js"></script>
    <title>어따세워?</title>
-   <script src="js/jquery-1.12.4.min.js"></script>
+    <script src="<%=request.getContextPath()%>/js/jquery-1.12.4.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
    <style>
       *{

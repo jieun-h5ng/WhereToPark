@@ -23,104 +23,18 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <link rel="stylesheet" href="css/jquery.timepicker.min.css">
 <style>
+
 #cntnr {
    width: 80%;
 }
+  #sdate{
+	padding: 10px;
+    width: 115px;
+    font-size: 1.3em;
+    font-weight: 300;
+    color: #4c4c4c;
+  }
 
-.description {
-   width: 90%;
-   margin: 0 auto;
-}
- /*추천 알고리즘*/
-   #cntnr #recommendation {
-      width: 100%;
-      /* height: 350px; */
-      max-height: 350px;
-      /*border: 1px solid #ccc;*/
-      box-sizing: border-box;
-      margin: 0 0 20px 0;
-      position: relative;
-      z-index: 997;
-   }
-   
-   #recommendation-title {
-      font-size: 1.5em;
-      font-weight: bold;
-      text-align: center;
-   }
-   
-   .recommendation-box {
-      width: 30%;
-      min-height: 240px;
-      height: 350px;
-      border: 1px solid #ccc;
-      box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
-      margin: 0 5% 0 0;
-      float: left;
-      box-sizing: border-box;
-      border-radius: 2px;
-      cursor: pointer;
-      /* position : absolute; */
-   }
-   
-   .reco-img{
-      /* background-color:blue; */
-      width: 100%;   
-      height: 200px;
-      border-radius: 2px;
-   }
-
-   .recommendation-box:last-child {
-      margin: 0;
-   }
-   
-   .reco-content{
-      margin: 0 2% 0 2% ;
-   }
-   .reco-type{
-      font-size: 13px;
-      font-weight: bold;
-   }
-   .reco-title{
-      font-weight: bold;
-      font-size: 15px;
-      border-bottom: 1px solid #ccc;
-      padding: 5px 0 5px 0;
-   }
-   .reco-cartype{
-      font-size: 15px;
-      font-weight: 400;
-      padding: 5px 0 0 0;
-   }
-   .reco-price{
-      font-size: 15px;
-      font-weight: 400;
-      padding: 5px 0 0 0;
-   }
-   .reco-intime{
-      font-size: 12px;
-      padding-top: 2px;
-   }
-  .title{
-  margin:30px 30px 50px 0;
-  }
-  #cartype{
-  display: inline;
-  width: 80px;
-  height: 50px;
-  background-color: #367FFF;
-  border: none;
-  border-radius:7px;
-  color: white;
-  padding: 5px;
-  text-align: center;
-  font-size:1.5em;
-  float:left;
-  margin: 15px;
-  }
-  #inOut{
-  font-color:#367FFF;
-  }
 </style>
 </head>
 <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
@@ -132,7 +46,14 @@
                      value="${p_detail.parking_title}" />
                   <button type="button" id="cartype" disbled>${p_detail.parking_cartype}</button>
                   <h1 style="font-size:2em; font-weight:500;display:inline">${p_detail.parking_title}</h1>
-                  <p><span id="inOut">${p_detail.parking_intime} - ${p_detail.parking_outtime}</span></p>
+                  <p><span id="inOut"></span> <button type="button" id="type" disbled>${p_detail.parking_type}</button></p>
+                  <script>
+                  var ind = "${p_detail.parking_intime}";
+                  var outd = "${p_detail.parking_outtime}";
+                  ind = ind.substr(0,16);
+                  outd = outd.substr(11,5);
+                  $("#inOut").text(ind+" ㅡ "+outd);
+                  </script>
       </div>
       <div class="segment pk-pic"
          style="background-image: url(./images/${p_detail.parking_pic});">
@@ -160,23 +81,32 @@
                         style="font-size: small; font-weight: 300;"> 원/일</span>
                   </div>
                   <div class="pk-pickday">
-                     <input type="text" value="시작날짜" id="sdate" disabled/><br>
-                     <input type="button" class="hasTimepicker" value="시작시간" id="stime"/>
-                     <input type="button" class="hasTimepicker" value="종료시간" id="etime"/>
+                     <input type="text" value="시작날짜" id="sdate" style="background-color:transparent;border:none;" disabled><br>
+                     <input type="button" class="hasTimepicker timepicker" value="시작시간" id="stime"/>
+                     <input type="button" class="hasTimepicker timepicker" value="종료시간" id="etime"/>
 
                      <input type="hidden" name="rsv_intime" value="" id="hidden_sdate" />
                      <input type="hidden" name="rsv_outtime" value="" id="hidden_edate" />
 
+							<!-- 오너 아이디 - 은지 -->
+							<input type="hidden" name="parkingVO.owner_id" value="${p_detail.owner_id}"/>
                      <script>
+                     
+                    
+         <fmt:formatDate var="rsvOutDt" value="${booked[0].rsvVO.rsv_outtime}" pattern="YYYY-MM-dd"/>
+                     
          var inDate = "${p_detail.parking_intime}";
          inDate = inDate.substr(0,10);
+         var outDate = "${p_detail.parking_outtime}";
+         var outTime = outDate.substr(11,5); 
+         
          $("#sdate").attr("value", inDate);
          
-                  $("#stime").timepicker({
+            $("#stime").timepicker({
                          timeFormat: 'HH:mm',
                          interval: 60,
-                         minTime: '0',
-                         maxTime: '23:00',
+                         minTime: '${rsvOutDt}',
+                         maxTime: outTime,
                          defaultTime: '11',
                          startTime: '0:00am',
                          dynamic: false,
@@ -189,8 +119,8 @@
                      
                       timeFormat: 'HH:mm',
                       interval: 60,
-                      minTime: '0',
-                      maxTime: '23:00',
+                      minTime: '${rsvOutDt}',
+                      maxTime: outTime,
                       defaultTime: '11',
                       startTime: '0:00am',
                       dynamic: false,
@@ -200,32 +130,54 @@
                       change: call
                
                });
-
-
+					$('#stime').timepicker("option", "change", function () {
+						var from_time = $("#stime").val();
+						$('#etime').timepicker('option','minTime', from_time);//etime의 mintime 지정
+	                      if ($('#etime').val() && $('#etime').val() < from_time) {
+	                          $('#etime').timepicker('setTime', from_time);
+	                      }
+					});
+               
+             $('#etime').timepicker({timeFormat:'H:i','minTime':'06:00','maxTime':'23:00'});//etime 시간 기본 설정
+			
+var isvalid = false; //예외처리용 
                   function call(){
                      var time1 = document.getElementById("stime").value;
                      var time2 = document.getElementById("etime").value;
-                     var d1 = document.getElementById("sdate").value;
+                     var d1 ="${p_detail.parking_intime}";
+                     var date = d1.substr(0,11);
                      var s = time1+":00";
                      var e = time2+":00";
                     
-                     var t1 = new Date("2019-09-03 "+s);
-                     var t2 = new Date("2019-09-03 "+e);
+                     var t1 = new Date(date+s);
+                     var t2 = new Date(date+e);
 
                      var interval = t2-t1;
-                     // 간격 의 값은 8612000(밀리초) 가 된다.
-
+                     
+                     if(time1&&time2){
+                     //0시간 차이나는 경우 예외처리
+                     if(interval =="0"){ 
+                    	 alert("최소 1시간 이상 예약해주세요");
+                    	 isvalid=false;
+                     }
+                     else{
+						isvalid = true;
                      var HH = Math.floor((interval % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)); //시
                      
                      var totalPrice = ${p_detail.parking_price} * HH;
+                   
                      $("#hours").text(HH);
                      $('#won').text(totalPrice);
-                     $('#hidden_price').attr('value',totalPrice)
-                     //$('#hidden_sdate').attr('value',sdd);
-                    // $('#hidden_edate').attr('value',edd);
-                     
+                     $('#hidden_price').attr('value',totalPrice);
+                    $('#hidden_sdate').attr('value',t1);
+                     $('#hidden_edate').attr('value',t2);
+                     }
+                     }else{// 하나만 선택한 경우 예외처리
+                    	 isvalid = false;
+                     	("#won").text("0");
+                     }
                   }
-                  
+
                     </script>
                   </div>
                   <div class="pk-total-price">
@@ -240,13 +192,17 @@
                            <input type="button" value="주차장 예약하기" id="pk-book-btn"
                               onclick="alert('로그인이 필요한 기능입니다.');location.href='<%=request.getContextPath()%>/user/userLogin.jsp' " />
                         </c:when>
-                        <c:when test="${!empty sessionScope.userId and p_detail.owner_id ne userId}">
+                        <c:when test="${!empty sessionScope.userId and p_detail.owner_id ne userId and isvalid}">
                            <input type="submit" value="주차장 예약하기" id="pk-book-btn"
                               onclick="send();" />
                         </c:when>
                         <c:when test="${!empty sessionScope.userId and p_detail.owner_id eq userId}">
                            <input type="button" value="주차장 예약하기" id="pk-book-btn"
-                              onclick="alert('자기 자신의 주차장은 예약할 수 없습니다');" />
+                              onclick="alert('자기 자신의 주차장은 예약할 수 없습니다');location.href=#"/>
+                        </c:when>
+                        <c:when test="${isvalid ne true}">
+                           <input type="submit" value="주차장 예약하기" id="pk-book-btn"
+                              onclick="alert('유효하지 않은 시간입니다. 다시 선택해주세요');location.href=#"/>
                         </c:when>
                      </c:choose>
                      <!-- parking의 owner_id 가 세션user와 동일한 경우 예외처리 -->
@@ -301,8 +257,17 @@
       </div>
       <div class="segment pk-review">
          <h1 class="pk-subject">후기</h1>
+         <c:choose>
+         <c:when test="${totalReview[0].avrg eq null}">
+         <div id="noRsv">
+         	<p id="noRsv_text">주차장의 첫 번째 후기를 남겨주세요😎</p>
+         </div>
+         </c:when>
+         <c:when test="${totalReview[0].avrg ne null}">
          <table id="rv-table" width=100%>
             <thead>
+            
+            
                <tr>
                   <th style="text-align: right;">별점 <span
                      style="font-size: 25pt; font-weight: 500;">${totalReview[0].avrg}</span></th>
@@ -368,9 +333,10 @@
                      </td>
                   </tr>
                </c:forEach>
-
             </tbody>
          </table>
+         </c:when>
+         </c:choose>
          <script>
             $(document).ready(function(){
                paging(${totalReview[0].total},1);
@@ -435,12 +401,20 @@
                mm = date.getMonth()+1;
                dd = date.getDate();
                  var txt = '<tr><td><table class="rv-indiv">';
-
                   txt+=  '<tr><td class="rv-pic"><img src="images/profile/'+element.userVO.user_pic+'" /></td>';
                   txt+= '<td>'+element.userVO.user_nickname+'<br>'+yy+'년 '+mm+'월 '+dd+'일</td>';
-                  txt+= '<tr><td colspan="2">'+element.review_rating+"<br>"+element.review_content+'</td></tr>';
-                  txt+='</td> </tr></table> </td></tr>';
-
+                  txt+= '<tr><td colspan="2">';
+                  txt+='<p class="mp-rvl-p mp-rvl-rate" data-rate="${'+element.review_rating+'}">';
+                  txt+='<input type="radio" name="review_rating" value="1" class="rtng"<c:if test="'+element.review_rating+' eq \"1\"}">checked </c:if> id="rtng1" title="1"><label for="rtng1"class="starLabel"><i class="fas fa-star"></i></label>'; 
+                  txt+='<input type="radio" name="review_rating" value="2" class="rtng" <c:if test="'+element.review_rating+' eq \"2\"}">checked </c:if> id="rtng2" title="2"><label for="rtng2"class="starLabel"><i class="fas fa-star"></i></label>'; 
+                  txt+='<input type="radio" name="review_rating" value="3" class="rtng" <c:if test="'+element.review_rating+' eq \"3\"}">checked </c:if> id="rtng3" title="3"><label for="rtng3" class="starLabel"><i class="fas fa-star"></i></label>' ;
+                  txt+='<input type="radio" name="review_rating" value="4" class="rtng" <c:if test="'+element.review_rating+' eq \"4\"}">checked </c:if> id="rtng4" title="4"><label for="rtng4" class="starLabel"><i class="fas fa-star"></i></label>' ;
+                  txt+='<input type="radio" name="review_rating" value="5" class="rtng" <c:if test="'+element.review_rating+' eq \"5\"}">checked </c:if> id="rtng5" title="5"><label for="rtng5" class="starLabel"><i class="fas fa-star"></i></label></p>';
+txt+="<script> $(document).ready(function(){var rating = $('.mp-rvl-rate'); rating.each(function(){var targetScore = $(this).attr('data-rate');console.log(targetScore);";
+ txt+="$(this).find('input:nth-child(-n+' + targetScore*2 +') + label i').css({color:'#e4c61c'});";
+  txt+=  "$(this).find(\'input:nth-child(n+\' + targetScore*2 +\') + label i\').css({color:\'#ccc\'});});});</script";
+  txt+="><br>"+element.review_content+"</td></tr>"; 
+  txt+="</td> </tr></table> </td></tr>";
 
                   list.append(txt);
                   
@@ -466,9 +440,40 @@
          </nav>
       </div>
    </div>
-   <div class="segment pk-recommendation">
+   <div class="pk-recommendation">
       <h1 class="pk-subject">이 주차장도 추천해요 !</h1>
       <div id="recommendation">
+      		<c:forEach items="${recomm}" var= "rcm">
+			<a href="searchParkingDetail.do?parking_id=${rcm.parking_id}">
+			<table class="recommendation-box">
+			<tr>
+               <td><img class='reco-img' src='images/${rcm.parking_pic}'/></td>
+            </tr>
+            <tr>
+               <td id="recommendation-title" class="reco-title">${rcm.parking_title}</td>
+            </tr>
+            <tr>
+               <td>${rcm.parking_location}</td>
+            </tr>
+               <tr>
+               <td class="reco-type">${rcm.parking_type}</td>
+            </tr>
+            
+             <tr>
+               <td class="reco-cartype">${rcm.parking_cartype}</td>
+            </tr>
+            <tr>
+               <td class="reco-intime"> ${rcm.parking_intime}</td>
+            </tr>
+             <tr>
+               <td class="reco-content">${rcm.parking_content}</td>
+            </tr>
+            <tr>
+               <td class="reco-price">1일 ${rcm.parking_price} 원</td>
+            </tr>
+            <!-- 찜 기능 작업중에 있습니다 -->
+           </table></a>
+		</c:forEach>
       </div>
       
       

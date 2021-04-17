@@ -37,7 +37,7 @@ function sortUrl(){  //접속해있는 url에따라서 각각 알림의 타입�
         var noticeParkingType = info.parkingVO.parking_type;
         notType = "review";
         notMessage = noticeParkingTitle  + "글에 새로운 리뷰가 등록되었습니다.";
-        sendMessage = " [ " + noticeParkingId + "] "+ noticeParkingTitle + "예약건에 관한 리뷰가 등록되었습니다";
+        sendMessage = noticeParkingTitle + "예약건에 관한 리뷰가 등록되었습니다";
         notUrl = "searchParkingDetail.do?parking_id=" + noticeParkingId; //리뷰볼 수 있는 글페이지로 이동
         console.log(notUrl+ "**");
     }else if(now.includes("notice")){
@@ -100,7 +100,7 @@ function chatNoticeModal(data){
     modal[0].setAttribute("style", "display : block");
     
     const content = document.getElementsByClassName("modal-body");
-    content[0].innerHTML = "<i class='fas fa-envelope-square'></i>" + " " + data.not_message + " " + "<i class='fas fa-envelope-square'></i>" + "</br>" 
+    content[0].innerHTML = "<span id='chatNoticeMessage'><i class='fas fa-envelope-square'></i>" +  data.not_message  + "<i class='fas fa-envelope-square'></i>" + " </span>" + "</br>" 
     					   +"상담하기로 이동하시겠습니까?";
     const modalYes = document.getElementById("modalYes");
     modalYes.onclick = function (){
