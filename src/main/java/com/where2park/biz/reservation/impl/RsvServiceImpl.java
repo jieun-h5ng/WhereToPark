@@ -53,6 +53,12 @@ public class RsvServiceImpl implements RsvService {
 			System.out.println("====>ChatServiceImpl.selectNotReadMessage 실행");
 			return rsvDAO.selectNotReadMessage(vo);
 		}
+		
+		//나예
+		@Override
+		public List<RsvVO> getRsvList_subscribe(RsvVO vo) {
+			return rsvDAO.getRsvList_subscribe(vo);
+		}
 
 //		public List<RsvVO> getReviewOnParking(ParkingVO vo) {
 //			return rsvDAO.getReviewOnParking(vo);

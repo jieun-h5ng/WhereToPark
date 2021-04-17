@@ -8,19 +8,21 @@
       <![CDATA[
          SELECT *
          FROM wishlist, parkingboard
-         WHERE wishlist.parking_id = wishlist.parking_id
+         WHERE wishlist.parking_id = parkingboard.parking_id
          AND user_id = #{user_id}
       ]]>
    </select>
    <resultMap id="wishInfo" type="wishList">
       <id property="wish_id" column="wish_id"/>
       <result property="user_id" column="user_id"/>
+      <result property="parking_id" column="parking_id"/>
       <collection property="parkingVO" column="parking_id" resultMap="parkingboardInfo"/>
    </resultMap>
    <resultMap id="parkingboardInfo" type="parking">
-      <result property="parking_id" column="parking_id"/>
+      <id property="parking_id" column="parking_id"/>
       <result property="parking_location" column="parking_location"/>
       <result property="parking_title" column="parking_title"/>
+      <result property="parking_pic" column="parking_pic"/>
    </resultMap>
    
    <insert id="insertWish" parameterType="wishList">

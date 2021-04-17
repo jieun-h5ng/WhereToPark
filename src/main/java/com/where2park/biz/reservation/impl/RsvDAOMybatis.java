@@ -48,6 +48,13 @@ public class RsvDAOMybatis {
 		return mybatis.selectOne("ChatDAO.selectNotReadMessage", vo);
 	}
 	
+	//나예
+	public List<RsvVO> getRsvList_subscribe(RsvVO vo) {
+		System.out.println("===>Mybatis로 getRsvList_subscribe 기능 구현");
+		return mybatis.selectList("RsvDAO.getRsvList_subscribe", vo);
+	}
+	
+	
 //	public List<RsvVO> getReviewOnParking(ParkingVO vo) {
 //		System.out.println("===>Mybatis로 getReviewOnParking 기능 구현");
 //		return mybatis.selectList("RsvDAO.getReviewOnParking", vo);

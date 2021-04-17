@@ -25,55 +25,127 @@
             <!-- 각자의 파트는 이곳에서부터 작업하실 수 있습니다. -->
             <div class="cntnr-top-margin"></div>
             <c:forEach var="wishList" items="${wishList}" varStatus="wishListStatus">
-               <div class="MpArm-arti" id="MpArmArtiNo${wishListStatus.index} no${wishList.wish_id}" value="${wishListStatus.index}">
-                  <form>
+               <div class="MpArm-arti wish-arti" id="MpArmArtiNo${wishListStatus.index} no${wishList.wish_id}" value="${wishListStatus.index}">
+                  <div class="wish-place-pic" style="
+                  background:url('<%=request.getContextPath()%>/images/${wishList.parkingVO.parking_pic}') no-repeat;
+                  background-size:cover;">
+                     ${wishList.parkingVO.parking_pic}
+                  <form class="form-heart">
+                     <input type="hidden" name="prking_id" value="${wishList.parking_id}" id=hdprknid${wishListStatus.index}></input>
                      <input type="checkbox" name="wish_id" value="${wishList.wish_id}" id="chckheart"/>
-                     <label for="chckheart" class="heartLabel" onclick="deleteAjax(${wishList.wish_id})"><i class="fas fa-heart"></i></label>
+                     <label for="chckheart" class="heartLabel" onclick="deleteAjaxfront(${wishListStatus.index}, hdprknid${wishListStatus.index})"><i class="fas fa-heart"></i></label>
+                     <%-- <label for="chckheart" class="heartLabel" onclick="deleteAjaxfront(${wishListStatus.index}, hdprknid)"><i class="fas fa-heart"></i></label> --%>
                      <!-- <label for="chckheart" class="heartLabel"><i class="fas fa-heart"></i></label> -->
                   </form>
-                  <p>
-                     ${wishListStatus.current} | ${wishListStatus.index}</br>
-                     | user_id=${wishList.user_id} | parking_id=${wishList.parkingVO.parking_id} | wish_id=${wishList.wish_id}
-                  </p>
-                  <p>
-                      ${wishList.parkingVO.parking_location}
-                  </p>
-                  <p>
-                      ${wishList.parkingVO.parking_title}
-                  </p>
+                  </div>
+                  <div class="wish-place-text-info">
+                     <%-- <p>
+                        ${wishListStatus.current} | ${wishListStatus.index}</br>
+                        | user_id=${wishList.user_id} | parking_id=${wishList.parkingVO.parking_id} | wish_id=${wishList.wish_id}
+                     </p> --%>
+                     <p>
+                         ${wishList.parkingVO.parking_location}
+                     </p>
+                     <p>
+                         ${wishList.parkingVO.parking_title}
+                     </p>
+                  </div>
                </div>
             </c:forEach>
             <!-- 각자의 파트는 이곳까지 작업해주시면 되겠습니다. -->
          </div>
+      <div class="cntnr-top-margin"></div>
       <jsp:include page="../tail.jsp"></jsp:include>
       <script>
+         var iconHeart = document.getElementsByClassName('fa-heart');
+         
+         
+         function deleteAjaxfront(num, hdprknid){
+            console.log(num + "num");
+            var no = num;
+            var wishId = $('#chckheart').val();   // = wish_id
+            var userId = ${userId};
+            var parkingId = hdprknid.value;
+            /* var getparkingId = hdprknid.val();
+            var cutting = hdprknid.substring(0,7);
+            var parkingId = cutting; */
+            /* var artiId = ('#'+hdprknid); */
+            
+            console.log(wishId);
+            console.log(userId);
+            /* console.log(hdprkinid); */
+            
+            if(confirm("찜 목록에서 삭제하시겠습니까?")){
+               var xhr = new XMLHttpRequest();
+               xhr.onreadystatechange = function(){
+                  if(xhr.readyState === 4 && xhr.status === 200){
+                     var artiWish = document.getElementsByClassName('wish-arti');
+                     console.log(artiWish);
+                     artiWish[no].setAttribute("style", "display:none;");
+                     console.log([no]);
+                     
+                  }
+               }
+               xhr.open('GET', 'delete_wish.do?parking_id='+parkingId+'&user_id='+userId);
+               xhr.send(wishId);
+            }
+         }
+         
+      /*    function deleteAjax(d){
+            
+            
+               
+               
+                  
+                  
+                     
+                     console.log(d);         // parking_id
+                     var artiId = '#no'+d;
+                     var indexNum = $('.MpArm-arti').val();
+                     console.log(artiId);   // parking_id
+                     console.log(indexNum);
+                     
+                     
+                     /* document.querySelector('.fa-heart').parent.parent.remove(); */
+                     /* $(artiId).children('.fa-heart').css('color', '#cccccc');
+                     $(artiId).remove(); */
+                  /* 
+               
+               
+            
+         }; */
+      </script>
+      <!-- <script>
          /* 삭제는 각 클릭 시 마다 먹지만 스타일이 적용 안됨 */
          var wishId = $('#chckheart').val();   // = wish_id
+         var userId = ${userId};
          
-         function deleteAjax(w){
+         function deleteAjax(d){
             
             if(confirm("찜 목록에서 삭제하시겠습니까?")){
                
                var xhr = new XMLHttpRequest();
-               xhr.open('GET', 'delete_wish.do?wish_id='+w);
+               xhr.open('GET', 'delete_wish.do?parking_id='+d+'&user_id='+userId);
                xhr.onreadystatechange = function(){
                   
                   if(xhr.readyState === 4 && xhr.status === 200){
                      
-                     console.log(w);
-                     var artiId = '#no'+w;
-                     var indexNum = ('.MpArm-arti').val();
+                     console.log(d);         // parking_id
+                     var artiId = '#no'+d;
+                     var indexNum = $('.MpArm-arti').val();
+                     console.log(artiId);   // parking_id
+                     console.log(indexNum);
                      
-                     console.log(artiId);
                      document.querySelector('.fa-heart').style.color = '#cccccc';
-                     $(artiId).children('.fa-heart').css('color', '#cccccc');
-                     $(artiId).remove();
+                     /* document.querySelector('.fa-heart').parent.parent.remove(); */
+                     /* $(artiId).children('.fa-heart').css('color', '#cccccc');
+                     $(artiId).remove(); */
                   }
                }
                xhr.send();
             }
          };
-      </script>
+      </script> -->
       <!-- <script>
          /* 삭제는 각 클릭 시 마다 먹지만 스타일이 적용 안됨 */
          var wishId = $('#chckheart').val();   // = wish_id

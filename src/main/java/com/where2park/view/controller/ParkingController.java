@@ -76,7 +76,7 @@ public class ParkingController {
 			int id = (int)session.getAttribute("userId");
 			vo.setOwner_id(id);
 			model.addAttribute("parkingList", parkingService.getParkingList(vo));
-			System.out.println(vo);
+			System.out.println(vo + "가 무엇");
 			return "parking/getParkingList.jsp";
 		
 	}

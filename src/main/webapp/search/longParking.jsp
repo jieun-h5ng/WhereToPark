@@ -233,7 +233,6 @@
 			<div class="search-result">
 
 				<div class="search-result-list">
-				
 					<c:forEach var="parking" items="${LP_List}" varStatus="wishListStatus">
 
                      <table class="parking-lot" border="1">
@@ -242,48 +241,55 @@
                         </tr>
                      
                         <tr>
-                           <td><a href="searchParkingDetail.do?parking_id=${parking.parking_id}">${parking.parking_title}</a></td>
+                           <td><a href="searchParkingDetail.do?parking_id=${parking.parking_id}">제목: ${parking.parking_title}</a></td>
                         </tr>
                         <tr>
-                           <td><a href="searchParkingDetail.do?parking_id=${parking.parking_id}">${parking.parking_location}</a></td>
+                           <td><a href="searchParkingDetail.do?parking_id=${parking.parking_id}">위치: ${parking.parking_location}</a></td>
                         </tr>
                            <tr>
-                           <td><a href="searchParkingDetail.do?parking_id=${parking.parking_id}">${parking.parking_type}</a></td>
+                           <td><a href="searchParkingDetail.do?parking_id=${parking.parking_id}">유형: ${parking.parking_type}</a></td>
                         </tr>
                         <tr>
-                           <td><a href="searchParkingDetail.do?parking_id=${parking.parking_id}">예약가능: ${parking.parking_intime}</a></td>
+                           <td><a href="searchParkingDetail.do?parking_id=${parking.parking_id}">시간: ${parking.parking_intime}</a></td>
                         </tr>
                         <tr>
-                           <td><a href="searchParkingDetail.do?parking_id=${parking.parking_id}">1일 ${parking.parking_price} 원</a></td>
+                           <td><a href="searchParkingDetail.do?parking_id=${parking.parking_id}">가격: ${parking.parking_price}</a></td>
                         </tr>
                         <!-- 찜 기능 작업중에 있습니다 -->
                         <tr>
                            
                               <td>
                                  <form>
-                                    <input type="checkbox" name="parking_id" value="${parking.parking_id}" id=parkingWish${wishListStatus.index}></input>
+                                    <input type="checkbox" name="parking_id" value="${parking.parking_id}" id=parkingWish${wishListStatus.index} class="wish-checkbox"></input>
                                     <label for="chckheart" class="heartLabel" onclick="wishList(${wishListStatus.index}, parkingWish${wishListStatus.index} );"><i class="fas fa-heart"></i></label>
+                                    ${parking.wishVO.wish_id}
                                  </form>
                               </td>
                         </tr>
                      </table>
                   
                </c:forEach>
-
                <script>
-                  var cnt = 0;
+                  var click = 0;
+                  var index = 0;
                   //insert WishList
                   function wishList (num, parkingWish){
                      var parkingId = parkingWish.value;
                      
-                     if(cnt == 0){
+                     if(index != num){
+                        click = 0;
+                     }
+                     
+                     index = num;
+                     
+                     if(click == 0){
                         console.log("찜될 주차장 : " + parkingId);
                         var xhr = new XMLHttpRequest();
                         xhr.onreadystatechange = function(){
                            if(xhr.readyState === 4 && xhr.status === 200){
                               var heart = document.getElementsByClassName("fa-heart");
                               heart[num].setAttribute("style", "color : red;");
-                              cnt++;
+                              click++;
                               console.log("찜될 주차장  cnt: " + cnt);
                            }
                         }
@@ -291,14 +297,14 @@
                         xhr.send(parkingId);
                      }
                      
-                     if(cnt == 1){
+                     if(click == 1){
                         var xhr = new XMLHttpRequest();
                         console.log("찜삭제될 주차장 : " + parkingId);
                         xhr.onreadystatechange = function(){
                            if(xhr.readyState === 4 && xhr.status === 200){
                               var heart = document.getElementsByClassName("fa-heart");
                                  heart[num].setAttribute("style", "color : black;");
-                                 cnt--;
+                                 click--;
                                  console.log("찜삭제된 주차장  cnt: " + cnt);
                               }
                            }
@@ -306,9 +312,10 @@
                            xhr.send(parkingId);
                      } 
                   }
-
+                  
                </script>
                <!-- 여기까지 찜 기능 작업중에 있습니다 -->
+					
 				</div>
 
 			</div>

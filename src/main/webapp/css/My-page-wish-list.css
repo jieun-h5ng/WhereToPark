@@ -62,18 +62,45 @@ body{
     padding:20px 8%;
     overflow:hidden;
 }
-
+#cntnr .wish-arti{
+   width:29%;
+   float:left;
+   margin:20px 0 0 2%;
+   padding:0;
+   
+}
+#cntnr .MpArm-arti .form-heart{
+   float:right;
+}
+#cntnr .MpArm-arti .form-heart #chckheart{
+   display:none;
+}
 #cntnr .MpArm-arti i.fa-heart{
-    width:10%;
-    height:100%;
+    /* width:10%;
+    height:100%; */
     /* background:#eee; */
-    font-size:4em;
-    line-height:150px;
+    font-size:3em;
+    line-height:1em;
     /* vertical-align:middle; */
     color:#d96b6b;
     /* color:#999; */
     float:left;
     text-align:center;
+    margin:20px;
+}
+#cntnr .MpArm-arti .wish-place-pic{
+   width:100%;
+   height:200px;
+   /* float:right; */
+   /* background-size:cover; */
+   /* 의미 없음, 적용 안됨.*/
+}
+#cntnr .MpArm-arti .wish-place-text-info{
+   width:100%;
+   height:100%;
+   box-sizing:border-box;
+   padding:10px 10px 15px 10px;
+   overflow:hidden;
 }
 #cntnr .MpArm-arti p{
     width:90%;
@@ -83,10 +110,11 @@ body{
     font-size:0.95em;
     line-height:2em;
     margin:10px 0 0 0;
-    padding:0 0 0 50px;
-}
+    padding:0 0 0 10px;
+} 
 
 #ftr{
+   clear:both;
     width:100%;
     min-height:200px;
     height:auto;

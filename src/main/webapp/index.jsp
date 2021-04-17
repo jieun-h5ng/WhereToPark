@@ -406,7 +406,6 @@
 						console.log("온도: " + json_obj.temp);
 						console.log("설명: " + json_obj.text);
 						
-
 						
 						
 						$('#weather_address').html(json_obj.local);
@@ -430,8 +429,8 @@
 				});
 			}
 			
-			//10초마다 호출
-			setInterval(reqWeather, 1000*10);
+			//5분마다 호출
+			setInterval(reqWeather, 1000*10*30);
 			
 			
 		})
@@ -482,12 +481,12 @@
    			<div id="weather">
    				<span id='weather_text'></span>
 				<div class="image_back">
-        			<span id='weather_temp' style="font-size:50px; color:#fff;"> Unknown  </span> 
+        			<span id='weather_temp' style="font-size:50px; color:#fff;">   </span> 
         					<img id='weather_img' src="">
         					 
         			 <br/>
         		</div>
-        		<span id='weather_address' style="font-size:1.2em; color:#fff;"> Unknown </span>
+        		<span id='weather_address' style="font-size:1.2em; color:#fff;">  </span>
    				
    				
   			 <!-- 날씨 크롤링 
