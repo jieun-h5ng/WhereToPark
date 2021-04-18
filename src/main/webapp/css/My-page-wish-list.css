@@ -14,7 +14,7 @@ body{
     height:auto;
     /* body에 스타일링을 지양해주십시오. */
 }
-#hdr{
+/* #hdr{
     width:100%;
     min-height:150px;
     height:auto;
@@ -26,7 +26,7 @@ body{
 #hdr .hdr-logo{
     width:150px;
     height:150px;
-    background:url("../img/logo.png") no-repeat;
+    background:url(../LOGO.png") no-repeat;
     background-size:cover;
     float:left;
 }
@@ -40,53 +40,70 @@ body{
     float:right;
     padding:0px 20px;
     line-height:150px;
-}
+} */
 #cntnr{
     clear:both;
     width:60%;
     min-height:800px;
     height:auto;
     margin:0 auto;
+    padding:0 0 40px 0;
 }
 #cntnr .cntnr-top-margin{
+	clear:both;
     width:100%;
     height:40px;
 }
 #cntnr .MpArm-arti{
     width:100%;
-    min-height:200px;
-    height:auto;
-    border:1px solid #ccc;
+    /* min-height:200px;
+    height:auto; */
+    height:320px;
+    border:0px solid #ccc;
+    box-shadow:0.2px 0.2px 3px 0.2px rgba(0, 0, 0, 0.2);
     box-sizing:border-box;
     margin:0 0 20px 0;
     padding:20px 8%;
     overflow:hidden;
+    text-overflow:ellipsis;
 }
 #cntnr .wish-arti{
-   width:29%;
+   width:30%;
    float:left;
-   margin:20px 0 0 2%;
+   margin:20px 0 0 3%;
    padding:0;
    
 }
 #cntnr .MpArm-arti .form-heart{
    float:right;
+   cusor:pointer;
 }
 #cntnr .MpArm-arti .form-heart #chckheart{
    display:none;
+   cusor:pointer;
+}
+#cntnr .MpArm-arti .heartLabel{
+	cusor:pointer;
 }
 #cntnr .MpArm-arti i.fa-heart{
     /* width:10%;
     height:100%; */
     /* background:#eee; */
-    font-size:3em;
+    font-size:1.8em;
     line-height:1em;
     /* vertical-align:middle; */
-    color:#d96b6b;
+    color:#d85656;
+    text-shadow:0.2px 0.2px 2px rgba(0, 0, 0, 0.4);
     /* color:#999; */
     float:left;
     text-align:center;
     margin:20px;
+    /* filter:drop-shadow(1px 1px 10px 1px black); */
+    cusor:pointer;
+    transition: all .3s ease;
+}
+#cntnr .MpArm-arti i.fa-heart:hover{
+	color:#e58686;
 }
 #cntnr .MpArm-arti .wish-place-pic{
    width:100%;
@@ -102,17 +119,21 @@ body{
    padding:10px 10px 15px 10px;
    overflow:hidden;
 }
-#cntnr .MpArm-arti p{
+#cntnr .MpArm-arti .wish-place-text-info p{
     width:90%;
     float:left;
     /* background:#ddd; */
     box-sizing:border-box;
-    font-size:0.95em;
-    line-height:2em;
+    font-size:0.88em;
+    line-height:1.5em;
     margin:10px 0 0 0;
     padding:0 0 0 10px;
+    text-overflow:ellipsis;
 } 
-
+#cntnr .MpArm-arti .wish-place-text-info .wish-place-title{
+	font-size:1.1em;
+	font-weight:400;
+}
 #ftr{
    clear:both;
     width:100%;

@@ -5,7 +5,7 @@
 <html>
 <head>
    <meta charset="UTF-8">
-   
+	<link rel="shortcut icon" href="<%=request.getContextPath()%>/favicon.ico">
    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/415f6f6023.js" crossorigin="anonymous"></script>
     <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-1.12.4.min.js"></script>
@@ -56,6 +56,14 @@
             line-height:150px;
             /* position:relative; */
         }
+        #hdr>#nav>ul>li>a{
+            transition: all .3s ease;
+            font-weight:400;
+            font-size:1.1em;
+        }
+        #hdr>#nav>ul>li:hover>a{
+        	color:#367fff;
+        }
         #hdr #nav ul #nav-mp{
                
         }
@@ -71,13 +79,15 @@
            
         }
         #hdr #nav ul #nav-mp ul li{
+        	font-size:0.95em;
            clear:both;
            line-height:70px;
            width:140px;
            text-align:center;
+           transition: all .3s ease;
         }
         #hdr #nav ul #nav-mp ul li:hover{
-           background:#f9f9f9;
+           background:#e9e9e9;
         }
         #cntnr{
             clear:both;

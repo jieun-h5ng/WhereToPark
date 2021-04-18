@@ -401,20 +401,20 @@ var isvalid = false; //예외처리용
                mm = date.getMonth()+1;
                dd = date.getDate();
                  var txt = '<tr><td><table class="rv-indiv">';
-                  txt+=  '<tr><td class="rv-pic"><img src="images/profile/'+element.userVO.user_pic+'" /></td>';
-                  txt+= '<td>'+element.userVO.user_nickname+'<br>'+yy+'년 '+mm+'월 '+dd+'일</td>';
-                  txt+= '<tr><td colspan="2">';
-                  txt+='<p class="mp-rvl-p mp-rvl-rate" data-rate="${'+element.review_rating+'}">';
-                  txt+='<input type="radio" name="review_rating" value="1" class="rtng"<c:if test="'+element.review_rating+' eq \"1\"}">checked </c:if> id="rtng1" title="1"><label for="rtng1"class="starLabel"><i class="fas fa-star"></i></label>'; 
-                  txt+='<input type="radio" name="review_rating" value="2" class="rtng" <c:if test="'+element.review_rating+' eq \"2\"}">checked </c:if> id="rtng2" title="2"><label for="rtng2"class="starLabel"><i class="fas fa-star"></i></label>'; 
-                  txt+='<input type="radio" name="review_rating" value="3" class="rtng" <c:if test="'+element.review_rating+' eq \"3\"}">checked </c:if> id="rtng3" title="3"><label for="rtng3" class="starLabel"><i class="fas fa-star"></i></label>' ;
-                  txt+='<input type="radio" name="review_rating" value="4" class="rtng" <c:if test="'+element.review_rating+' eq \"4\"}">checked </c:if> id="rtng4" title="4"><label for="rtng4" class="starLabel"><i class="fas fa-star"></i></label>' ;
-                  txt+='<input type="radio" name="review_rating" value="5" class="rtng" <c:if test="'+element.review_rating+' eq \"5\"}">checked </c:if> id="rtng5" title="5"><label for="rtng5" class="starLabel"><i class="fas fa-star"></i></label></p>';
+                  txt+='<tr><td class="rv-pic"><img src="images/profile/'+element.userVO.user_pic+'" /></td>';
+                  txt+='<td>'+element.userVO.user_nickname+'<br>'+yy+'년 '+mm+'월 '+dd+'일</td>';
+                  txt+='<tr><td colspan="2">';
+                  txt+='<p class="mp-rvl-p mp-rvl-rate rating" data-rate="${'+element.review_rating+'}">';
+                  txt+='<input type="radio" name="review_rating" value="5" class="rtng" <c:if test="'+element.review_rating+' eq \"1\"}">checked </c:if> id="rating_1_star5" title="1"><label for="rtng1" class="starLabel"><i class="fas fa-star"></i></label>'; 
+                  txt+='<input type="radio" name="review_rating" value="4" class="rtng" <c:if test="'+element.review_rating+' eq \"2\"}">checked </c:if> id="rating_1_star4" title="2"><label for="rtng2" class="starLabel"><i class="fas fa-star"></i></label>'; 
+                  txt+='<input type="radio" name="review_rating" value="3" class="rtng" <c:if test="'+element.review_rating+' eq \"3\"}">checked </c:if> id="rating_1_star3" title="3"><label for="rtng3" class="starLabel"><i class="fas fa-star"></i></label>';
+                  txt+='<input type="radio" name="review_rating" value="2" class="rtng" <c:if test="'+element.review_rating+' eq \"4\"}">checked </c:if> id="rating_1_star2" title="4"><label for="rtng4" class="starLabel"><i class="fas fa-star"></i></label>';
+                  txt+='<input type="radio" name="review_rating" value="1" class="rtng" <c:if test="'+element.review_rating+' eq \"5\"}">checked </c:if> id="rating_1_star1" title="5"><label for="rtng5" class="starLabel"><i class="fas fa-star"></i></label></p>';
 txt+="<script> $(document).ready(function(){var rating = $('.mp-rvl-rate'); rating.each(function(){var targetScore = $(this).attr('data-rate');console.log(targetScore);";
- txt+="$(this).find('input:nth-child(-n+' + targetScore*2 +') + label i').css({color:'#e4c61c'});";
-  txt+=  "$(this).find(\'input:nth-child(n+\' + targetScore*2 +\') + label i\').css({color:\'#ccc\'});});});</script";
-  txt+="><br>"+element.review_content+"</td></tr>"; 
-  txt+="</td> </tr></table> </td></tr>";
+txt+="$(this).find('input:nth-child(-n+' + targetScore*2 +') + label i').css({color:'#e4c61c'});";
+txt+=  "$(this).find(\'input:nth-child(n+\' + targetScore*2 +\') + label i\').css({color:\'#ccc\'});});});</script";
+txt+="><br>"+element.review_content+"</td></tr>"; 
+txt+="</td> </tr></table> </td></tr>";
 
                   list.append(txt);
                   
@@ -424,6 +424,16 @@ txt+="<script> $(document).ready(function(){var rating = $('.mp-rvl-rate'); rati
            });
        }
          </script>
+         <style>
+         	.rating {display: inline-block;}
+			.rating > input {display: none;}
+			.rating > label:before {display: inline-block;}
+			.rating > label:before i{color:#cccccc;}
+			.rating > input[type="radio"] + label {color: #999;}
+			.rating > input:checked ~ label{display: inline-block;}
+			.rating > input:checked ~ label i{color: #e4c61c;}
+			.rating > input:checked ~ label:before i{color:#cccccc;}
+         </style>
          <input type="hidden" name="page" id="pageNum" value="1" />
          <nav>
             <ul class="paging" id="pages">

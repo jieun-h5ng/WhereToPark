@@ -30,6 +30,7 @@ import com.where2park.biz.parking.impl.ParkingServiceImpl;
 import com.where2park.biz.reservation.RsvVO;
 import com.where2park.biz.reservation.impl.RsvServiceImpl;
 import com.where2park.biz.review.impl.ReviewServiceImpl;
+import com.where2park.biz.wishList.WishVO;
 
 @Controller
 public class MainSearchController {
@@ -92,7 +93,11 @@ public class MainSearchController {
 	
 	@RequestMapping(value ="/searchParkingList.do", method=RequestMethod.GET) // 겟요청
 	public String searchLongParkingList(ParkingVO vo, Model model) {
+		WishVO wish = new WishVO();
+		wish.setUser_id((int)session.getAttribute("userId"));
+		vo.setWishVO(wish);
 		model.addAttribute("LP_List", parkingService.getAllParkingList(vo));
+		System.out.println("searchPrkingList.do 의 Controller단 vo : "+ parkingService.getAllParkingList(vo));
 		return "search/longParking.jsp"; // 다시새로나오는 중.. ajax필요
 	}
 
@@ -124,6 +129,9 @@ public class MainSearchController {
 	//단기주차장 검색 
 	@RequestMapping(value ="/searchShortParkingList.do", method=RequestMethod.GET) // 겟요청
 	public String searchShortParkingList(ParkingVO vo, Model model) {
+		WishVO wish = new WishVO();
+		wish.setUser_id((int)session.getAttribute("userId"));
+		vo.setWishVO(wish);
 		model.addAttribute("SP_List", parkingService.getAllShortParkingList(vo));
 		return "search/shortParking.jsp"; 
 	}

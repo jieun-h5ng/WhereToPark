@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ include file="../header.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,21 +19,30 @@
 
 	<meta charset="UTF-8">
 	<title>어따세워? 리뷰 수정</title>
+	
+	<style>
+		input:focus{
+			border:0px solid #fff !important;
+		}
+		input:active{
+			border:0px solid #fff !important;
+		}
+		input:focus {outline:none !important;}
+	</style>
 </head>
 <body>
-	<jsp:include page="../header.jsp"></jsp:include>
 	<div id="cntnr">
         <div class="cntnr-top-margin"></div>
         <p class="mp-title">리뷰 수정하기</p>
         <!-- 각자의 파트는 이곳에서부터 작업하실 수 있습니다. -->
         <form class="MpReview-arti" action="update_review.do" onsubmit="return fnSubmit()">
         	<!-- review_id 값을 확인하기 위한 임시 input -->
-     		<input name="review_id" value="${review.review_id}"/>
+     		<input type="hidden" name="review_id" value="${review.review_id}"/>
+     		<p class="mp-rev-p-info mp-rev-p-title">${review.parkingVO.parking_title}</p>
             <p class="mp-rev-p-info mp-rev-date">이용시간&nbsp;&nbsp;:&nbsp;
             	<fmt:formatDate value="${review.rsvVO.rsv_intime}" type="both" dateStyle="full"/>&nbsp;&nbsp;-&nbsp;
 				<fmt:formatDate value="${review.rsvVO.rsv_outtime}" type="both" dateStyle="full"/><br>
             </p>
-            <p class="mp-rev-p-info mp-rev-p-title">${review.parkingVO.parking_title}</p>
             <p class="mp-rev-p-info mp-rev-star-rate" data-rate="${review.review_rating}">평점&nbsp;&nbsp;${review.review_rating}
                 <input type="radio" name="review_rating" value="1" class="rtng" <c:if test="${review.review_rating eq '1'}">checked</c:if> id="rtng1" title="1"><label for="rtng1" class="starLabel"><i class="fas fa-star"></i></label>
             	<input type="radio" name="review_rating" value="2" class="rtng" <c:if test="${review.review_rating eq '2'}">checked</c:if> id="rtng2" title="2"><label for="rtng2" class="starLabel"><i class="fas fa-star"></i></label>
