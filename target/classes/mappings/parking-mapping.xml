@@ -68,17 +68,33 @@
 	</select>
 	
 	<!-- 지은 검색에서 쓸 것 -->
-	<select id="getAllParkingList" resultType="parking">
+	<select id="getAllParkingList" resultMap="parkingResult">
 		<![CDATA[
-			SELECT * 
-			FROM PARKINGBOARD
-			WHERE parking_type = '장기' 
-			AND parking_deleted = 0
+			select *
+			from parkingboard
+			left join wishlist on parkingboard.parking_id = wishlist.parking_id 
+	        AND wishlist.user_id = #{wishVO.user_id}
+	        WHERE parking_type = "장기"
+	        AND parking_deleted = 0
 			AND parking_outtime>= now()
-			ORDER BY parking_id DESC
+	        ORDER BY parkingboard.parking_id DESC
+			;
 		]]>
 	</select>
-	<select id="getAllShortParkingList" resultType="parking">
+	<select id="getAllShortParkingList" resultMap="parkingResult">
+		<![CDATA[
+			select *
+			from parkingboard
+			left join wishlist on parkingboard.parking_id = wishlist.parking_id 
+	        AND wishlist.user_id = #{wishVO.user_id}
+	        WHERE parking_type = "단기"
+	        AND parking_deleted = 0
+			AND parking_outtime>= now()
+	        ORDER BY parkingboard.parking_id DESC
+			;
+		]]>
+	</select>
+	<!-- <select id="getAllShortParkingList" resultType="parking">
 		<![CDATA[
 			SELECT * 
 			FROM PARKINGBOARD
@@ -87,7 +103,7 @@
 			AND parking_outtime>= now()
 			ORDER BY parking_id DESC 
 		]]>
-	</select>
+	</select> -->
 	<select id="getLongParkingList" resultType="parking">
 	<![CDATA[
 		SELECT * 
