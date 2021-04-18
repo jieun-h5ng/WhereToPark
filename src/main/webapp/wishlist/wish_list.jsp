@@ -29,7 +29,7 @@
                   <div class="wish-place-pic" style="
                   background:url('<%=request.getContextPath()%>/images/${wishList.parkingVO.parking_pic}') no-repeat;
                   background-size:cover;">
-                     ${wishList.parkingVO.parking_pic}
+                     <%-- ${wishList.parkingVO.parking_pic} --%>
                   <form class="form-heart">
                      <input type="hidden" name="prking_id" value="${wishList.parking_id}" id=hdprknid${wishListStatus.index}></input>
                      <input type="checkbox" name="wish_id" value="${wishList.wish_id}" id="chckheart"/>
@@ -46,7 +46,7 @@
                      <p>
                          ${wishList.parkingVO.parking_location}
                      </p>
-                     <p>
+                     <p class="wish-place-title">
                          ${wishList.parkingVO.parking_title}
                      </p>
                   </div>

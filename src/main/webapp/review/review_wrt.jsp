@@ -44,7 +44,7 @@
 				<fmt:formatDate value="${review.rsvVO.rsv_intime}" type="both" dateStyle="full"/>&nbsp;&nbsp;-&nbsp;
 				<fmt:formatDate value="${review.rsvVO.rsv_outtime}" type="both" dateStyle="full"/><br>
 			</p>
-         	<p class="mp-rev-p-info mp-rev-star-rate" date-rate="${review.review_rating}">평점&nbsp;&nbsp;${review.review_rating}
+         	<p class="mp-rev-p-info mp-rev-star-rate" date-rate="${review.review_rating}">평점&nbsp;&nbsp;
             	<input type="radio" name="review_rating" value="1" class="rtng" <c:if test="${review.review_rating eq '1'}">checked</c:if> id="rtng1" title="1"><label for="rtng1" class="starLabel"><i class="fas fa-star"></i></label>
             	<input type="radio" name="review_rating" value="2" class="rtng" <c:if test="${review.review_rating eq '2'}">checked</c:if> id="rtng2" title="2"><label for="rtng2" class="starLabel"><i class="fas fa-star"></i></label>
             	<input type="radio" name="review_rating" value="3" class="rtng" <c:if test="${review.review_rating eq '3'}">checked</c:if> id="rtng3" title="3"><label for="rtng3" class="starLabel"><i class="fas fa-star"></i></label>
