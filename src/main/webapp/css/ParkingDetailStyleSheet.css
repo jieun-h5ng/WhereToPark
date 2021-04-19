@@ -262,27 +262,25 @@ width: 29%;
     height: 350px;
     border: 1px solid #ccc;
     box-shadow: 1px 1px 3px rgb(0 0 0 / 10%);
-    margin: 0 40px 0 0;
+    margin: 0 20px;
     float: left;
-    border-collapse: collapse;
     box-sizing: border-box;
     border-radius: 5px;
     cursor: pointer;
-    /* position: absolute;*/
    }
    
    .reco-img{
       /* background-color:blue; */
       width: 100%;   
       height: 200px;
-      border-radius: 2px;
+      border-radius: 3px;
    }
 
 
    .reco-type{
-      font-size: 13px;
-      font-weight: bold;
-      padding: 5px;
+font-size: 13px;
+    font-weight: bold;
+    padding: 0px 5px;
    }
    .reco-title{
       font-weight: bold;
@@ -292,14 +290,21 @@ width: 29%;
    }
 
    }
-   .reco-price{
-      font-size: 15px;
+   #reco-in{
+      font-size: 12px;
       font-weight: 400;
-      padding: 5px 0 0 0;
+      padding: 0 5px;
+      color:  #367fff;
+   }
+      #reco-out{
+      font-size: 12px;
+      font-weight: 400;
+      padding: 0 5px;
+      color: #ff5353;
    }
    .reco-intime{
-      font-size: 12px;
-      padding-top: 2px;
+font-size: 12px;
+    padding: 0px 5px;
    }
   .title{
   margin:30px 30px 50px 0;

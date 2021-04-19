@@ -175,15 +175,16 @@ span.ui-state-default{
 font-weight:500;
 }
 
+
 #pk-pic-upload{
     width: 100%;
     height: 200px;
 } 
+
 #won{
 	font-weight:700;
 	color:#4c4c4c;
 }
-
 
 /* 찜 기능  */
 .positioning-of-heart{

@@ -1,3 +1,256 @@
+<<<<<<< HEAD
+	<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+	<%@ page import="java.util.List" %>
+	<%@ page import="com.where2park.biz.parking.ParkingVO" %>
+	<%@ page import="com.where2park.biz.parking.impl.ParkingDAOMybatis" %>
+	<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+	<%@taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
+	<%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+	<%@include file='../header.jsp' %>
+	<!DOCTYPE html>
+	<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="preconnect" href="https://fonts.gstatic.com">
+		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/SearchParkingStyleSheet.css">
+		<link
+			href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
+			rel="stylesheet">
+		<title>장기주차 검색하기</title>
+		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		<style>
+			#tt{
+			font-weight:500;
+			}
+			#coloring-red-heart{
+				color:#d96b6b;
+			}
+			#coloring-gray-heart{
+				color:#dfdfdf;
+			}
+			.coloring-red-heart{
+				color:#d96b6b;
+			}
+			.coloring-gray-heart{
+				color:#dfdfdf;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="cntnr" style="width: 100%;">
+			<div class="search-bar">
+				<div class="search-condition">
+					<input type="text" placeholder="검색어를 입력해주세요" id="keyword" />
+					<button type="button" id="search-btn">검색</button>
+
+				<script type="text/javascript"
+					src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=8bc49bed18e50dd654165896729f2ea4"></script>
+					<script>
+					var a_positions = [];
+					var isfirst = true;
+					var markers=[];
+					var infowindows=[];
+						$(document).on('click', '#search-btn', function (e) {
+								isfirst = false;
+							var form = {
+								area: $("#district").val(),
+								keyword: $("#keyword").val(),
+								sdate: $("#sdateVal").val(),
+								edate: $("#edateVal").val(),
+								price: $("#slider").val(),
+								area: $("#district").val()
+							};
+							$.ajax({
+								type: "post",
+								url: "searchParkingList.do",
+								dataType: "json",
+								contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+								data: form,
+								async: false,
+								success: function (result) {
+									//var LP_list = JSON.parse(result);
+									console.log(result);
+									var obj = result.title;
+									var list = $(".search-result-list");
+									list.empty();
+									
+									obj.forEach(element => {
+										var txt = "<a href='searchParkingDetail.do?parking_id=" + element.parking_id + "'><table class='parking-lot' border='1'>"
+
+
+										txt += "<tr><td><img id='pkpic'src='images/" + element.parking_pic + "'/></td></tr>"
+										+ "<tr><td><span id='tt'>" + element.parking_title + "</span></td></tr>"
+										+ "<tr><td>" + element.parking_location + "</td></tr>"	
+										+ "<tr><td> " + element.parking_type + "</td></tr>"
+										+ "<tr><td>예약시작: " + element.parking_intime + "</td></tr>"
+										+ "<tr><td>1일 " + element.parking_price + "원</td></tr>";
+										list.append(txt);
+										
+									});
+									//지도 갱신
+									markers.forEach(element => { //마커지우기
+										element.setMap(null);
+									});
+									infowindows.forEach(element => { //인포윈도우 지우기
+										element.setMap(null);
+									});
+									a_positions.length=0; // 이전 검색결과 배열 초기화
+									
+									if(obj!=null)
+										{var locPosition = new kakao.maps.LatLng(obj[0].parking_lat, obj[0].parking_lng);}
+									else{ var locPosition = new kakao.maps.LatLng(33.450701, 126.570667)}
+
+									obj.forEach(element => {
+										
+										var place = {content :'<div>'+ element.parking_title+'<div>', latlng: new kakao.maps.LatLng(element.parking_lat,element.parking_lng)};
+										a_positions.push(place);
+										
+									});
+									displayMarker(locPosition, a_positions);
+									
+								}
+							});
+						});
+
+					</script>
+
+				</div>
+				<div class="search-condition">
+					<select id="district" name="area">
+					<option value="">전체지역</option>
+						<option value="강남">강남구</option>
+						<option value="강동구">강동구</option>
+						<option value="강서">강서구</option>
+						<option value="강북">강북구</option>
+						<option value="관악">관악구</option>
+						<option value="강서">광진구</option>
+						<option value="구로">구로구</option>
+						<option value="금천">금천구</option>
+						<option value="노원">노원구</option>
+						<option value="도봉">도봉구</option>
+						<option value="동대문">동대문구</option>
+						<option value="동작">동작구</option>
+						<option value="마포">마포구</option>
+						<option value="서대문">서대문구</option>
+						<option value="서초">서초구</option>
+						<option value="성동구">성동구</option>
+						<option value="성북">성북구</option>
+						<option value="송파">송파구</option>
+						<option value="양천">양천구</option>
+						<option value="영등포">영등포구</option>
+						<option value="용산">용산구</option>
+						<option value="은평">은평구</option>
+						<option value="종로">종로구</option>
+						<option value="중구">중구</option>
+						<option value="중랑">중랑구</option>
+					</select>
+				</div>
+				<div class="search-condition">
+					<input type="hidden" id="sdateVal" name="sdate" />
+					<input type="hidden" id="edateVal" name="edate" />
+					<input type="text" class="hasTimepicker" id="sdate" readonly/>
+					<input type="text" class="hasTimepicker" id="edate" readonly/>
+					<script>
+						$("#sdate").datepicker(
+							{
+								dateFormat: 'yy-mm-dd',
+								prevText: '< prev',
+								nextText: 'next >',
+								monthNames: ['1월', '2월', '3월', '4월',
+									'5월', '6월', '7월', '8월', '9월',
+									'10월', '11월', '12월'],
+								monthNamesShort: ['1월', '2월', '3월',
+									'4월', '5월', '6월', '7월', '8월',
+									'9월', '10월', '11월', '12월'],
+								dayNames: ['일', '월', '화', '수', '목',
+									'금', '토'],
+								dayNamesShort: ['일', '월', '화', '수',
+									'목', '금', '토'],
+								dayNamesMin: ['일', '월', '화', '수',
+									'목', '금', '토'],
+								showMonthAfterYear: true,
+								changeYear: false,
+								yearSuffix: ' - ',
+								minDate: "0d",
+								maxDate: "+1m",
+								onclick: function () {
+									var sdate = $(this).val
+								}
+							});
+
+						$("#edate").datepicker(
+							{
+								dateFormat: 'yy-mm-dd',
+								prevText: '< prev',
+								nextText: 'next >',
+								monthNames: ['1월', '2월', '3월', '4월',
+									'5월', '6월', '7월', '8월', '9월',
+									'10월', '11월', '12월'],
+								monthNamesShort: ['1월', '2월', '3월',
+									'4월', '5월', '6월', '7월', '8월',
+									'9월', '10월', '11월', '12월'],
+								dayNames: ['일', '월', '화', '수', '목',
+									'금', '토'],
+								dayNamesShort: ['일', '월', '화', '수',
+									'목', '금', '토'],
+								dayNamesMin: ['일', '월', '화', '수',
+									'목', '금', '토'],
+								showMonthAfterYear: true,
+								changeYear: false,
+								yearSuffix: ' - ',
+								minDate: "sdate",
+								maxDate: "+1m",
+							});
+						$.datepicker.setDefaults($.datepicker.regional['ko']);
+
+	               		  $('#edate').datepicker("option", "onClose", function (selectedDate) {
+	                        	if(selectedDate.length==10)
+	                            $("#sdate").datepicker("option", "maxDate", selectedDate);
+	            				$("#edateVal").attr("value",selectedDate);
+	                        	
+	                        });
+	                        $('#sdate').datepicker("option", "onClose", function (selectedDate) {
+	                        	if(selectedDate.length==10)
+	                                $("#edate").datepicker("option", "minDate", selectedDate);
+	                        	$("#sdateVal").attr("value",selectedDate);
+	                        	
+	                        });
+	                        $("#sdate").val("시작날짜");
+	                        $("#edate").val("종료날짜");
+
+
+
+					</script>
+				</div>
+				<div class="search-condition">
+					<input type="range" name="price" id="slider" min="500" max="50000"
+						step="500" /> 하루 당 <span id="won"></span> 원
+					<script>
+						$("#won").html(document.getElementById("slider").value);
+						$("#slider").click(function () {
+							let price = document.getElementById("slider").value;
+							$("#won").html(price);
+						});
+					</script>
+				</div>
+				<div class="search-condition">
+					정렬 <select name="align">
+						<option value="distance">거리순</option>
+						<option value="review">리뷰많은순</option>
+						<option value="score">별점순</option>
+					</select>
+				</div>
+			</div>
+			<div class="search-result">
+
+				<div class="search-result-list">
+					<c:forEach var="parking" items="${LP_List}" varStatus="wishListStatus">
+=======
    <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
    <%@ page import="java.util.List" %>
    <%@ page import="com.where2park.biz.parking.ParkingVO" %>
@@ -249,6 +502,7 @@
 
             <div class="search-result-list">
                <c:forEach var="parking" items="${LP_List}" varStatus="wishListStatus">
+>>>>>>> 1d02adc0ba773b4717d64fab22da907babcb7f43
 
                      <table class="parking-lot" border="1">
                         <tr>

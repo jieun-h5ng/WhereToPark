@@ -50,7 +50,7 @@ function getRsvDelete(rsvId, noticeParkingId, noticeUser, parkingTitle){
     this.noticeParkingTitle = parkingTitle.value;
     notType="cancel";
     notMessage = "\"" + this.noticeParkingTitle + "\"" +"글에 등록된 예약이 취소되었습니다.";
-    notUrl = "getRsvList.do";  //예약건 모아보는 페이지로 이동
+    notUrl = "getRsvList_subscribe.do?parking_id=" + this.noticeParkingId;  //예약건 모아보는 페이지로 이동
     console.log("getRsvDelete : " + this.rsvId, this.noticeParkingId, this.noticeUser);
     send();
 }

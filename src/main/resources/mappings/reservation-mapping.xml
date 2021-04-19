@@ -3,6 +3,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="RsvDAO">
+
    <resultMap id="rsvResult" type="rsv">
       <id property='rsv_id' column='rsv_id' />
       <result property="parker_id" column = "parker_id"/> 
@@ -96,6 +97,21 @@
    </select>   
    
    <select id="getRsvList_subscribe" resultMap="rsvResult">
+<<<<<<< HEAD
+      <![CDATA[
+         SELECT *
+         FROM reservation as r
+         inner join parkingboard as p 
+         on r.parking_id = p.parking_id
+         inner join user as u
+         on r.parker_id = u.user_id
+         WHERE p.parking_id = #{parking_id}
+         ORDER BY rsv_intime DESC;
+      ]]>
+
+   </select>
+
+=======
 		<![CDATA[
 			SELECT *
 			FROM reservation as r
@@ -109,5 +125,6 @@
 	
 	</select>
    
+>>>>>>> 1d02adc0ba773b4717d64fab22da907babcb7f43
 
 </mapper>

@@ -59,6 +59,27 @@ text-align: center;
 
       </c:if>
       <c:forEach var="rsv" items="${RsvList}" varStatus="status">
+<<<<<<< HEAD
+			<div class="MpRsv-arti">
+				<a href="getRsv.do?rsv_id=${rsv.rsv_id}">
+					<div class="mp-rsv-info">
+						<p class="mp-rsv-p mp-rsv-title">
+							${rsv.parkingVO.parking_title}
+						</p>
+						<p class="mp-rsv-p mp-rsv-address">
+							${rsv.parkingVO.parking_location}
+						</p>
+						
+						<p class="mp-rsv-p mp-rsv-date">
+							<fmt:formatDate var="rsvInDt" value="${rsv.rsv_intime}" pattern="MM월 dd일  HH시 mm분  " />
+							${rsvInDt} <span style="color: blue;">대여</span>
+						</p>
+						<p class="mp-rsv-p mp-rsv-time">
+							<fmt:formatDate var="rsvOutDt" value="${rsv.rsv_outtime}" pattern="MM월 dd일  HH시 mm분 " />
+							${rsvOutDt} <span style="color: red;">반납</span>
+						</p>
+						
+=======
          <div class="MpRsv-arti">
             <a href="getRsv.do?rsv_id=${rsv.rsv_id}">
                <div class="mp-rsv-info">
@@ -77,22 +98,26 @@ text-align: center;
                      <fmt:formatDate var="rsvOutDt" value="${rsv.rsv_outtime}" pattern="MM월 dd일  HH시 mm분 " />
                      ${rsvOutDt} <span style="color: red;">반납</span>
                   </p>
-                  
-                  <input type="hidden" id=nNoticeUserId${status.index} value="${rsv.parkingVO.owner_id}" />
-
+>>>>>>> 1d02adc0ba773b4717d64fab22da907babcb7f43
                <span style="font-size:smaller;">${rsv.parkingVO.parking_location}</span></p>
-               <input type="hidden" id =nNoticeUserId${status.index} value="${rsv.parkingVO.owner_id}" />
+              
 <fmt:formatDate var="checkInDt" value="${rsv.rsv_intime}" pattern="yyyy-MM-dd"/>
             </div></a>
             <!--알림보내기위해서 값 전달-->
             <input type="hidden" id=nRsvId${status.index} value="${rsv.rsv_id}" />
             <input type="hidden" id =nParkingId${status.index} value="${rsv.parkingVO.parking_id}" />
             <input type="hidden" id =nParkingTitle${status.index} value="${rsv.parkingVO.parking_title}" />
+            <input type="hidden" id =nNoticeUserId${status.index} value="${rsv.parkingVO.owner_id}" />
             <div class="mp-rsv-btns">
 <c:choose>
 <c:when test="${rsv.rsv_states eq 0 }">
+<<<<<<< HEAD
                <a href="javascript:beforeDelete('${checkInDt}',${rsv.rsv_id})">
-               <div class="mp-rsv-btn mp-rsv-btn-cancle" onclick="getRsvDelete(nRsvId${status.index}, nParkingId${status.index}, nNoticeUserId${status.index}, nParkingTitle${status.index})">예약 취소하기</div></a>
+               <div class="mp-rsv-btn mp-rsv-btn-cancle" >예약 취소하기</div></a>
+=======
+               <a href="javascript:beforeDelete('${checkInDt}',${rsv.rsv_id},nRsvId${status.index}, nParkingId${status.index}, nNoticeUserId${status.index}, nParkingTitle${status.index})">
+               <div class="mp-rsv-btn mp-rsv-btn-cancle">예약 취소하기</div></a>
+>>>>>>> 1d02adc0ba773b4717d64fab22da907babcb7f43
                <div class="mp-rsv-btn mp-rsv-btn-chat">
                <a href="chatroom.do?rsv_id=${rsv.rsv_id}&parker_id=${rsv.parker_id}" onClick="window.open(this.href, '', 'width=350, height=400, status=no, toolbar=no, scrollbars=no, location=no'); return false;">
                   상담하기&nbsp;<span style="background-color: #367FFF; border-radius: 50%; font-size: 0.92em; color: white; padding: 0 2px 4px 2px; box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);" id="chatCnt">&nbsp;&nbsp;${noRead[status.index]}&nbsp;&nbsp;</span></a>
@@ -119,7 +144,7 @@ text-align: center;
       </c:forEach>
      <script>
 
-     function beforeDelete(date,id){
+     function beforeDelete(date,id,nRsvId,nParkingId,nNoticeUserId,nParkingTitle){
      var result = confirm("예약을 취소하시겠습니까?");
      if(result){// 예
         var d_day = new Date(date);
@@ -133,9 +158,9 @@ text-align: center;
        }
         //날짜 확인
         else{
-           
-           $(".mp-rsv-btn-cancle").trigger("click");
-           location.href="deleteRsv.do?rsv_id="+id;
+        	getRsvDelete(nRsvId,nParkingId,nNoticeUserId,nParkingTitle);
+        	console.log("된다고");
+            //location.href="deleteRsv.do?rsv_id="+id;
            
         }
          
