@@ -34,6 +34,8 @@
     font-weight: 300;
     color: #4c4c4c;
   }
+
+  
 /*리뷰 ajax 부분*/
     .rating {display: inline-block;}
  .rating > input {display: none;}
@@ -281,13 +283,13 @@
          </div>
          </c:when>
          <c:when test="${totalReview[0].avrg ne null}">
+         
          <table id="rv-table" width=100%>
             <thead>
             
-            
                <tr>
-                  <th style="text-align: right;">별점 <span
-                     style="font-size: 25pt; font-weight: 500;">${totalReview[0].avrg}</span></th>
+                  <th style="text-align: right; padding-right:100px;">평균 별점 <span style="font-size: 25pt; font-weight: 500;">${totalReview[0].avrg}</span>
+                     </th>
                </tr>
             </thead>
             <tbody id="review-by-page">
@@ -465,7 +467,7 @@
          </nav>
       </div>
       
-         <div class="pk-recommendation">
+         <div class="segment pk-recommendation">
       <h1 class="pk-subject">이 주차장도 추천해요 !</h1>
       <div id="recommendation">
       		<c:forEach items="${recomm}" var= "rcm">
@@ -484,10 +486,10 @@
                <td class="reco-type">${rcm.parking_type} | ${rcm.parking_cartype} | 1일 ${rcm.parking_price} 원</td>
             </tr>
             <tr>
-               <td class="reco-intime"> ${rcm.parking_intime}</td>
+               <td class="reco-intime"><span id="reco-in">주차: </span> ${rcm.parking_intime}</td>
             </tr>
            <tr>
-               <td class="reco-intime"> ${rcm.parking_outtime}</td>
+               <td class="reco-intime"><span id="reco-out">반납: </span> ${rcm.parking_outtime}</td>
             </tr>
             <!-- 찜 기능 작업중에 있습니다 -->
            </table></a>

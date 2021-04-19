@@ -104,8 +104,8 @@ public class MainSearchController {
 	@RequestMapping(value ="/searchParkingList.do", method=RequestMethod.POST)
 	@ResponseBody
 	public HashMap<String, Object> searchLongParkingList(@RequestParam(value = "area", defaultValue = " ", required = false) String area,
-			@RequestParam(value = "sdate",defaultValue = "2021-04-09", required = false) String sdate,
-			@RequestParam(value = "edate",defaultValue = "2021-04-12", required = false) String edate,
+			@RequestParam(value = "sdate",defaultValue = "2021-04-19", required = false) String sdate,
+			@RequestParam(value = "edate",defaultValue = "2021-04-30", required = false) String edate,
 			@RequestParam(value = "keyword", defaultValue = "", required = false) String keyword,
 			@RequestParam(value = "price", defaultValue = "25000", required = false) int price, ParkingVO vo, Model model) {
 		System.out.println("지역: " + area);
@@ -139,7 +139,7 @@ public class MainSearchController {
 	@RequestMapping(value ="/searchShortParkingList.do", method=RequestMethod.POST)
 	   @ResponseBody
 	   public HashMap<String, Object> searchShortParkingList(@RequestParam(value = "area", defaultValue = " ", required = false) String area,
-	         @RequestParam(value = "sdate",defaultValue = "2021-04-09", required = false) String sdate,
+	         @RequestParam(value = "sdate",defaultValue = "2021-04-19", required = false) String sdate,
 	         @RequestParam(value = "stime",defaultValue = "00:00", required = false) String stime,
 	         @RequestParam(value = "keyword", defaultValue = "", required = false) String keyword,
 	         @RequestParam(value = "price", defaultValue = "2000", required = false) int price, ParkingVO vo, Model model) {

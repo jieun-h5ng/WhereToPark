@@ -78,8 +78,6 @@ text-align: center;
 							${rsvOutDt} <span style="color: red;">반납</span>
 						</p>
 						
-						<input type="hidden" id=nNoticeUserId${status.index} value="${rsv.parkingVO.owner_id}" />
-
                <span style="font-size:smaller;">${rsv.parkingVO.parking_location}</span></p>
                <input type="hidden" id =nNoticeUserId${status.index} value="${rsv.parkingVO.owner_id}" />
 <fmt:formatDate var="checkInDt" value="${rsv.rsv_intime}" pattern="yyyy-MM-dd"/>
@@ -92,7 +90,7 @@ text-align: center;
 <c:choose>
 <c:when test="${rsv.rsv_states eq 0 }">
                <a href="javascript:beforeDelete('${checkInDt}',${rsv.rsv_id})">
-               <div class="mp-rsv-btn mp-rsv-btn-cancle" onclick="getRsvDelete(nRsvId${status.index}, nParkingId${status.index}, nNoticeUserId${status.index}, nParkingTitle${status.index})">예약 취소하기</div></a>
+               <div class="mp-rsv-btn mp-rsv-btn-cancle" >예약 취소하기</div></a>
                <div class="mp-rsv-btn mp-rsv-btn-chat">
                <a href="chatroom.do?rsv_id=${rsv.rsv_id}&parker_id=${rsv.parker_id}" onClick="window.open(this.href, '', 'width=350, height=400, status=no, toolbar=no, scrollbars=no, location=no'); return false;">
                   상담하기&nbsp;<span style="background-color: #367FFF; border-radius: 50%; font-size: 0.92em; color: white; padding: 0 2px 4px 2px; box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);" id="chatCnt">&nbsp;&nbsp;${noRead[status.index]}&nbsp;&nbsp;</span></a>

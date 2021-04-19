@@ -174,13 +174,13 @@ span.ui-state-default{
 #tt{
 font-weight:500;
 }
-<<<<<<< HEAD
+
 
 #pk-pic-upload{
     width: 100%;
     height: 200px;
 } 
-=======
+
 #won{
 	font-weight:700;
 	color:#4c4c4c;
@@ -190,7 +190,6 @@ font-weight:500;
     height: 200px;
 }
 
->>>>>>> 3eacf98cfa15a9dd8c81cafa4e9add0e107b6c16
 /* 찜 기능  */
 .positioning-of-heart{
 	/* margin:-100px -100px 0 0; */
@@ -201,11 +200,7 @@ font-weight:500;
 .wish-checkbox{
    display:none;
 }
-<<<<<<< HEAD
-#won{
-	font-weight:700;
-	color:#4c4c4c;
-=======
+
 .fa-heart{
 	color:#dfdfdf;
 	font-size:1.4em;
@@ -216,5 +211,4 @@ font-weight:500;
 }
 #coloring-gray-heart{
 	color:#dfdfdf;
->>>>>>> 3eacf98cfa15a9dd8c81cafa4e9add0e107b6c16
 }

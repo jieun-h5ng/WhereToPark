@@ -83,7 +83,7 @@
 
 
 										txt += "<tr><td><img id='pkpic'src='images/" + element.parking_pic + "'/></td></tr>"
-										+ "<tr><td><span id='tt'>" + element.parking_title + "'</span>'</td></tr>"
+										+ "<tr><td><span id='tt'>" + element.parking_title + "</span></td></tr>"
 										+ "<tr><td>" + element.parking_location + "</td></tr>"	
 										+ "<tr><td> " + element.parking_type + "</td></tr>"
 										+ "<tr><td>예약시작: " + element.parking_intime + "</td></tr>"
@@ -210,13 +210,13 @@
 	               		  $('#edate').datepicker("option", "onClose", function (selectedDate) {
 	                        	if(selectedDate.length==10)
 	                            $("#sdate").datepicker("option", "maxDate", selectedDate);
-	            
+	            				$("#edateVal").attr("value",selectedDate);
 	                        	
 	                        });
 	                        $('#sdate').datepicker("option", "onClose", function (selectedDate) {
 	                        	if(selectedDate.length==10)
 	                                $("#edate").datepicker("option", "minDate", selectedDate);
-
+	                        	$("#sdateVal").attr("value",selectedDate);
 	                        	
 	                        });
 	                        $("#sdate").val("시작날짜");
@@ -268,10 +268,8 @@
                            </td>
                         </tr>
                         <tr>
-<<<<<<< HEAD
-=======
                            <%-- <td><a href="searchParkingDetail.do?parking_id=${parking.parking_id}">제목: ${parking.parking_title}</a></td> --%>
->>>>>>> 3eacf98cfa15a9dd8c81cafa4e9add0e107b6c16
+
                            <td><a href="searchParkingDetail.do?parking_id=${parking.parking_id}"><span id="tt">${parking.parking_title}</span></a></td>
                         </tr>
                         <tr>

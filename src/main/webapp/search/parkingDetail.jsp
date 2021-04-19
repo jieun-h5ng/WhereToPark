@@ -324,8 +324,8 @@ text-align: center;
             
             
                <tr>
-                  <th style="text-align: right;">별점 <span
-                     style="font-size: 25pt; font-weight: 500;">${totalReview[0].avrg}</span></th>
+                   <th style="text-align: right; padding-right:100px;">평균 별점 <span style="font-size: 25pt; font-weight: 500;">${totalReview[0].avrg}</span>
+                     </th>
                </tr>
             </thead>
             <tbody id="review-by-page">
@@ -504,11 +504,11 @@ text-align: center;
                <tr>
                <td class="reco-type">${rcm.parking_type} | ${rcm.parking_cartype} | 1일 ${rcm.parking_price} 원</td>
             </tr>
-            <tr>
-               <td class="reco-intime"> ${rcm.parking_intime}</td>
+ <tr>
+               <td class="reco-intime"><span id="reco-in">주차: </span> ${rcm.parking_intime}</td>
             </tr>
            <tr>
-               <td class="reco-intime"> ${rcm.parking_outtime}</td>
+               <td class="reco-intime"><span id="reco-out">반납: </span> ${rcm.parking_outtime}</td>
             </tr>
 
 
