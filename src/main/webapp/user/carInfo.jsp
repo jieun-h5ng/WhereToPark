@@ -68,7 +68,7 @@
             margin: 0% 1% 2% 7%;
         }
         .radio_lo1{
-            margin: 0% 1% 2% 5.3%;
+            margin: 0% 1% 2% 4.6%;
         }
         .radio_lo2{
             margin: 0% 1% 2% 8.7%;
