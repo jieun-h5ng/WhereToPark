@@ -182,6 +182,22 @@
 		.radio {
 			margin: 0px 0px 15px 20px;
 		}
+		//인풋타입
+		#userForm input[type="text"]{ 
+		   height: auto;
+		    line-height: normal;
+		    padding: .4em .2em;
+		    border: none;
+		    border-bottom: 1px solid #4c4c4c; 
+		    outline-style: none; 		/* 포커스시 발생하는 효과 제거를 원한다면 */ 
+			-webkit-appearance: none; 	/* 브라우저별 기본 스타일링 제거 */ 
+			-moz-appearance: none; 
+			appearance: none;
+		}
+		    
+		#userForm input:focus{
+			border-bottom: 1px solid #b1ceff;
+		}
 		
 
 </style>

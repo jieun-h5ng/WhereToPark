@@ -68,11 +68,7 @@
             text-align:right;
         }
 
-        img {
-            width: 200px;
-            height: 200px;
-            border-radius: 50% 50%;
-        }
+        
         /*이메일 인증*/ 
 		#mail_check_input_box_false{
 			width:295px;
@@ -103,6 +99,8 @@
 		width:200px;
 		height:200px;
 		z-index: 999;
+		border-radius: 50% 50%;
+        
 		}
 		#profile_img_upload{
 	    width: 0.1px;

@@ -209,6 +209,37 @@ position:absolute;
    		vertical-align: sub;
    		margin: 0 0 0 5px;
    }
+   #chatbot{
+   		position: fixed;
+	    top: 80%; 
+	    /*bottom: 80%;*/
+	    right: 0px;
+	    animation:chatbot 3s linear infinite alternate; 
+	    pointer-events: none;
+	    
+   }
+    @keyframes chatbot {
+	    0%{margin-top: 0px;}
+	    10%{margin-top: 2.5px;}
+	    20%{margin-top: 5px;}
+	    30%{margin-top: 7.5px;}
+	    40%{margin-top: 10px;}
+	    50%{margin-top: 12.5px;}
+	    60%{margin-top: 10px;}
+	    70%{margin-top: 7.5px;}
+	    80%{margin-top: 5px;}
+	    90%{margin-top: 2.5px;}
+	    100% {margin-top: 0px;}
+    }
+   #bot{
+   		width:100px;
+   }
+   #ppp{
+   		text-align: center;
+	    font-size: 11px;
+	    line-height: 90%;
+	    margin-bottom: -10px;
+   }
    </style>
    <script src="js/jquery-1.12.4.min.js"></script>
    <script type="text/javascript">
@@ -259,6 +290,11 @@ position:absolute;
 </head>
 <body>
    <div id="hdr">
+   		<div id="chatbot">
+   		<a href="http://127.0.0.1:52273/" onClick="window.open(this.href, '', 'width=500, height=430'); 
+   		return false;"><p id = "ppp">말을 걸어보세요</p><img src="<%=request.getContextPath()%>/images/chatbot.png" id="bot"></a>
+   		</div>
+   		
         <a href="<%=request.getContextPath()%>/index.jsp"><div class="hdr-logo"></div></a>
         <div id="nav">
             <ul>

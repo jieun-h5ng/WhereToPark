@@ -268,7 +268,10 @@
                            </td>
                         </tr>
                         <tr>
+<<<<<<< HEAD
+=======
                            <%-- <td><a href="searchParkingDetail.do?parking_id=${parking.parking_id}">제목: ${parking.parking_title}</a></td> --%>
+>>>>>>> 3eacf98cfa15a9dd8c81cafa4e9add0e107b6c16
                            <td><a href="searchParkingDetail.do?parking_id=${parking.parking_id}"><span id="tt">${parking.parking_title}</span></a></td>
                         </tr>
                         <tr>
