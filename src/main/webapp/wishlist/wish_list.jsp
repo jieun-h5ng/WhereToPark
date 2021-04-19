@@ -30,13 +30,13 @@
                   background:url('<%=request.getContextPath()%>/images/${wishList.parkingVO.parking_pic}') no-repeat;
                   background-size:cover;">
                      <%-- ${wishList.parkingVO.parking_pic} --%>
-                  <form class="form-heart">
-                     <input type="hidden" name="prking_id" value="${wishList.parking_id}" id=hdprknid${wishListStatus.index}></input>
-                     <input type="checkbox" name="wish_id" value="${wishList.wish_id}" id="chckheart"/>
-                     <label for="chckheart" class="heartLabel" onclick="deleteAjaxfront(${wishListStatus.index}, hdprknid${wishListStatus.index})"><i class="fas fa-heart"></i></label>
-                     <%-- <label for="chckheart" class="heartLabel" onclick="deleteAjaxfront(${wishListStatus.index}, hdprknid)"><i class="fas fa-heart"></i></label> --%>
-                     <!-- <label for="chckheart" class="heartLabel"><i class="fas fa-heart"></i></label> -->
-                  </form>
+                     <form class="form-heart">
+                        <input type="hidden" name="prking_id" value="${wishList.parking_id}" id=hdprknid${wishListStatus.index}></input>
+                        <input type="checkbox" name="wish_id" value="${wishList.wish_id}" id="chckheart"/>
+                        <label for="chckheart" class="heartLabel" onclick="deleteAjaxfront(${wishListStatus.index}, hdprknid${wishListStatus.index})"><i class="fas fa-heart"></i></label>
+                        <%-- <label for="chckheart" class="heartLabel" onclick="deleteAjaxfront(${wishListStatus.index}, hdprknid)"><i class="fas fa-heart"></i></label> --%>
+                        <!-- <label for="chckheart" class="heartLabel"><i class="fas fa-heart"></i></label> -->
+                     </form>
                   </div>
                   <div class="wish-place-text-info">
                      <%-- <p>
@@ -57,58 +57,58 @@
       <div class="cntnr-top-margin"></div>
       <jsp:include page="../tail.jsp"></jsp:include>
       <!-- <script>
-			window.onload=function(){
-				var artiText = document.getElementByClass('wish-placee-text-info');
-				/* var indexNum = ${wishListStatus}; */
-				var indexNum = document.getElementByName('index_num').value;
-				artiText[indexNum]
-			}
-		</script> -->
-		<script>
-			var iconHeart = document.getElementsByClassName('fa-heart');
-			
-			function deleteAjaxfront(num, hdprknid){
-				console.log(num + "num");
-				var no = num;
-				var wishId = $('#chckheart').val();	// = wish_id
-				var userId = ${userId};
-				var parkingId = hdprknid.value;
-				
-				console.log(wishId);
-				console.log(userId);
-				
-				if(confirm("찜 목록에서 삭제하시겠습니까?")){
-					var xhr = new XMLHttpRequest();
-					xhr.onreadystatechange = function(){
-						if(xhr.readyState === 4 && xhr.status === 200){
-							var artiWish = document.getElementsByClassName('wish-arti');
-							console.log(artiWish);
-							artiWish[no].setAttribute("style", "display:none;");
-							console.log([no]);
-						}
-					}
-					xhr.open('GET', 'delete_wish.do?parking_id='+parkingId+'&user_id='+userId);
-					xhr.send(wishId);
-				}
-			}
-		</script>
-		<script>
-			$(document).ready(function(){
-				var index = ${wishListStatus.index};
-				var article1 = $('.MpArm-arti');
-				var article2 = $('.wish-arti');
-				console.log(index);
-				
-				var getArti1Height = article1.outerHeight();
-				var getArti2Height = article2.outerHeight();
-				
-				if(getArti1Height >= getArti2Height){
-					article2.css('min-height', getArti1Height);
-				}
-				if(getArti2Height >= getArti1Height){
-					article1.css('min-height', getArti2Height);
-				}
-			});
-		</script>
+         window.onload=function(){
+            var artiText = document.getElementByClass('wish-placee-text-info');
+            /* var indexNum = ${wishListStatus}; */
+            var indexNum = document.getElementByName('index_num').value;
+            artiText[indexNum]
+         }
+      </script> -->
+      <script>
+         var iconHeart = document.getElementsByClassName('fa-heart');
+         
+         function deleteAjaxfront(num, hdprknid){
+            console.log(num + "num");
+            var no = num;
+            var wishId = $('#chckheart').val();   // = wish_id
+            var userId = ${userId};
+            var parkingId = hdprknid.value;
+            
+            console.log(wishId);
+            console.log(userId);
+            
+            if(confirm("찜 목록에서 삭제하시겠습니까?")){
+               var xhr = new XMLHttpRequest();
+               xhr.onreadystatechange = function(){
+                  if(xhr.readyState === 4 && xhr.status === 200){
+                     var artiWish = document.getElementsByClassName('wish-arti');
+                     console.log(artiWish);
+                     artiWish[no].setAttribute("style", "display:none;");
+                     console.log([no]);
+                  }
+               }
+               xhr.open('GET', 'delete_wish.do?parking_id='+parkingId+'&user_id='+userId);
+               xhr.send(wishId);
+            }
+         }
+      </script>
+      <script>
+         $(document).ready(function(){
+            var index = ${wishListStatus.index};
+            var article1 = $('.MpArm-arti');
+            var article2 = $('.wish-arti');
+            console.log(index);
+            
+            var getArti1Height = article1.outerHeight();
+            var getArti2Height = article2.outerHeight();
+            
+            if(getArti1Height >= getArti2Height){
+               article2.css('min-height', getArti1Height);
+            }
+            if(getArti2Height >= getArti1Height){
+               article1.css('min-height', getArti2Height);
+            }
+         });
+      </script>
    </body>
 </html>

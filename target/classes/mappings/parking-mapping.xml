@@ -53,6 +53,7 @@
 		AND parking_intime <= #{parking_intime}
 		AND parking_outtime >= #{parking_outtime}
 		AND parking_type = #{parking_type}
+		AND parking_deleted = 0
 		]]>
 	</select>
 	
@@ -115,7 +116,7 @@
 		AND parking_type = '장기' 
 		AND parking_deleted = 0 
 		AND parking_price <= #{parking_price}
-		AND parking_intime <= #{parking_intime}
+		AND parking_intime < #{parking_intime} 
 		AND parking_outtime >= #{parking_outtime}
 		AND parkingboard.parking_id = wishlist.parking_id
 	]]>

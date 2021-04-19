@@ -5,7 +5,7 @@
     list-style-type:none;
     text-decoration:none;
     font-family: 'Noto Sans KR', sans-serif;
-    font-size:1em;
+    /* font-size:0.88em; */
     font-weight:300;
     color:#000;
 }
@@ -50,7 +50,7 @@ body{
     padding:0 0 40px 0;
 }
 #cntnr .cntnr-top-margin{
-	clear:both;
+   clear:both;
     width:100%;
     height:40px;
 }
@@ -76,16 +76,17 @@ body{
 }
 #cntnr .MpArm-arti .form-heart{
    float:right;
-   cusor:pointer;
+   cursor:pointer;
+   z-index:100;
 }
 #cntnr .MpArm-arti .form-heart #chckheart{
    display:none;
-   cusor:pointer;
+   cursor:pointer;
 }
 #cntnr .MpArm-arti .heartLabel{
-	cusor:pointer;
+   cursor:pointer;
 }
-#cntnr .MpArm-arti i.fa-heart{
+#cntnr .MpArm-arti .heartLabel .fa-heart{
     /* width:10%;
     height:100%; */
     /* background:#eee; */
@@ -103,7 +104,7 @@ body{
     transition: all .3s ease;
 }
 #cntnr .MpArm-arti i.fa-heart:hover{
-	color:#e58686;
+   color:#e58686;
 }
 #cntnr .MpArm-arti .wish-place-pic{
    width:100%;
@@ -131,8 +132,8 @@ body{
     text-overflow:ellipsis;
 } 
 #cntnr .MpArm-arti .wish-place-text-info .wish-place-title{
-	font-size:1.1em;
-	font-weight:400;
+   font-size:1.1em;
+   font-weight:400;
 }
 #ftr{
    clear:both;

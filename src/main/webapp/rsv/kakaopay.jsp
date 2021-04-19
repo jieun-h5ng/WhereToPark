@@ -94,7 +94,7 @@ $("#rsvOut").attr("value",date2);
         noticeParkingId = "${parkingId}";
         noticeUser = "${rsvInfo.parkingVO.owner_id}";
         notMessage = "\"" + "${parkingInfo.parking_title}" + "\"" + "글에 새로운 예약이 등록되었습니다."
-        notUrl = "getRsvList.do";  //예약건 모아보는 페이지로 이동
+        notUrl = "getRsvList_subscribe.do?parking_id=" + noticeParkingId;  //예약건 모아보는 페이지로 이동
     }
 
     function connect() {
