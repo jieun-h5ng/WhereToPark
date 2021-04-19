@@ -88,13 +88,6 @@
 	background-size: cover;
 }
 #blah {
-	/*
-	border: solid 1px pink;
-	width:200px;
-	height:200px;
-	*/
-}
-img {
   width: 200px;
   height: 200px;
   border-radius: 50% 50%;
@@ -223,6 +216,21 @@ img {
 .incorrect{
     color : red;
 }
+#delete_file{
+	width :22px;
+	height:22px;
+	/*border:1px solid black;*/
+	background-image: url('<%=request.getContextPath()%>/images/xbutton.png');
+	background-size : cover;
+	float:right;
+	margin:0 0 30px 0;
+	
+	
+}
+#delete_file:hover {
+	  cursor: pointer;
+	}
+	
 </style>
 <script>
 	//엔터시 폼전송 방지
@@ -458,8 +466,10 @@ img {
 	                                	<img id="blah" src="images/profile/${user.user_pic}"  />
 									</c:when>                            		
                             	</c:choose>
+                            
                             <!-- 
-                            <input type="button" name="delete_file" id="delete_file" value="삭제버튼" src="images/xbutton.png">
+                             <div id="delete_file" >
+						 	 </div>
                              -->
                             </div>
                             <input type="file" name="uploadFile_F"  accept="image/*" onchange="readURL(this);" id="profile_img_upload" > 

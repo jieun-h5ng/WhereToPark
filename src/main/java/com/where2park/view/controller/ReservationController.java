@@ -69,6 +69,33 @@ class ReservationController {
 
 		return "rsv/getRsvList.jsp";
 	}
+	//나예
+	@RequestMapping("/getRsvList_subscribe.do")
+	public String getRsvList_subscribe(RsvVO vo, Model model) {
+		System.out.println("넘어온 vo"+vo);
+		
+		//로그인 한 id
+		int id = (int) session.getAttribute("userId");	
+//		System.out.println(id);		
+//		vo.setParker_id(id);
+//		vo.setOwner_id(id);
+		
+		model.addAttribute("RsvList", rsvService.getRsvList_subscribe(vo));
+		System.out.println(vo + "??");
+
+		// 채팅 안읽은 갯수 표시 - 은지
+		List<RsvVO> RsvList = rsvService.getRsvList_subscribe(vo);
+		List<Integer> noReadMessage = new ArrayList<>();
+		for (int i = 0; i < RsvList.size(); i++) {
+			RsvList.get(i).getUserVO().setUser_id(id);
+			int noCnt = rsvService.selectNotReadMessage(RsvList.get(i));
+			noReadMessage.add(noCnt);
+			System.out.println("안읽은 메세지 갯수 : " + noCnt);
+		}
+		model.addAttribute("noRead", noReadMessage);
+
+		return "rsv/getRsvList_subscribe.jsp";
+	}
 
 	@RequestMapping("/kakaopay.do")
 	public String payment(RsvVO vo, Model model) {

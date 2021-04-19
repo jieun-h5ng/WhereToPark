@@ -90,11 +90,10 @@ $("#rsvOut").attr("value",date2);
 
     function noticeReservation(){
         notType="reservation";
-        notMessage = "${parkingInfo.parking_title}"+"글에 새로운 예약이 등록되었습니다."
         rsvId = 0;
         noticeParkingId = "${parkingId}";
         noticeUser = "${rsvInfo.parkingVO.owner_id}";
-        sendMessage = " [ " + "${parkingInfo.parking_id}" + " ] " + "${parkingInfo.parking_title}"+"에 새로운 예약이 추가되었습니다";
+        notMessage = "\"" + "${parkingInfo.parking_title}" + "\"" + "글에 새로운 예약이 등록되었습니다."
         notUrl = "getRsvList.do";  //예약건 모아보는 페이지로 이동
     }
 
@@ -113,7 +112,7 @@ $("#rsvOut").attr("value",date2);
     function send() {
     	console.log("======>알림보내는중!!");
         insertNotice();
-        ws.send(JSON.stringify({ user_id: noticeUser, not_type: notType, rsv_id: rsvId, not_message: sendMessage, not_url : notUrl }));
+        ws.send(JSON.stringify({ user_id: noticeUser, not_type: notType, rsv_id: rsvId, not_message: notMessage, not_url : notUrl }));
     }
 
     function onOpen() {

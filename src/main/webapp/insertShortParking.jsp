@@ -15,9 +15,7 @@
 
 <!-- 데이트피커 -->
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="css/jquery.timepicker.min.css">
 
@@ -41,9 +39,9 @@
 		padding:0 0 20px 0;
 	}
 	#cntnr .isp_content {
-		
 		width: 800px;
-		height: 1200px;
+		height: auto;
+		min-height: 850px;
 		/*border: 1px solid #ccc;*/
 		box-sizing: border-box;
 		margin: 0 auto 20px auto;
@@ -189,6 +187,21 @@
 	#coordXY{
 		display : none;
 	}
+	#delete_file{
+	width :22px;
+	height:22px;
+	/*border:1px solid black;*/
+	background-image: url('<%=request.getContextPath()%>/images/xbutton.png');
+	background-size : cover;
+	float:right;
+	margin:0 0 30px 0;
+	
+	
+	}
+	
+	#delete_file:hover {
+	  cursor: pointer;
+	}
 	
 	/*
 	input[type=number] {
@@ -250,6 +263,15 @@
 	*/
 	$(document).ready(function(){
 		console.log("글등록 진행")
+		
+		//이미지삭제
+		$("#delete_file").on("click", function(){
+			console.log("삭제버튼 누름")
+			$('#blah').removeAttr('src');
+			console.log( $('#blah').attr('src'))
+			
+		})
+		
 		//submit 전 유효성검사 부분
 	     $('#save').on("click", function() {
 	
@@ -314,13 +336,13 @@
 	*/
 	
 	
-	
 </script>
 
 </head>
 
 <body>
 	<jsp:include page="header.jsp"></jsp:include>
+	
 	<div id="cntnr">
 
 		<!-- 각자의 파트는 이곳에서부터 작업하실 수 있습니다. -->
@@ -431,7 +453,7 @@
 						<input type="button" value="2021-04-15" id="sdate"  > 
 						<input type="button" value="주차시간" class="hasTimepicker" id="sTime" />
 						 -->
-						<input type="datetime-local" value="시작날짜"  name="parking_intime" id="parking_intime" /> 
+						<input type="datetime-local" value="시작날짜"  name="parking_intime" id="parking_intime" value = "2021-04-15T09:00" /> 
 						</td>
 					</tr>
 						
@@ -459,9 +481,8 @@
 					<tr>
 						<th>사진</th>
 						<td>
-						 <!--
-						<input type="text" name="parking_pic">
-						   -->
+						<div id="delete_file" >
+						 	 </div>
 						
 						<input type="file" name="uploadFile" accept="image/*" onchange="readURL(this);" id='profile_img_upload'/>
 						<label for='profile_img_upload'><i class="far fa-file-image">&nbsp;파일 선택</i></label>

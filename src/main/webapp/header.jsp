@@ -5,7 +5,7 @@
 <html>
 <head>
    <meta charset="UTF-8">
-   
+	<link rel="shortcut icon" href="<%=request.getContextPath()%>/favicon.ico">
    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/415f6f6023.js" crossorigin="anonymous"></script>
     <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-1.12.4.min.js"></script>
@@ -56,6 +56,14 @@
             line-height:150px;
             /* position:relative; */
         }
+        #hdr>#nav>ul>li>a{
+            transition: all .3s ease;
+            font-weight:400;
+            font-size:1.1em;
+        }
+        #hdr>#nav>ul>li:hover>a{
+        	color:#367fff;
+        }
         #hdr #nav ul #nav-mp{
                
         }
@@ -71,13 +79,15 @@
            
         }
         #hdr #nav ul #nav-mp ul li{
+        	font-size:0.95em;
            clear:both;
            line-height:70px;
            width:140px;
            text-align:center;
+           transition: all .3s ease;
         }
         #hdr #nav ul #nav-mp ul li:hover{
-           background:#f9f9f9;
+           background:#e9e9e9;
         }
         #cntnr{
             clear:both;
@@ -193,7 +203,59 @@ position:absolute;
    .btn-primary:active,.btn-primary.active,.open .dropdown-toggle.btn-primary{background-image:none}
    .btn-primary.disabled,.btn-primary[disabled],fieldset[disabled] .btn-primary,.btn-primary.disabled:hover,.btn-primary[disabled]:hover,fieldset[disabled] .btn-primary:hover,.btn-primary.disabled:focus,.btn-primary[disabled]:focus,fieldset[disabled] .btn-primary:focus,.btn-primary.disabled:active,.btn-primary[disabled]:active,fieldset[disabled] .btn-primary:active,.btn-primary.disabled.active,.btn-primary[disabled].active,fieldset[disabled] .btn-primary.active{background-color:#428bca;border-color:#357ebd}
    .btn-primary .badge{color:#428bca;background-color:#fff}
+   
+   #weather_img{
+   		width: 22px;
+   		vertical-align: sub;
+   		margin: 0 0 0 5px;
+   }
    </style>
+   <script src="js/jquery-1.12.4.min.js"></script>
+   <script type="text/javascript">
+   $(document).ready(function(){
+		reqWeather();
+		
+		function reqWeather(){
+			$.ajax({
+				url : "http://localhost:5000/query/WEATHER",
+				type : "POST",
+				success : function(data){
+					console.log(data);
+					var json_obj = JSON.parse(data);
+					console.log(json_obj);
+					console.log("지역: " + json_obj.local);
+					console.log("온도: " + json_obj.temp);
+					console.log("설명: " + json_obj.text);
+					
+					
+					
+					$('#weather_address').html(json_obj.local);
+					$('#weather_temp').html(json_obj.temp);
+					//$('#weather_text').html(json_obj.text);
+					
+					var desc = json_obj.text;
+					
+					if(desc.indexOf('맑음') !== -1){
+						$('#weather_img').attr('src', '<%=request.getContextPath()%>/images/sun.png');
+					}else if(desc.indexOf('구름많음') !== -1){
+						$('#weather_img').attr('src', '<%=request.getContextPath()%>/images/cloudy-1.png');
+					}else if(desc.indexOf('흐림') !== -1){
+						$('#weather_img').attr('src', '<%=request.getContextPath()%>/images/cloudy_02.png');
+					}else if(desc.indexOf('흐리고 비') !== -1){
+						$('#weather_img').attr('src', '<%=request.getContextPath()%>/images/rainy_01.png');
+					}else if(desc.indexOf('비') !== -1){
+						$('#weather_img').attr('src', '<%=request.getContextPath()%>/images/rainy_02.png');
+					}
+				}
+			});
+		}
+		
+		//5분마다 호출
+		setInterval(reqWeather, 1000*10*30);
+		
+		
+	})
+   </script>
 </head>
 <body>
    <div id="hdr">
@@ -204,6 +266,7 @@ position:absolute;
                    <li><a href="<%=request.getContextPath()%>/user/userLogin.jsp">로그인 · 회원가입</a></li>
                 </c:if>
             <c:if test="${!empty sessionScope.userId or !empty sessionScope.userNickName }">
+            		
                    <li id="nav-mp"><a href="#">마이페이지 /${userNickName} 님 환영합니다</a>
                   <ul>
                      <li><a href="<%=request.getContextPath()%>/logout.do">로그아웃</a></li>
@@ -219,6 +282,13 @@ position:absolute;
                 <li><a href="<%=request.getContextPath()%>/parking/selectParkingType.jsp">내 주차장 공유하기</a></li>
                 <li><a href="<%=request.getContextPath()%>/searchParkingList.do">장기주차</a></li>
                 <li><a href="<%=request.getContextPath()%>/searchShortParkingList.do">단기주차</a></li>
+                <li>
+            			<span id='weather_text'></span>
+        					<a href="https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=1&ie=utf8&query=%EB%84%A4%EC%9D%B4%EB%B2%84%EB%82%A0%EC%94%A8">
+			        			<span id='weather_temp' style="font-size:13px;">   </span> 
+			        					<img id='weather_img' src="">
+        					</a>
+            	</li>
             </ul>
         </div>
     </div>
@@ -237,7 +307,6 @@ position:absolute;
                  </div>
               <div class='modal-body'>상담하기로 이동하시겠습니까?</div>
               <div class='modal-footer'>
-                 <a href='"+ data.not_url +"' onClick='window.open(this.href, "", "width=350, height=400, status=no, toolbar=no, scrollbars=no, location=no"); return false;'>
                  <button type='button' class='btn btn-default pull-left' id='modalYes' data-dismiss='modal'>YES</button></a>
                  <button type='button' class='btn btn-default pull-left' id='modalNo' data-dismiss='modal'>NO</button>
               </div>

@@ -97,8 +97,8 @@ table.update td {
   text-decoration: none;
 }
 #delete_file{
-	width :30px;
-	height:30px;
+	width :22px;
+	height:22px;
 	/*border:1px solid black;*/
 	background-image: url('<%=request.getContextPath()%>/images/xbutton.png');
 	background-size : cover;
@@ -107,6 +107,9 @@ table.update td {
 	
 	
 }
+#delete_file:hover {
+	  cursor: pointer;
+	}
 #blah_box{
 	/*border: solid 1px black;*/
 	width: 100%;

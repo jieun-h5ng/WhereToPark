@@ -56,13 +56,15 @@ body{
     font-size:2em;
     text-align:center;
     font-weight:400;
+    line-height:3em;
     padding:0 0 20px 0;
 }
 #cntnr .MpRsv-arti{
     width:100%;
     min-height:200px;
     height:auto;
-    border:1px solid #ccc;
+    /* border:0px solid #ccc; */
+    box-shadow:0.5px 0.5px 3px 0.5px rgba(0, 0, 0, 0.15);
     box-sizing:border-box;
     margin:0 0 20px 0;
     padding:20px 6% 20px 8%;
@@ -76,12 +78,19 @@ body{
     padding:20px 0 0 0;
 }
 #cntnr .MpRsv-arti .mp-rsv-info .mp-rsv-p{
-    font-size:1em;
+    font-size:0.88em;
+    line-height:2.2em;
+}
+#cntnr .MpRsv-arti .mp-rsv-info .mp-rsv-title{
+	font-size:1.4em;
+    font-weight:400;
     line-height:2em;
+    padding:0 0 0 0;
+    /* padding:10px 0 0 0; */
 }
 #cntnr .MpRsv-arti .mp-rsv-info .mp-rsv-address{
-    font-size:1.5em;
-    padding:10px 0 0 0;
+    font-size:0.9em;
+	line-height:3.3em;
 }
 #cntnr .MpRsv-arti .mp-rsv-btns{
     width:49%;
@@ -96,9 +105,14 @@ body{
     height:40px;
     line-height:38px;
     text-align:center;
-    border:1px solid #ccc;
+    border:1px solid #e9e9e9;
+    box-shadow:0px 0px 4px 0px rgba(0, 0, 0, 0.1);
     float:right;
     /* padding:5px 5%; */
+    transition: all .3s ease;
+}
+#cntnr .MpRsv-arti .mp-rsv-btns .mp-rsv-btn:hover{
+	background:#e9e9e9;
 }
 #cntnr .MpRsv-arti .mp-rsv-btns .mp-rsv-btn-cancle{
     margin:0 0 10px 8%;

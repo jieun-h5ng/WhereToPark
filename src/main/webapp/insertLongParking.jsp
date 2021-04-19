@@ -40,7 +40,8 @@
 	#cntnr .isp_content {
 		
 		width: 800px;
-		height: 1200px;
+		min-height: 850px;
+		height: auto;
 		/*border: 1px solid #ccc;*/
 		box-sizing: border-box;
 		margin: 0 auto 20px auto;
@@ -187,6 +188,23 @@
 		display : none;
 	}
 	
+	#delete_file{
+	width :22px;
+	height:22px;
+	/*border:1px solid black;*/
+	background-image: url('<%=request.getContextPath()%>/images/xbutton.png');
+	background-size : cover;
+	float:right;
+	margin:0 0 30px 0;
+	
+	
+	}
+	
+	#delete_file:hover {
+	  cursor: pointer;
+	}
+	
+	
 	/*
 	input[type=number] {
     height: 30px;
@@ -247,8 +265,22 @@
 	*/
 	$(document).ready(function(){
 		console.log("글등록 진행")
+		
+		//이미지삭제
+ 		$("#delete_file").on("click", function(){
+ 			console.log("삭제버튼 누름")
+ 			$('#blah').removeAttr('src');
+ 			console.log( $('#blah').attr('src'))
+ 			
+ 		})
+	 		
+		
+		
 		//submit 전 유효성검사 부분
 	     $('#save').on("click", function() {
+	    	 
+	    	
+	 		
 	
 	         if ($('#title_box').val() == "") {
 	             alert("제목을 입력하세요.");
@@ -285,56 +317,6 @@
 	         return true;
 	     });
 	
-	    //좌표값
-	    /*
-	 	$(function(){
-	 		var coordXY = $("#coordXY").html();
-	 		console.log(coordXY);
-	 	})	
-	 	*/
-	 	/*
-	 	$('.timepicker').timepicker({
-	 	    timeFormat: 'h:mm p',
-	 	    interval: 60,
-	 	    minTime: '10',
-	 	    maxTime: '6:00pm',
-	 	    defaultTime: '11',
-	 	    startTime: '10:00',
-	 	    dynamic: false,
-	 	    dropdown: true,
-	 	    scrollbar: true
-	 	});
-	    
-	    $.datepicker.regional["ko"] = {
-	        prevText: "이전달",
-	        nextText: "다음달",
-	        currentText: "오늘",
-	        monthNames: ["1월(JAN)","2월(FEB)","3월(MAR)","4월(APR)","5월(MAY)","6월(JUN)", "7월(JUL)","8월(AUG)","9월(SEP)","10월(OCT)","11월(NOV)","12월(DEC)"],
-	        monthNamesShort: ["1월","2월","3월","4월","5월","6월", "7월","8월","9월","10월","11월","12월"],
-	        dayNames: ["일","월","화","수","목","금","토"],
-	        dayNamesShort: ["일","월","화","수","목","금","토"],
-	        dayNamesMin: ["일","월","화","수","목","금","토"],
-			changeMonth: true, // month 셀렉트박스 사용
-			changeYear: true, // year 셀렉트박스 사용
-	        weekHeader: "Wk",
-	        dateFormat: "yy-mm-dd",
-	        firstDay: 0,
-	        isRTL: false,
-	        showMonthAfterYear: true,
-	        yearSuffix: "",
-	        minDate: "0d",
-	        maxDate: "+1m",
-	
-	        // timepicker 설정
-	        timeFormat:'HH:mm:ss',
-	        controlType:'select',
-	        oneLine:true,
-	
-	        onclick: function () {
-	                var sdate = $(this).val
-	        }
-	    };
-	    */
 	})
 	
 	
@@ -466,7 +448,7 @@
 						<!-- 
 						<input type="button" value="시작날짜" id="sdate" name="parking_intime"  /> 
 						 -->
-						<input type="date" value="시작날짜"  name="parking_intime" id="parking_intime" /> 
+						<input type="date" value="시작날짜"  name="parking_intime" id="parking_intime" min="2021-04-15" max="2021-04-30" required/> 
 						</td>
 					</tr>
 						
@@ -476,7 +458,7 @@
 						<!-- 
 						<input type="button" value="종료날짜" id="edate" name="parking_outtime"/>
 						 -->
-						<input type="date" value="종료날짜"  name="parking_outtime" id="parking_outtime"/>
+						<input type="date" value="종료날짜"  name="parking_outtime" id="parking_outtime" min="2021-04-15" max="2021-04-30" required/>
 						
 					</tr>
 					
@@ -494,9 +476,8 @@
 					<tr>
 						<th>사진</th>
 						<td>
-						 <!--
-						<input type="text" name="parking_pic">
-						   -->
+						 <div id="delete_file" >
+						 	 </div>
 						
 						<input type="file" name="uploadFile" accept="image/*" onchange="readURL(this);" id='profile_img_upload'/>
 						<label for='profile_img_upload'><i class="far fa-file-image">&nbsp;파일 선택</i></label>

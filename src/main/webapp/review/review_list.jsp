@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ include file="../header.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,7 +20,6 @@
 	<title>어따세워? 내가 쓴 리뷰 목록</title>
 </head>
 <body>
-	<jsp:include page="../header.jsp"></jsp:include>
 	<div id="cntnr">
         <div class="cntnr-top-margin"></div>
         <p class="mp-title">리뷰 관리</p>
@@ -32,19 +32,19 @@
 	                	<form class="mp-rvl-form" action="../review_list.do">
 		                	<!-- user_id 값을 제대로 받았는지 확인하기 위해 임시로 넣은 input -->
 		                	<input type="hidden" class="key-rv-id" name="user_id" value="${review.user_id}"/>
-		                    <p class="mp-rvl-p mp-rvl-date">
-		                    	<strong>이용시간</strong><br>
-								<fmt:formatDate value="${review.rsvVO.rsv_intime}" type="both" dateStyle="full"/><br>
-								<fmt:formatDate value="${review.rsvVO.rsv_outtime}" type="both" dateStyle="full"/><br>
-		                    </p>
-		                    <p class="mp-rvl-p mp-rvl-address">
-		                    	<!-- 서울특별시 동작구 흑석동 184-19 -->
-								${review.parkingVO.parking_location}
-		                    </p>
 		                    <p class="mp-rvl-p mp-rvl-title">
 								<!-- 광장시장 근처 개인 주차공간 -->
 								${review.parkingVO.parking_title}
 							</p>
+							<p class="mp-rvl-p mp-rvl-address">
+		                    	<!-- 서울특별시 동작구 흑석동 184-19 -->
+								${review.parkingVO.parking_location}
+		                    </p>
+		                    <p class="mp-rvl-p mp-rvl-date">
+		                    	<strong>이용시간</strong><br>
+								<fmt:formatDate value="${review.rsvVO.rsv_intime}" type="both" dateStyle="full"/> 부터<br>
+								<fmt:formatDate value="${review.rsvVO.rsv_outtime}" type="both" dateStyle="full"/> 까지<br>
+		                    </p>
 							<p class="mp-rvl-p mp-rvl-rate" data-rate="${review.review_rating}">별점&nbsp;&nbsp;${review.review_rating}
 								<input type="radio" name="review_rating" value="1" class="rtng" <c:if test="${review.review_rating eq '1'}">checked</c:if> id="rtng1" title="1"><label for="rtng1" class="starLabel"><i class="fas fa-star"></i></label>
 				            	<input type="radio" name="review_rating" value="2" class="rtng" <c:if test="${review.review_rating eq '2'}">checked</c:if> id="rtng2" title="2"><label for="rtng2" class="starLabel"><i class="fas fa-star"></i></label>
