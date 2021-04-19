@@ -115,7 +115,7 @@
    
    .btn-primary{
       position: fixed;
-      top : 90%;
+      top : 78%;
       right : 0px;
    }
    
@@ -146,9 +146,10 @@
         height : 35px;
         margin: 0 12px 0 0;
    }
+   /*
 #chatbot{
 position:absolute;
-}
+}*/
    /*부트스트랩 뜯은 부분*/
    .modal-header-primary { color:#fff; padding:9px 15px; border-bottom:1px solid #eee; background-color: #428bca; -webkit-border-top-left-radius: 5px; -webkit-border-top-right-radius: 5px; -moz-border-radius-topleft: 5px; -moz-border-radius-topright: 5px; border-top-left-radius: 5px; border-top-right-radius: 5px; }
 
@@ -210,15 +211,17 @@ position:absolute;
    		margin: 0 0 0 5px;
    }
    #chatbot{
-   		position: fixed;
-	    top: 80%; 
-	    /*bottom: 80%;*/
+   		width:100px;
+   		height:100px;
+	    /*background-color:pink;*/
+	    position: fixed;
+	    top: 86%; 
+	    bottom: 80%;
 	    right: 0px;
-	    animation:chatbot 3s linear infinite alternate; 
-	    pointer-events: none;
-	    
+	    z-index:999;
    }
-    @keyframes chatbot {
+	    
+    @keyframes bot {
 	    0%{margin-top: 0px;}
 	    10%{margin-top: 2.5px;}
 	    20%{margin-top: 5px;}
@@ -233,11 +236,19 @@ position:absolute;
     }
    #bot{
    		width:100px;
+   		/*z-index:99999;*/
+   		position: fixed;
+	    top: 85%; 
+	    /*bottom: 80%;*/
+	    right: 0px;
+	    animation:bot 3s linear infinite alternate; 
+	    pointer-events: none;
+	    z-index:999;
    }
    #ppp{
    		text-align: center;
 	    font-size: 11px;
-	    line-height: 90%;
+	    line-height: 80%;
 	    margin-bottom: -10px;
    }
    </style>
@@ -289,11 +300,12 @@ position:absolute;
    </script>
 </head>
 <body>
+		<a href="http://127.0.0.1:52273/" onClick="window.open(this.href, '_blank', 'width=500, height=430'); return false;" id="chatbot">
+		   	<p id = "ppp">말을 걸어보세요</p>
+		   	<img src="<%=request.getContextPath()%>/images/chatbot.png" id="bot">
+   		</a>
+	
    <div id="hdr">
-   		<div id="chatbot">
-   		<a href="http://127.0.0.1:52273/" onClick="window.open(this.href, '', 'width=500, height=430'); 
-   		return false;"><p id = "ppp">말을 걸어보세요</p><img src="<%=request.getContextPath()%>/images/chatbot.png" id="bot"></a>
-   		</div>
    		
         <a href="<%=request.getContextPath()%>/index.jsp"><div class="hdr-logo"></div></a>
         <div id="nav">
