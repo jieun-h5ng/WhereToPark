@@ -14,8 +14,45 @@
     <link rel="stylesheet" type="text/css" href="css/My-page-reservation.css">
     <title>Reservation DAO Test Page</title>
     <style>
+.Mprsv-arti{
+ border: #ccc solid 1px;
+}
+input{ height: auto; /* 높이 초기화 */ 
+line-height: normal; /* line-height 초기화 */ 
+padding: .8em .5em; /* 여백 설정 */ }
+
+.textbox input[type="text"]{ 
+width: 100%; /* 원하는 너비 설정 */ 
+height: auto; /* 높이값 초기화 */ 
+line-height : normal; /* line-height 초기화 */ 
+padding: .8em .5em; /* 원하는 여백 설정, 상하단 여백으로 높이를 조절 */ 
+font-family: inherit; /* 폰트 상속 */ 
+border: 1px solid #999; 
+border-radius: 0; /* iSO 둥근모서리 제거 */ 
+outline-style: none; /* 포커스시 발생하는 효과 제거를 원한다면 */ 
+-webkit-appearance: none; /* 브라우저별 기본 스타일링 제거 */ 
+-moz-appearance: none; 
+appearance: none; }
 
 
+summary{
+cursor:pointer;
+width:200px;
+}
+
+.rsv_pic{
+width:300px;
+display:inline;
+}
+
+.rsv_pic img{
+width: 300px;
+height: 200px;
+object-fit:cover;
+}
+#rsv_info{
+display:inline;
+}
     </style>
 </head>
 
@@ -27,9 +64,10 @@
         <form action="updateRsv.do" method="post">
             <input name="rsv_id" type="hidden" value="${rsv.rsv_id}" />
              <input name="parking_id" type="hidden" value="${rsv.parkingVO.parking_id}" />
-        <a href="searchParkingDetail.do?parking_id=${rsv.parkingVO.parking_id}">  
+        <div class="rsv-detail"><a href="searchParkingDetail.do?parking_id=${rsv.parkingVO.parking_id}">  
+         <div class="rsv_pic"><img src="images/${rsv.parkingVO.parking_pic}"/></div></a>
         <table id="rsv_info" border="0" cellpadding="10" cellspacing="10">
-                           
+             
                 <tr>
                     <!-- <td>파킹보드 제목</td> -->
                     <td align="left"><span style="font-weight:bold; font-size:20pt;">${rsv.parkingVO.parking_title}</span></td>
@@ -42,7 +80,7 @@
                     <!-- <td>시간</td> -->
                     <td align="left">반납일시: <fmt:formatDate var="rsvOutDt" value="${rsv.rsv_outtime}" pattern="YYYY-MM-dd HH:mm"/>${rsvOutDt}</td>
                 </tr>
-               
+           
   <c:choose>
   <c:when test="${'장기' eq rsv.parkingVO.parking_type}">
    <fmt:parseNumber value="${rsv.rsv_intime.time / (1000*60*60*24)}" integerOnly="true" var="strDate"/>
@@ -74,9 +112,12 @@
                     <td align="left">총 예약 요금: ${rsv.rsv_price} 원</td>
                 </tr>
 
-            </table></a> 
+            </table> 
+            </div>
 <div id="optional-info">
-    <h1>이용자 및 차량정보</h1>
+<details>
+    <summary><h1>이용자 및 차량정보</h1></summary>
+
     <h2>닉네임</h2>
     <input class="rsv-info" type="text" readonly value="${rsv.userVO.user_nickname}"><br>
     <h2>전화번호</h2>
@@ -90,6 +131,8 @@
     
     <h2>차번호</h2>
     <input class="rsv-info" type="text" value="${rsv.userVO.car_num}" placeholder="예) 34가 5678"><br>
+
+</details>
 </div>
 
 <script>
@@ -109,7 +152,10 @@
         </form>
         </div>
         <a href="deletersv.do?id=${rsv.rsv_id}">예약 취소</a>&nbsp;&nbsp;&nbsp;
+        <a href="javascript:history.back();">예약 내역으로 돌아가기</a>
+        <!-- 
         <a href="getRsvList.do">예약 내역으로 돌아가기</a>
+         -->
     </div>
     <hr>
 

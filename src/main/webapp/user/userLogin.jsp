@@ -113,6 +113,9 @@
 	float: left;
 	margin: 20px 50px 0px 0px;
 }
+.login_detail_findpw{
+	margin: 20px 50px 0px 40px;
+}
 
 .login_detail:hover {
 	text-decoration: underline;
@@ -269,7 +272,7 @@
 	
 					<div id="login_detail_box">
 
-						<div class="login_detail">
+						<div class="login_detail login_detail_findpw">
 							<a href="/Where2Park/user/findpw.jsp" class="loginhere-link" id="find_pw_btn">비밀번호 찾기</a>
 						</div>
 						<div class="login_detail">

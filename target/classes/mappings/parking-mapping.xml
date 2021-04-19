@@ -5,12 +5,24 @@
 <mapper namespace="ParkingDAO">
 	<resultMap id="parkingResult" type="parking">
 		<id property="parking_id" column="parking_id" />
+		<result property="owner_id" column="owner_id"/>
+		<result property="parking_type" column="parking_type"/>
+		<result property="parking_title" column="parking_title"/>
+		<result property="parking_content" column="parking_content"/>
+		<result property="parking_pic" column="parking_pic"/>
+		<result property="parking_location" column="parking_location"/>
+		<result property="parking_cartype" column="parking_cartype"/>
+		<result property="parking_price" column="parking_price"/>
 		<result property="parking_intime" column='parking_intime' />
 		<result property="parking_outtime" column='parking_outtime' />
+		<result property="parking_deleted" column="parking_deleted"/>
+		<result property="parking_lat" column="parking_lat"/>
+		<result property="parking_lng" column="parking_lng"/>
 		<association property="rsvVO" column="parking_id"
 			resultMap="rsvResult" />
 		<association property="reviewVO" column="parking_id"
 			resultMap="reviewResult" />
+		<association property="wishVO" column="parking_id" resultMap="wishResult"/>
 	</resultMap>
 	<resultMap id="rsvResult" type="rsv">
 		<id property='rsv_id' column='rsv_id' />
@@ -25,6 +37,10 @@
 		<result property="review_date" column="review_date"/>
 		<result property="review_content" column="review_content"/>
 		<result property="review_rating" column="review_rating"/>
+	</resultMap>
+	<resultMap id="wishResult" type="wishList">
+		<id property="wish_id" column="wish_id"/>
+		<result property="user_id" column="user_id"/>
 	</resultMap>
 	
 	
@@ -52,30 +68,46 @@
 	</select>
 	
 	<!-- 지은 검색에서 쓸 것 -->
-	<select id="getAllParkingList" resultType="parking">
-	<![CDATA[
-		SELECT * 
-		FROM PARKINGBOARD
-		WHERE parking_type = '장기' 
-		AND parking_deleted = 0
-		AND parking_outtime>= now()
-		ORDER BY parking_id DESC
-	]]>
+	<select id="getAllParkingList" resultMap="parkingResult">
+		<![CDATA[
+			select *
+			from parkingboard
+			left join wishlist on parkingboard.parking_id = wishlist.parking_id 
+	        AND wishlist.user_id = #{wishVO.user_id}
+	        WHERE parking_type = "장기"
+	        AND parking_deleted = 0
+			AND parking_outtime>= now()
+	        ORDER BY parkingboard.parking_id DESC
+			;
+		]]>
 	</select>
-		<select id="getAllShortParkingList" resultType="parking">
-	<![CDATA[
-		SELECT * 
-		FROM PARKINGBOARD
-		WHERE parking_type = '단기' 
-		AND parking_deleted = 0
-		AND parking_outtime>= now()
-		ORDER BY parking_id DESC 
-	]]>
+	<select id="getAllShortParkingList" resultMap="parkingResult">
+		<![CDATA[
+			select *
+			from parkingboard
+			left join wishlist on parkingboard.parking_id = wishlist.parking_id 
+	        AND wishlist.user_id = #{wishVO.user_id}
+	        WHERE parking_type = "단기"
+	        AND parking_deleted = 0
+			AND parking_outtime>= now()
+	        ORDER BY parkingboard.parking_id DESC
+			;
+		]]>
 	</select>
+	<!-- <select id="getAllShortParkingList" resultType="parking">
+		<![CDATA[
+			SELECT * 
+			FROM PARKINGBOARD
+			WHERE parking_type = '단기' 
+			AND parking_deleted = 0
+			AND parking_outtime>= now()
+			ORDER BY parking_id DESC 
+		]]>
+	</select> -->
 	<select id="getLongParkingList" resultType="parking">
 	<![CDATA[
 		SELECT * 
-		FROM PARKINGBOARD
+		FROM PARKINGBOARD, wishlist
 		WHERE (parking_title LIKE CONCAT('%', #{parking_title}, '%') 
 		OR parking_content LIKE CONCAT('%', #{parking_content}, '%')
 		OR parking_location LIKE CONCAT('%', #{parking_content}, '%'))
@@ -85,12 +117,13 @@
 		AND parking_price <= #{parking_price}
 		AND parking_intime <= #{parking_intime}
 		AND parking_outtime >= #{parking_outtime}
+		AND parkingboard.parking_id = wishlist.parking_id
 	]]>
 	</select>
 	   <select id="getShortParkingList" resultType="parking">
    <![CDATA[
       SELECT * 
-      FROM PARKINGBOARD
+      FROM PARKINGBOARD, wishlist
       WHERE (parking_title LIKE CONCAT('%', #{parking_title}, '%') 
       OR parking_content LIKE CONCAT('%', #{parking_content}, '%')
       OR parking_location LIKE CONCAT('%', #{parking_content}, '%'))
@@ -99,6 +132,7 @@
       AND parking_deleted = 0 
       AND parking_price <= #{parking_price}
       AND parking_outtime > #{parking_intime}
+      AND parkingboard.parking_id = wishlist.parking_id
    ]]>
    </select>
 		<select id = "getDateList" resultType="parking" resultMap = "parkingResult">

@@ -14,13 +14,30 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="preconnect" href="https://fonts.gstatic.com">
-		<link rel="stylesheet" type="text/css" href="css/SearchParkingStyleSheet.css">
+		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/SearchParkingStyleSheet.css">
 		<link
 			href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
 			rel="stylesheet">
 		<title>장기주차 검색하기</title>
 		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		<style>
+			#tt{
+			font-weight:500;
+			}
+			#coloring-red-heart{
+				color:#d96b6b;
+			}
+			#coloring-gray-heart{
+				color:#dfdfdf;
+			}
+			.coloring-red-heart{
+				color:#d96b6b;
+			}
+			.coloring-gray-heart{
+				color:#dfdfdf;
+			}
+		</style>
 	</head>
 
 	<body>
@@ -66,7 +83,7 @@
 
 
 										txt += "<tr><td><img id='pkpic'src='images/" + element.parking_pic + "'/></td></tr>"
-										+ "<tr><td>" + element.parking_title + "</td></tr>"
+										+ "<tr><td><span id='tt'>" + element.parking_title + "'</span>'</td></tr>"
 										+ "<tr><td>" + element.parking_location + "</td></tr>"	
 										+ "<tr><td> " + element.parking_type + "</td></tr>"
 										+ "<tr><td>예약시작: " + element.parking_intime + "</td></tr>"
@@ -135,8 +152,8 @@
 				<div class="search-condition">
 					<input type="hidden" id="sdateVal" name="sdate" />
 					<input type="hidden" id="edateVal" name="edate" />
-					<input type="button" value="시작날짜" id="sdate" />
-					<input type="button" value="종료날짜" id="edate" />
+					<input type="text" class="hasTimepicker" id="sdate" readonly/>
+					<input type="text" class="hasTimepicker" id="edate" readonly/>
 					<script>
 						$("#sdate").datepicker(
 							{
@@ -190,22 +207,20 @@
 							});
 						$.datepicker.setDefaults($.datepicker.regional['ko']);
 
-						$('#edate').datepicker();
-						if ($("#sdate").val() == "") {
-							$('#edate').datepicker("option", "minDate", "1d");
-						} else
-							$('#edate').datepicker("option", "minDate", $("#sdate").val());
-						$('#edate').datepicker("option", "onClose", function (selectedDate) {
-							$("#sdate").datepicker("option", "maxDate", selectedDate);
-							$("#edateVal").attr("value", selectedDate);
-						});
+	               		  $('#edate').datepicker("option", "onClose", function (selectedDate) {
+	                        	if(selectedDate.length==10)
+	                            $("#sdate").datepicker("option", "maxDate", selectedDate);
+	            
+	                        	
+	                        });
+	                        $('#sdate').datepicker("option", "onClose", function (selectedDate) {
+	                        	if(selectedDate.length==10)
+	                                $("#edate").datepicker("option", "minDate", selectedDate);
 
-						$("#sdate").datepicker();
-						$('#sdate').datepicker("option", "maxDate", $("#edate").val());
-						$('#sdate').datepicker("option", "onClose", function (selectedDate) {
-							$("#edate").datepicker("option", "minDate", selectedDate);
-							$("#sdateVal").attr("value", selectedDate);
-						});
+	                        	
+	                        });
+	                        $("#sdate").val("시작날짜");
+	                        $("#edate").val("종료날짜");
 
 
 
@@ -233,82 +248,99 @@
 			<div class="search-result">
 
 				<div class="search-result-list">
-				
 					<c:forEach var="parking" items="${LP_List}" varStatus="wishListStatus">
 
                      <table class="parking-lot" border="1">
                         <tr>
-                           <td><a href="searchParkingDetail.do?parking_id=${parking.parking_id}"><img id='pkpic' src='images/${parking.parking_pic}'/></a></td>
+                           <td>
+                           	<a href="searchParkingDetail.do?parking_id=${parking.parking_id}"><img id='pkpic' src='images/${parking.parking_pic}'/></a>
+                           	<!-- 찜 기능 작업중에 있습니다 -->
+                           	<%-- <p>${parking.wishVO.wish_id}</p> --%>
+								<form class="positioning-of-heart">
+									<input type="hidden" name="" class="pidxn" value="${wishListStatus.index}"/>
+									<input type="hidden" name="wish_id"  value="${parking.wishVO.wish_id}" id=checkWishId${wishListStatus.index}/>
+									<input type="checkbox" name="parking_id" value="${parking.parking_id}" id=parkingWish${wishListStatus.index} class="wish-checkbox"></input>
+									<label for="chckheart" class="heartLabel" onclick="wishList(${wishListStatus.index}, parkingWish${wishListStatus.index});">
+										<i class="fas fa-heart"<c:if test="${null ne parking.wishVO.wish_id}">id='coloring-red-heart'</c:if>></i>
+									</label>
+
+								</form>
+                           </td>
                         </tr>
-                     
                         <tr>
-                           <td><a href="searchParkingDetail.do?parking_id=${parking.parking_id}">${parking.parking_title}</a></td>
+                           <%-- <td><a href="searchParkingDetail.do?parking_id=${parking.parking_id}">제목: ${parking.parking_title}</a></td> --%>
+                           <td><a href="searchParkingDetail.do?parking_id=${parking.parking_id}"><span id="tt">${parking.parking_title}</span></a></td>
                         </tr>
                         <tr>
-                           <td><a href="searchParkingDetail.do?parking_id=${parking.parking_id}">${parking.parking_location}</a></td>
+                           <td><a href="searchParkingDetail.do?parking_id=${parking.parking_id}">위치: ${parking.parking_location}</a></td>
                         </tr>
                            <tr>
-                           <td><a href="searchParkingDetail.do?parking_id=${parking.parking_id}">${parking.parking_type}</a></td>
+                           <td><a href="searchParkingDetail.do?parking_id=${parking.parking_id}">유형: ${parking.parking_type}</a></td>
                         </tr>
                         <tr>
-                           <td><a href="searchParkingDetail.do?parking_id=${parking.parking_id}">예약가능: ${parking.parking_intime}</a></td>
+                           <td><a href="searchParkingDetail.do?parking_id=${parking.parking_id}">시간: ${parking.parking_intime}</a></td>
                         </tr>
                         <tr>
-                           <td><a href="searchParkingDetail.do?parking_id=${parking.parking_id}">1일 ${parking.parking_price} 원</a></td>
+                           <td><a href="searchParkingDetail.do?parking_id=${parking.parking_id}">가격: ${parking.parking_price}</a></td>
                         </tr>
-                        <!-- 찜 기능 작업중에 있습니다 -->
+                        
                         <tr>
                            
-                              <td>
-                                 <form>
-                                    <input type="checkbox" name="parking_id" value="${parking.parking_id}" id=parkingWish${wishListStatus.index}></input>
-                                    <label for="chckheart" class="heartLabel" onclick="wishList(${wishListStatus.index}, parkingWish${wishListStatus.index} );"><i class="fas fa-heart"></i></label>
-                                 </form>
-                              </td>
+							<td>
+								
+							</td>
                         </tr>
                      </table>
                   
                </c:forEach>
-
                <script>
-                  var cnt = 0;
-                  //insert WishList
-                  function wishList (num, parkingWish){
-                     var parkingId = parkingWish.value;
-                     
-                     if(cnt == 0){
-                        console.log("찜될 주차장 : " + parkingId);
-                        var xhr = new XMLHttpRequest();
-                        xhr.onreadystatechange = function(){
-                           if(xhr.readyState === 4 && xhr.status === 200){
-                              var heart = document.getElementsByClassName("fa-heart");
-                              heart[num].setAttribute("style", "color : red;");
-                              cnt++;
-                              console.log("찜될 주차장  cnt: " + cnt);
-                           }
-                        }
-                        xhr.open('GET', 'insert_wish.do?parking_id='+parkingId);
-                        xhr.send(parkingId);
-                     }
-                     
-                     if(cnt == 1){
-                        var xhr = new XMLHttpRequest();
-                        console.log("찜삭제될 주차장 : " + parkingId);
-                        xhr.onreadystatechange = function(){
-                           if(xhr.readyState === 4 && xhr.status === 200){
-                              var heart = document.getElementsByClassName("fa-heart");
-                                 heart[num].setAttribute("style", "color : black;");
-                                 cnt--;
-                                 console.log("찜삭제된 주차장  cnt: " + cnt);
-                              }
-                           }
-                           xhr.open('GET', 'delete_wish.do?parking_id='+parkingId);
-                           xhr.send(parkingId);
-                     } 
-                  }
-
-               </script>
-               <!-- 여기까지 찜 기능 작업중에 있습니다 -->
+						var click = 0;
+						var index = 0;
+						//insert WishList
+						function wishList (num, parkingWish){
+							var heart = document.getElementsByClassName("fa-heart");
+							var parkingId = parkingWish.value;
+							console.log("ehosi");														
+							if(index != num){
+								click = 0;
+							}
+							
+							index = num;
+						
+							if(click == 0){
+								console.log("찜될 주차장 : " + parkingId);
+								var xhr = new XMLHttpRequest();
+								xhr.onreadystatechange = function(){
+									if(xhr.readyState === 4 && xhr.status === 200){
+										//var heart = document.getElementsByClassName("fa-heart");
+										heart[num].setAttribute("id", "coloring-red-heart");
+										click++;
+										console.log("찜될 주차장  click: " + click);
+									}
+								}
+								xhr.open('GET', 'insert_wish.do?parking_id='+parkingId);
+								xhr.send(parkingId);
+							}
+							
+							if(click == 1){
+								var xhr = new XMLHttpRequest();
+								console.log("찜삭제될 주차장 : " + parkingId);
+								xhr.onreadystatechange = function(){
+									if(xhr.readyState === 4 && xhr.status === 200){
+										var heart = document.getElementsByClassName("fa-heart");
+											heart[num].setAttribute("id", "coloring-gray-heart");
+											click--;
+											console.log("찜삭제된 주차장  click: " + click);
+										}
+									}
+									xhr.open('GET', 'delete_wish.do?parking_id='+parkingId);
+									xhr.send(parkingId);
+							} 
+						}
+						
+					</script>
+					<!-- 여기까지 찜 기능 작업중에 있습니다 -->
+					
 				</div>
 
 			</div>
@@ -348,8 +380,7 @@
 							message = 'geolocation을 사용할수 없어요..'
 
 						displayMarker(locPosition, message);
-					}
-
+						}
 					// 지도에 마커와 인포윈도우를 표시하는 함수입니다
 					function displayMarker(locPosition, a_positions) {
 						imageSrc = "<%=request.getContextPath()%>/LOGO.png", // 마커이미지의 주소입니다    
@@ -385,19 +416,20 @@
 
 							// 인포윈도우를 생성합니다
 							var infowindow = new kakao.maps.InfoWindow({
-								content: a_positions[i].content,
-								removable:false
+								content: a_positions[i].content
 							});
-							
 							infowindows.push(infowindow);
 
 							// 인포윈도우를 마커위에 표시합니다 
 							infowindow.open(map, marker);
 
-							// 지도 중심좌표를 접속위치로 변경합니다
-							map.setCenter(locPosition);
 						}
+						
+						// 지도 중심좌표를 접속위치로 변경합니다
+						map.setCenter(locPosition);
 					}
+
+
 				</script>
 			</div>
 		</div>

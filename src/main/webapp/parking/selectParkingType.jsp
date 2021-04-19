@@ -62,7 +62,7 @@
 	margin: 0 auto;
 	text-align: center;
 	font-size: 18px;
-	background-image: url('<%=request.getContextPath()%>/images/happy.jpg' ) ;  
+	background-image: url('<%=request.getContextPath()%>/images/210419-0004-happy.png' ) ;  
 	background-size: cover;
 	background-position: center center;
 	

@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.where2park.biz.reservation.RsvVO;
 import com.where2park.biz.review.ReviewVO;
+import com.where2park.biz.wishList.WishVO;
 
 public class ParkingVO {
 	private int parking_id;
@@ -27,11 +28,17 @@ public class ParkingVO {
 	private RsvVO rsvVO;
 	
 	private ReviewVO reviewVO;
+	private WishVO   wishVO;
 	private int page;
 	//파일 업로드 변수 추가
 	private MultipartFile uploadFile;
 	
-	
+	public WishVO getWishVO() {
+	      return wishVO;
+   }
+   public void setWishVO(WishVO wishVO) {
+      this.wishVO = wishVO;
+   }
 	
 	public double getParking_lat() {
 		return parking_lat;

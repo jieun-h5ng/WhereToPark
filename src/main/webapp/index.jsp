@@ -9,6 +9,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="preconnect" href="https://fonts.gstatic.com">
+
+<link rel="shortcut icon" href="<%=request.getContextPath()%>/favicon.ico">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <script src="https://kit.fontawesome.com/415f6f6023.js" crossorigin="anonymous"></script>
@@ -67,6 +69,15 @@
       padding: 0px 20px;
       line-height: 150px;
    }
+   
+   #hdr>#nav>ul>li>a{
+       transition: all .3s ease;
+       font-weight:400;
+       font-size:1.1em;
+   }
+   #hdr>#nav>ul>li:hover>a{
+   	color:#367fff;
+   }
    #hdr #nav ul #nav-mp{
                   
    }
@@ -82,13 +93,15 @@
       
    }
    #hdr #nav ul #nav-mp ul li{
+	   font-size:0.95em;
       clear:both;
       line-height:70px;
       width:140px;
       text-align:center;
+      transition: all .3s ease;
    }
    #hdr #nav ul #nav-mp ul li:hover{
-      background:#f9f9f9;
+      background:#e9e9e9;
    }
    #cntnr {
       clear: both;
@@ -422,7 +435,6 @@
 						console.log("온도: " + json_obj.temp);
 						console.log("설명: " + json_obj.text);
 						
-
 						
 						
 						$('#weather_address').html(json_obj.local);
@@ -446,8 +458,8 @@
 				});
 			}
 			
-			//10초마다 호출
-			setInterval(reqWeather, 1000*10);
+			//5분마다 호출
+			setInterval(reqWeather, 1000*10*30);
 			
 			
 		})
@@ -491,12 +503,12 @@
    			<div id="weather">
    				<span id='weather_text'></span>
 				<div class="image_back">
-        			<span id='weather_temp' style="font-size:50px; color:#fff;"> Unknown  </span> 
+        			<span id='weather_temp' style="font-size:50px; color:#fff;">   </span> 
         					<img id='weather_img' src="">
         					 
         			 <br/>
         		</div>
-        		<span id='weather_address' style="font-size:1.2em; color:#fff;"> Unknown </span>
+        		<span id='weather_address' style="font-size:1.2em; color:#fff;">  </span>
    				
    				
   			 <!-- 날씨 크롤링 
