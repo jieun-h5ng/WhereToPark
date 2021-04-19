@@ -290,7 +290,7 @@
    
    .btn-primary{
       position: fixed;
-      top : 90%;
+      top : 91%;
       right : 0px;
    }
    
@@ -557,7 +557,6 @@
                   </div>
                <div class='modal-body'>상담하기로 이동하시겠습니까?</div>
                <div class='modal-footer'>
-                 <!--  <a href='"+ data.not_url +"' onClick='window.open(this.href, "", "width=350, height=400, status=no, toolbar=no, scrollbars=no, location=no"); return false;'> -->
                   <button type='button' class='btn btn-default pull-left' id='modalYes' data-dismiss='modal'>YES</button></a>
                   <button type='button' class='btn btn-default pull-left' id='modalNo' data-dismiss='modal'>NO</button>
                </div>
