@@ -34,7 +34,15 @@
     font-weight: 300;
     color: #4c4c4c;
   }
-
+/*리뷰 ajax 부분*/
+    .rating {display: inline-block;}
+ .rating > input {display: none;}
+ .rating > label:before {display: inline-block;}
+ .rating > label:before i{color:#cccccc;}
+ .rating > input[type="checkbox"] + label {color: #999;}
+ .rating > input:checked ~ label{display: inline-block;}
+ .rating > input:checked ~ label i{color: #e4c61c;}
+ .rating > input:checked ~ label:before i{color:#cccccc;}
 </style>
 </head>
 <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
@@ -140,7 +148,6 @@
                
              $('#etime').timepicker({timeFormat:'H:i','minTime':'06:00','maxTime':'23:00'});//etime 시간 기본 설정
 			
-var isvalid = false; //예외처리용 
                   function call(){
                      var time1 = document.getElementById("stime").value;
                      var time2 = document.getElementById("etime").value;
@@ -158,26 +165,39 @@ var isvalid = false; //예외처리용
                      //0시간 차이나는 경우 예외처리
                      if(interval =="0"){ 
                     	 alert("최소 1시간 이상 예약해주세요");
-                    	 isvalid=false;
+                    	 var totalPrice = 0;
                      }
                      else{
-						isvalid = true;
                      var HH = Math.floor((interval % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)); //시
                      
                      var totalPrice = ${p_detail.parking_price} * HH;
-                   
+
+                     }
+                     }else{// 하나만 선택한 경우 예외처리
+                     	var totalPrice = 0;
+                     }
+                     
                      $("#hours").text(HH);
                      $('#won').text(totalPrice);
                      $('#hidden_price').attr('value',totalPrice);
                     $('#hidden_sdate').attr('value',t1);
                      $('#hidden_edate').attr('value',t2);
-                     }
-                     }else{// 하나만 선택한 경우 예외처리
-                    	 isvalid = false;
-                     	("#won").text("0");
-                     }
                   }
-
+					
+                  $(document).ready(function(){
+                  	$("#pk-book-btn").on("click", function() {
+                  		if(  $("#stime").val()=="시작시간" ||
+                          $("#etime").val()=="종료시간"){
+                  			alert("날짜를 선택해주세요");
+                  			return false;
+                  		}
+                  		if($("#won").text()=="0"){
+                  			alert("유효하지 않은 입력입니다. 날짜를 다시 선택해주세요");
+                  			return false;
+                  		}
+                  		
+                  	});
+                  });
                     </script>
                   </div>
                   <div class="pk-total-price">
@@ -192,18 +212,15 @@ var isvalid = false; //예외처리용
                            <input type="button" value="주차장 예약하기" id="pk-book-btn"
                               onclick="alert('로그인이 필요한 기능입니다.');location.href='<%=request.getContextPath()%>/user/userLogin.jsp' " />
                         </c:when>
-                        <c:when test="${!empty sessionScope.userId and p_detail.owner_id ne userId and isvalid}">
+                        <c:when test="${!empty sessionScope.userId and p_detail.owner_id ne userId}">
                            <input type="submit" value="주차장 예약하기" id="pk-book-btn"
                               onclick="send();" />
                         </c:when>
                         <c:when test="${!empty sessionScope.userId and p_detail.owner_id eq userId}">
                            <input type="button" value="주차장 예약하기" id="pk-book-btn"
-                              onclick="alert('자기 자신의 주차장은 예약할 수 없습니다');location.href=#"/>
+                              onclick="alert('자기 자신의 주차장은 예약할 수 없습니다');location.href='#';"/>
                         </c:when>
-                        <c:when test="${isvalid ne true}">
-                           <input type="submit" value="주차장 예약하기" id="pk-book-btn"
-                              onclick="alert('유효하지 않은 시간입니다. 다시 선택해주세요');location.href=#"/>
-                        </c:when>
+
                      </c:choose>
                      <!-- parking의 owner_id 가 세션user와 동일한 경우 예외처리 -->
                   </div>
@@ -400,21 +417,18 @@ var isvalid = false; //예외처리용
                yy= date.getFullYear();
                mm = date.getMonth()+1;
                dd = date.getDate();
-                 var txt = '<tr><td><table class="rv-indiv">';
-                  txt+=  '<tr><td class="rv-pic"><img src="images/profile/'+element.userVO.user_pic+'" /></td>';
-                  txt+= '<td>'+element.userVO.user_nickname+'<br>'+yy+'년 '+mm+'월 '+dd+'일</td>';
-                  txt+= '<tr><td colspan="2">';
-                  txt+='<p class="mp-rvl-p mp-rvl-rate" data-rate="${'+element.review_rating+'}">';
-                  txt+='<input type="radio" name="review_rating" value="1" class="rtng"<c:if test="'+element.review_rating+' eq \"1\"}">checked </c:if> id="rtng1" title="1"><label for="rtng1"class="starLabel"><i class="fas fa-star"></i></label>'; 
-                  txt+='<input type="radio" name="review_rating" value="2" class="rtng" <c:if test="'+element.review_rating+' eq \"2\"}">checked </c:if> id="rtng2" title="2"><label for="rtng2"class="starLabel"><i class="fas fa-star"></i></label>'; 
-                  txt+='<input type="radio" name="review_rating" value="3" class="rtng" <c:if test="'+element.review_rating+' eq \"3\"}">checked </c:if> id="rtng3" title="3"><label for="rtng3" class="starLabel"><i class="fas fa-star"></i></label>' ;
-                  txt+='<input type="radio" name="review_rating" value="4" class="rtng" <c:if test="'+element.review_rating+' eq \"4\"}">checked </c:if> id="rtng4" title="4"><label for="rtng4" class="starLabel"><i class="fas fa-star"></i></label>' ;
-                  txt+='<input type="radio" name="review_rating" value="5" class="rtng" <c:if test="'+element.review_rating+' eq \"5\"}">checked </c:if> id="rtng5" title="5"><label for="rtng5" class="starLabel"><i class="fas fa-star"></i></label></p>';
-txt+="<script> $(document).ready(function(){var rating = $('.mp-rvl-rate'); rating.each(function(){var targetScore = $(this).attr('data-rate');console.log(targetScore);";
- txt+="$(this).find('input:nth-child(-n+' + targetScore*2 +') + label i').css({color:'#e4c61c'});";
-  txt+=  "$(this).find(\'input:nth-child(n+\' + targetScore*2 +\') + label i\').css({color:\'#ccc\'});});});</script";
-  txt+="><br>"+element.review_content+"</td></tr>"; 
-  txt+="</td> </tr></table> </td></tr>";
+               var txt = '<tr><td><table class="rv-indiv">';
+               txt+='<tr><td class="rv-pic"><img src="images/profile/'+element.userVO.user_pic+'" /></td>';
+               txt+='<td>'+element.userVO.user_nickname+'<br>'+yy+'년 '+mm+'월 '+dd+'일</td>';
+               txt+='<tr><td colspan="2">';
+               txt+='<p class="mp-rvl-p mp-rvl-rate rating" data-rate="${'+element.review_rating+'}">';
+               txt+='<input type="checkbox" name="review_rating" value="5" class="rtng" <c:if test="'+element.review_rating+' eq \"1\"}">checked </c:if> id="rating_1_star5" title="1"><label for="rtng1" class="starLabel"><i class="fas fa-star"></i></label>'; 
+               txt+='<input type="checkbox" name="review_rating" value="4" class="rtng" <c:if test="'+element.review_rating+' eq \"2\"}">checked </c:if> id="rating_1_star4" title="2"><label for="rtng2" class="starLabel"><i class="fas fa-star"></i></label>'; 
+               txt+='<input type="checkbox" name="review_rating" value="3" class="rtng" <c:if test="'+element.review_rating+' eq \"3\"}">checked </c:if> id="rating_1_star3" title="3"><label for="rtng3" class="starLabel"><i class="fas fa-star"></i></label>';
+               txt+='<input type="checkbox" name="review_rating" value="2" class="rtng" <c:if test="'+element.review_rating+' eq \"4\"}">checked </c:if> id="rating_1_star2" title="4"><label for="rtng4" class="starLabel"><i class="fas fa-star"></i></label>';
+               txt+='<input type="checkbox" name="review_rating" value="1" class="rtng" <c:if test="'+element.review_rating+' eq \"5\"}">checked </c:if> id="rating_1_star1" title="5"><label for="rtng5" class="starLabel"><i class="fas fa-star"></i></label></p>';
+               txt+="<br>"+element.review_content+"</td></tr>"; 
+               txt+="</td> </tr></table> </td></tr>";
 
                   list.append(txt);
                   
@@ -439,8 +453,8 @@ txt+="<script> $(document).ready(function(){var rating = $('.mp-rvl-rate'); rati
             </ul>
          </nav>
       </div>
-   </div>
-   <div class="pk-recommendation">
+      
+         <div class="pk-recommendation">
       <h1 class="pk-subject">이 주차장도 추천해요 !</h1>
       <div id="recommendation">
       		<c:forEach items="${recomm}" var= "rcm">
@@ -453,23 +467,16 @@ txt+="<script> $(document).ready(function(){var rating = $('.mp-rvl-rate'); rati
                <td id="recommendation-title" class="reco-title">${rcm.parking_title}</td>
             </tr>
             <tr>
-               <td>${rcm.parking_location}</td>
+               <td class="reco-type">${rcm.parking_location}</td>
             </tr>
                <tr>
-               <td class="reco-type">${rcm.parking_type}</td>
-            </tr>
-            
-             <tr>
-               <td class="reco-cartype">${rcm.parking_cartype}</td>
+               <td class="reco-type">${rcm.parking_type} | ${rcm.parking_cartype} | 1일 ${rcm.parking_price} 원</td>
             </tr>
             <tr>
                <td class="reco-intime"> ${rcm.parking_intime}</td>
             </tr>
-             <tr>
-               <td class="reco-content">${rcm.parking_content}</td>
-            </tr>
-            <tr>
-               <td class="reco-price">1일 ${rcm.parking_price} 원</td>
+           <tr>
+               <td class="reco-intime"> ${rcm.parking_outtime}</td>
             </tr>
             <!-- 찜 기능 작업중에 있습니다 -->
            </table></a>
@@ -479,6 +486,8 @@ txt+="<script> $(document).ready(function(){var rating = $('.mp-rvl-rate'); rati
       
    </div>
    <!-- 각자의 파트는 이곳까지 작업해주시면 되겠습니다. -->
+   </div>
+
    </div>
 </body>
 <script src="header_js.jsp"></script>

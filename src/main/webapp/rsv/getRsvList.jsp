@@ -23,8 +23,7 @@
    crossorigin="anonymous"></script>
 <script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
 
-<link rel="stylesheet" type="text/css"
-   href="css/My-page-reservation.css">
+<link rel="stylesheet" type="text/css" href="css/My-page-reservation.css">
 <title>어따세워: 예약 내역</title>
 <style>
 #noRsv{
@@ -73,7 +72,7 @@ text-align: center;
 
                <span style="font-size:smaller;">${rsv.parkingVO.parking_location}</span></p>
                <input type="hidden" id =nNoticeUserId${status.index} value="${rsv.parkingVO.owner_id}" />
-
+<fmt:formatDate var="checkInDt" value="${rsv.rsv_intime}" pattern="yyyy-MM-dd"/>
             </div></a>
             <!--알림보내기위해서 값 전달-->
             <input type="hidden" id=nRsvId${status.index} value="${rsv.rsv_id}" />
@@ -82,7 +81,7 @@ text-align: center;
             <div class="mp-rsv-btns">
 <c:choose>
 <c:when test="${rsv.rsv_states eq 0 }">
-               <a href="deleteRsv.do?rsv_id=${rsv.rsv_id}"><div
+               <a href="javascript:beforeDelete('${checkInDt}',${rsv.rsv_id})"><div
                      class="mp-rsv-btn mp-rsv-btn-cancle" onclick="getRsvDelete(nRsvId${status.index}, nParkingId${status.index}, nNoticeUserId${status.index}, nParkingTitle${status.index})">예약 취소하기</div></a>
                <div class="mp-rsv-btn mp-rsv-btn-chat">
                <a href="chatroom.do?rsv_id=${rsv.rsv_id}&parker_id=${rsv.parker_id}" onClick="window.open(this.href, '', 'width=350, height=400, status=no, toolbar=no, scrollbars=no, location=no'); return false;">
@@ -106,12 +105,35 @@ text-align: center;
 
             </div>
          </div>
+         
       </c:forEach>
-      <!-- 
-        <div class="MpRsv-arti">2</div>
-        <div class="MpRsv-arti">3</div>
-        <div class="MpRsv-arti">4</div>
-         -->
+     <script>
+
+     function beforeDelete(date,id){
+     var result = confirm("예약을 취소하시겠습니까?");
+     if(result){// 예
+    	 var d_day = new Date(date);
+    	 var today =new Date();
+     var gap = d_day.getTime()-today.getTime();
+     var min = gap/1000/60;
+     
+    	 if(min <= 60){
+    		 alert("예약 1 시간 전부터는 취소가 불가능합니다");
+    		 return false;
+    	}
+    	 //날짜 확인
+    	 else{
+    		 
+    		 $(".mp-rsv-btn-cancle").trigger("click");
+    		 location.href="deleteRsv.do?rsv_id="+id;
+    		 
+    	 }
+         
+     }else{//아니오
+         return false;
+     }
+     }
+     </script>
       <!-- 각자의 파트는 이곳까지 작업해주시면 되겠습니다. -->
    </div>
 </body>

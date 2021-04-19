@@ -136,7 +136,9 @@
         height : 35px;
         margin: 0 12px 0 0;
    }
-
+#chatbot{
+position:absolute;
+}
    /*부트스트랩 뜯은 부분*/
    .modal-header-primary { color:#fff; padding:9px 15px; border-bottom:1px solid #eee; background-color: #428bca; -webkit-border-top-left-radius: 5px; -webkit-border-top-right-radius: 5px; -moz-border-radius-topleft: 5px; -moz-border-radius-topright: 5px; border-top-left-radius: 5px; border-top-right-radius: 5px; }
 

@@ -14,6 +14,8 @@ body{
     height:auto;
     /* body에 스타일링을 지양해주십시오. */
 }
+
+
 #hdr{
     width:100%;
     min-height:150px;
@@ -139,26 +141,31 @@ body{
     padding:0 0 10px 0;
 }
 table#rsv_info{
-    font-size: 15pt;
+font-size: 13pt;
     line-height: 120%;
-    margin: 40px;
+    margin: 30px 0px;
+    width: 420px;
+    display: inline-block;
 }
-#optional-info{
-    font-size: 15pt;
+#optional-info {
+    font-size: 13pt;
     line-height: 120%;
-    margin: 40px;
+    margin: 40px 60px;
 }
 
 #optional-info h1{
+	color: #4c4c4c;
     margin: 20px 0;
     font-weight: 600;
     
 }
 
 #optional-info h2{
-    margin: 20px 0;
-    font-weight: 400;
-    
+margin: 40px 0 10px 0;
+    font-weight: 500;
+
+    font-size: 11pt;
+    color: #367fff;
 }
 
 #chat{
@@ -169,3 +176,71 @@ table#rsv_info{
 }
 
 /*여기부터 지은 CSS*/
+
+#optional-info input[type="text"]{ 
+	height: auto;
+    line-height: normal;
+    padding: .4em .2em;
+    border: none;
+    border-bottom: 1px solid #4c4c4c; 
+    outline-style: none; /* 포커스시 발생하는 효과 제거를 원한다면 */ 
+-webkit-appearance: none; /* 브라우저별 기본 스타일링 제거 */ 
+-moz-appearance: none; 
+appearance: none;
+}
+    
+#optional-info input:focus{
+
+border-bottom: 1px solid #b1ceff;
+}
+
+details{
+margin:20px;
+}
+summary{
+cursor:pointer;
+outline-style: none;
+width:200px;
+}
+summary:hover{
+	color: #367fff;
+}
+
+.rsv_detail{
+position: absolute;
+}
+.rsv_pic{
+width:300px;
+display:inline;
+}
+
+.rsv_pic img{
+    width: 250px;
+    height: 180px;
+    object-fit: cover;
+    margin: 40px 10px 40px 40px;
+    float: left;
+    border-radius: 4px;
+}
+
+
+.rsv-info.radio{
+margin:10px;
+}
+
+#btns{
+    position:relative;
+    width:424px;
+    height:100px;
+    margin:0 auto;
+}
+.rsv_btn{
+    font-size:11pt;
+	height:50px;
+	width:190px;
+	border:none;
+	color:white;
+	background-color: #367fff;
+	border-radius:4px;
+	margin:10px;
+}

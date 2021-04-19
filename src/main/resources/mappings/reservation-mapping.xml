@@ -52,8 +52,8 @@
 	</insert>
 	<update id="updateRsv">
 		<![CDATA[
-		UPDATE reservation SET rsv_states = #{rsv_states}
-		WHERE rsv_id=#{rsv_id}]]>
+		UPDATE carinfo SET car_num = #{car_num}, car_type= #{car_type}
+		WHERE user_id=#{parker_id}]]>
 	</update>
 	<delete id="deleteRsv">
 		<![CDATA[
@@ -62,7 +62,7 @@
 	</delete>
 	<select id="getRsv" resultMap="rsvResult">
 		<![CDATA[
-		SELECT r.rsv_id, r.rsv_intime, r.rsv_outtime, r.rsv_price, r.parking_id,p.parking_pic, p.owner_id, p.parking_type, p.parking_title, p.parking_price, u.user_nickname, u.user_phone, c.car_num, c.car_type
+		SELECT r.rsv_id, r.rsv_intime, r.rsv_outtime, r.rsv_price,r.parker_id, r.parking_id,p.parking_pic, p.owner_id, p.parking_type, p.parking_title, p.parking_price, u.user_nickname, u.user_phone, c.car_num, c.car_type
 		FROM reservation as r
 		inner join parkingboard as p 
 		on r.parking_id = p.parking_id
