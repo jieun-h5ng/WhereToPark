@@ -3,77 +3,6 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="RsvDAO">
-<<<<<<< HEAD
-	<resultMap id="rsvResult" type="rsv">
-		<id property='rsv_id' column='rsv_id' />
-		<result property="parker_id" column = "parker_id"/> 
-		<result property="rsv_intime" column='rsv_intime' />
-		<result property="rsv_outtime" column='rsv_outtime' />
-		<result property="rsv_price" column='rsv_price' />
-		<result property="rsv_states" column = 'rsv_states'/>
-		<association property="parkingVO" column="parking_id"
-			resultMap="parkingResult" />
-		<association property="userVO" column="user_id"
-			resultMap="userResult" />
-		<association property="reviewVO" column="rsv_id"
-			resultMap="reviewResult" />
-	</resultMap>
-	<resultMap id="parkingResult" type="parking">
-		<result property="parking_id" column="parking_id" />
-		<result property="owner_id" column = "owner_id"/> 
-		<result property="parking_type" column='parking_type' />
-		<result property="parking_title" column='parking_title' />
-		<result property="parking_pic" column='parking_pic' />
-		<result property="parking_price" column='parking_price' />
-		<result property="parking_location" column='parking_location' />
-	</resultMap>
-	<resultMap id="userResult" type="user">
-		<result property="user_id" column="user_id" />
-		<result property="user_nickname" column="user_nickname" />
-		<result property="user_phone" column="user_phone" />
-		<result property="car_num" column="car_num" />
-		<result property="car_type" column="car_type" />
-	</resultMap>
-	<resultMap type="review" id="reviewResult">
-		<result property="review_id" column="review_id"/>
-		<result property="user_id" column="user_id"/>
-		<result property="review_date" column="review_date"/>
-		<result property="review_content" column="review_content"/>
-		<result property="review_rating" column="review_rating"/>
-	</resultMap>
-	
-	<insert id="insertRsv">
-		<![CDATA[
-		INSERT INTO reservation (parker_id, parking_id,
-		rsv_price, rsv_intime,
-		rsv_outtime, rsv_datetime, rsv_states) values
-		(#{parker_id}, #{parking_id}, #{rsv_price},
-		#{rsv_intime},#{rsv_outtime},NOW(),
-		0)]]>
-	</insert>
-	<update id="updateRsv">
-		<![CDATA[
-		UPDATE carinfo SET car_num = #{car_num}, car_type= #{car_type}
-		WHERE user_id=#{parker_id}]]>
-	</update>
-	<delete id="deleteRsv">
-		<![CDATA[
-		DELETE FROM reservation WHERE rsv_id = #{rsv_id}
-		]]>
-	</delete>
-	<select id="getRsv" resultMap="rsvResult">
-		<![CDATA[
-		SELECT r.rsv_id, r.rsv_intime, r.rsv_outtime, r.rsv_price,r.parker_id, r.parking_id,p.parking_pic, p.owner_id, p.parking_type, p.parking_title, p.parking_price, u.user_nickname, u.user_phone, c.car_num, c.car_type
-		FROM reservation as r
-		inner join parkingboard as p 
-		on r.parking_id = p.parking_id
-		inner join user as u
-		on r.parker_id = u.user_id
-		left outer join carinfo as c
-		on r.parker_id = c.user_id
-		where r.rsv_id = #{rsv_id};]]>
-	</select>
-=======
    <resultMap id="rsvResult" type="rsv">
       <id property='rsv_id' column='rsv_id' />
       <result property="parker_id" column = "parker_id"/> 
@@ -143,7 +72,6 @@
       on r.parker_id = c.user_id
       where r.rsv_id = #{rsv_id};]]>
    </select>
->>>>>>> 4ee0d3d8726264f58c3a9fa23a2a2cac70862b4b
 
    <select id="getRsvList" resultMap="rsvResult">
       <![CDATA[
@@ -166,6 +94,18 @@
       AND rsv_states < 2
    ]]>
    </select>   
+   <select id="getRsvList_subscribe" resultMap="rsvResult">
+      <![CDATA[
+         SELECT *
+         FROM reservation as r
+         inner join parkingboard as p 
+         on r.parking_id = p.parking_id
+         inner join user as u
+         on r.parker_id = u.user_id
+         WHERE p.parking_id = #{parking_id}
+         ORDER BY rsv_intime DESC;
+      ]]>
    
+   </select>
 
 </mapper>
