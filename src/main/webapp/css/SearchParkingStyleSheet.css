@@ -172,18 +172,16 @@ span.ui-state-default{
 #tt{
 font-weight:500;
 }
-<<<<<<< HEAD
 
 #pk-pic-upload{
     width: 100%;
     height: 200px;
-} */
+} 
 /* 찜 기능  */
 .wish-checkbox{
    display:none;
-=======
+}
 #won{
 	font-weight:700;
 	color:#4c4c4c;
->>>>>>> f044d71e6a317abe98e1c5174d2796cccfadc3d2
 }

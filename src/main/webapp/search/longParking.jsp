@@ -247,11 +247,7 @@ font-weight:500;
                         </tr>
                      
                         <tr>
-<<<<<<< HEAD
-                           <td><a href="searchParkingDetail.do?parking_id=${parking.parking_id}">제목: ${parking.parking_title}</a></td>
-=======
                            <td><a href="searchParkingDetail.do?parking_id=${parking.parking_id}"><span id="tt">${parking.parking_title}</span></a></td>
->>>>>>> f044d71e6a317abe98e1c5174d2796cccfadc3d2
                         </tr>
                         <tr>
                            <td><a href="searchParkingDetail.do?parking_id=${parking.parking_id}">위치: ${parking.parking_location}</a></td>

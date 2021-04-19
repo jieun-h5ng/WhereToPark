@@ -29,7 +29,7 @@
         	font-size:18px;
         }
         #carInfo_text_box{
-       		width:100%;
+       		width:600px;
         	margin:0 auto;
         }
         #carInfo_title_box{
@@ -75,7 +75,7 @@
         }
        
         #carinfo-btn{
-        	width:500px;
+        	width:250px;
         	margin: 0 auto;
         }
         #car_num_chk{
