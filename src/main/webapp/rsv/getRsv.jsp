@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+   pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c"%>
 <%@ page import="java.util.List"%>
@@ -86,8 +86,8 @@
     <input class="rsv-info radio" type="radio" name="car_type" id="c1" value="대형 " <c:if test="${rsv.userVO.car_type eq '대형'}"> checked </c:if> /> <label for="c1">대형</label> 
     <input class="rsv-info radio" type="radio" name="car_type" id="c2" value="중형 " <c:if test="${rsv.userVO.car_type eq '중형'}"> checked </c:if> /> <label for="c2">중형</label> 
     <input class="rsv-info radio" type="radio" name="car_type" id="c3" value="준중형" <c:if test="${rsv.userVO.car_type eq '준중형'}"> checked </c:if> /> <label for="c3">준중형</label> 
-    <input class="rsv-info radio" type="radio" name="car_type" id="c4" value="경차	" <c:if test="${rsv.userVO.car_type eq '경차'}"> checked </c:if> /> <label for="c4">경차</label> 
-    <input class="rsv-info radio" type="radio" name="car_type" id="c5" value="기타	" <c:if test="${rsv.userVO.car_type eq '기타'}"> checked </c:if> /> <label for="c5">기타</label>
+    <input class="rsv-info radio" type="radio" name="car_type" id="c4" value="경차   " <c:if test="${rsv.userVO.car_type eq '경차'}"> checked </c:if> /> <label for="c4">경차</label> 
+    <input class="rsv-info radio" type="radio" name="car_type" id="c5" value="기타   " <c:if test="${rsv.userVO.car_type eq '기타'}"> checked </c:if> /> <label for="c5">기타</label>
     
     <h2>차번호</h2>
     <input class="rsv-info" type="text" id = "car_num" name = "car_num" value="${rsv.userVO.car_num}" placeholder="띄어쓰기 없이 입력하세요" onchange="carnumchk()"><br>
@@ -104,24 +104,24 @@
   }
   </c:if>
 
-	function carnumchk(){
-		
-	        var num= $("#car_num").val();
-	        //console.log(num);
-	        var pattern1 = /\d{2}[가-힣ㄱ-ㅎㅏ-ㅣ\x20]\d{4}$/g  // 12저1234
-	        var pattern2 = /\d{3}[가-힣ㄱ-ㅎㅏ-ㅣ\x20]\d{4}$/g  // 123저1234
-	        //var pattern2 = /[가-힣ㄱ-ㅎㅏ-ㅣ\x20]{2}\d{2}[가-힣ㄱ-ㅎㅏ-ㅣ\x20]\d{4}/g; // 서울12치1233
-	
-	        if (pattern1.test(num) || pattern2.test(num)) {
-	            alert(num + "차량번호 형식이 맞습니다")
-	            console.log(num)
-	        }
-	        else if(!pattern1.test(num) || pattern2.test(num)) {
-	            alert("차량번호 형식이 맞지 않습니다.")
-	            console.log(num)
-	        }
-	      
-	}
+   function carnumchk(){
+      
+           var num= $("#car_num").val();
+           //console.log(num);
+           var pattern1 = /\d{2}[가-힣ㄱ-ㅎㅏ-ㅣ\x20]\d{4}$/g  // 12저1234
+           var pattern2 = /\d{3}[가-힣ㄱ-ㅎㅏ-ㅣ\x20]\d{4}$/g  // 123저1234
+           //var pattern2 = /[가-힣ㄱ-ㅎㅏ-ㅣ\x20]{2}\d{2}[가-힣ㄱ-ㅎㅏ-ㅣ\x20]\d{4}/g; // 서울12치1233
+   
+           if (pattern1.test(num) || pattern2.test(num)) {
+               alert(num + "차량번호 형식이 맞습니다")
+               console.log(num)
+           }
+           else if(!pattern1.test(num) || pattern2.test(num)) {
+               alert("차량번호 형식이 맞지 않습니다.")
+               console.log(num)
+           }
+         
+   }
 </script>
 
 <div id="btns">
@@ -129,11 +129,6 @@
 </div>
         </form>
         </div>
-        <a href="deletersv.do?id=${rsv.rsv_id}">예약 취소</a>&nbsp;&nbsp;&nbsp;
-        <a href="javascript:history.back();">예약 내역으로 돌아가기</a>
-        <!-- 
-        <a href="getRsvList.do">예약 내역으로 돌아가기</a>
-         -->
     </div>
     <hr>
 
