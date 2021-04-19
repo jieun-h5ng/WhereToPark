@@ -36,6 +36,7 @@
       width: 100%;
       height: auto;
       /* body에 스타일링을 지양해주십시오. */
+      z-index:10;
    }
    
    #hdr {
@@ -303,7 +304,7 @@
    
    .btn-primary{
       position: fixed;
-      top : 91%;
+      top : 78%;
       right : 0px;
    }
    
@@ -416,6 +417,47 @@
    }
    .image_back{
    		margin-bottom:10px;
+   		
+   }
+   
+   #chatbot{
+   		width:100px;
+   		height:100px;
+	    /*background-color:pink;*/
+	    position: fixed;
+	    top: 86%; 
+	    bottom: 80%;
+	    right: 0px;
+   }
+	    
+    @keyframes bot {
+	    0%{margin-top: 0px;}
+	    10%{margin-top: 2.5px;}
+	    20%{margin-top: 5px;}
+	    30%{margin-top: 7.5px;}
+	    40%{margin-top: 10px;}
+	    50%{margin-top: 12.5px;}
+	    60%{margin-top: 10px;}
+	    70%{margin-top: 7.5px;}
+	    80%{margin-top: 5px;}
+	    90%{margin-top: 2.5px;}
+	    100% {margin-top: 0px;}
+    }
+   #bot{
+   		width:100px;
+   		/*z-index:99999;*/
+   		position: fixed;
+	    top: 85%; 
+	    /*bottom: 80%;*/
+	    right: 0px;
+	    animation:bot 3s linear infinite alternate; 
+	    pointer-events: none;
+   }
+   #ppp{
+   		text-align: center;
+	    font-size: 11px;
+	    line-height: 80%;
+	    margin-bottom: -10px;
    }
 </style>
 <script src="js/jquery-1.12.4.min.js"></script>
@@ -467,8 +509,13 @@
 </script>
 </head>
 <body>
-<body>
+ 		<a href="http://127.0.0.1:52273/" onClick="window.open(this.href, '_blank', 'width=500, height=430'); return false;" id="chatbot">
+		   	<p id = "ppp">말을 걸어보세요</p>
+		   	<img src="images/chatbot.png" id="bot">
+   		</a>
+   			
    <div id="hdr">
+   		
         <a href="<%=request.getContextPath()%>/index.jsp"><div class="hdr-logo"></div></a>
         	
         <div id="nav">

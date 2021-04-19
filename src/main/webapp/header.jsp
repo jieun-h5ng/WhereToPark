@@ -115,7 +115,7 @@
    
    .btn-primary{
       position: fixed;
-      top : 90%;
+      top : 78%;
       right : 0px;
    }
    
@@ -146,7 +146,10 @@
         height : 35px;
         margin: 0 12px 0 0;
    }
-
+   /*
+#chatbot{
+position:absolute;
+}*/
    /*부트스트랩 뜯은 부분*/
    .modal-header-primary { color:#fff; padding:9px 15px; border-bottom:1px solid #eee; background-color: #428bca; -webkit-border-top-left-radius: 5px; -webkit-border-top-right-radius: 5px; -moz-border-radius-topleft: 5px; -moz-border-radius-topright: 5px; border-top-left-radius: 5px; border-top-right-radius: 5px; }
 
@@ -207,6 +210,47 @@
    		vertical-align: sub;
    		margin: 0 0 0 5px;
    }
+   #chatbot{
+   		width:100px;
+   		height:100px;
+	    /*background-color:pink;*/
+	    position: fixed;
+	    top: 86%; 
+	    bottom: 80%;
+	    right: 0px;
+	    z-index:999;
+   }
+	    
+    @keyframes bot {
+	    0%{margin-top: 0px;}
+	    10%{margin-top: 2.5px;}
+	    20%{margin-top: 5px;}
+	    30%{margin-top: 7.5px;}
+	    40%{margin-top: 10px;}
+	    50%{margin-top: 12.5px;}
+	    60%{margin-top: 10px;}
+	    70%{margin-top: 7.5px;}
+	    80%{margin-top: 5px;}
+	    90%{margin-top: 2.5px;}
+	    100% {margin-top: 0px;}
+    }
+   #bot{
+   		width:100px;
+   		/*z-index:99999;*/
+   		position: fixed;
+	    top: 85%; 
+	    /*bottom: 80%;*/
+	    right: 0px;
+	    animation:bot 3s linear infinite alternate; 
+	    pointer-events: none;
+	    z-index:999;
+   }
+   #ppp{
+   		text-align: center;
+	    font-size: 11px;
+	    line-height: 80%;
+	    margin-bottom: -10px;
+   }
    </style>
    <script src="js/jquery-1.12.4.min.js"></script>
    <script type="text/javascript">
@@ -256,7 +300,13 @@
    </script>
 </head>
 <body>
+		<a href="http://127.0.0.1:52273/" onClick="window.open(this.href, '_blank', 'width=500, height=430'); return false;" id="chatbot">
+		   	<p id = "ppp">말을 걸어보세요</p>
+		   	<img src="<%=request.getContextPath()%>/images/chatbot.png" id="bot">
+   		</a>
+	
    <div id="hdr">
+   		
         <a href="<%=request.getContextPath()%>/index.jsp"><div class="hdr-logo"></div></a>
         <div id="nav">
             <ul>

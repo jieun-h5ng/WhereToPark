@@ -20,7 +20,11 @@
 <script src="https://kit.fontawesome.com/415f6f6023.js" crossorigin="anonymous"></script>
 <script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
 
+
+<link rel="stylesheet" type="text/css" href="css/My-page-reservation.css">
+
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/My-page-reservation.css">
+
 <title>어따세워: 예약 내역</title>
 <style>
 #noRsv{
@@ -55,75 +59,92 @@ text-align: center;
 
       </c:if>
       <c:forEach var="rsv" items="${RsvList}" varStatus="status">
-			<div class="MpRsv-arti">
-				<a href="getRsv.do?rsv_id=${rsv.rsv_id}">
-					<div class="mp-rsv-info">
-						<p class="mp-rsv-p mp-rsv-title">
-							${rsv.parkingVO.parking_title}
-						</p>
-						<p class="mp-rsv-p mp-rsv-address">
-							${rsv.parkingVO.parking_location}
-						</p>
-						
-						<p class="mp-rsv-p mp-rsv-date">
-							<fmt:formatDate var="rsvInDt" value="${rsv.rsv_intime}" pattern="MM월 dd일  HH시 mm분  " />
-							${rsvInDt} <span style="color: blue;">대여</span>
-						</p>
-						<p class="mp-rsv-p mp-rsv-time">
-							<fmt:formatDate var="rsvOutDt" value="${rsv.rsv_outtime}" pattern="MM월 dd일  HH시 mm분 " />
-							${rsvOutDt} <span style="color: red;">반납</span>
-						</p>
-						
-						<input type="hidden" id=nNoticeUserId${status.index} value="${rsv.parkingVO.owner_id}" />
+         <div class="MpRsv-arti">
+            <a href="getRsv.do?rsv_id=${rsv.rsv_id}">
+               <div class="mp-rsv-info">
+                  <p class="mp-rsv-p mp-rsv-title">
+                     ${rsv.parkingVO.parking_title}
+                  </p>
+                  <p class="mp-rsv-p mp-rsv-address">
+                     ${rsv.parkingVO.parking_location}
+                  </p>
+                  
+                  <p class="mp-rsv-p mp-rsv-date">
+                     <fmt:formatDate var="rsvInDt" value="${rsv.rsv_intime}" pattern="MM월 dd일  HH시 mm분  " />
+                     ${rsvInDt} <span style="color: blue;">대여</span>
+                  </p>
+                  <p class="mp-rsv-p mp-rsv-time">
+                     <fmt:formatDate var="rsvOutDt" value="${rsv.rsv_outtime}" pattern="MM월 dd일  HH시 mm분 " />
+                     ${rsvOutDt} <span style="color: red;">반납</span>
+                  </p>
+                  
+                  <input type="hidden" id=nNoticeUserId${status.index} value="${rsv.parkingVO.owner_id}" />
 
-					</div>
-				</a>
-				<!--알림보내기위해서 값 전달-->
-				<input type="hidden" id=nRsvId${status.index} value="${rsv.rsv_id}" />
-				<input type="hidden" id=nParkingId${status.index}
-					value="${rsv.parkingVO.parking_id}" /> <input type="hidden"
-					id=nParkingTitle${status.index}
-					value="${rsv.parkingVO.parking_title}" />
-				<div class="mp-rsv-btns">
-					<c:choose>
-						<c:when test="${rsv.rsv_states eq 0 }">
-							<a href="deleteRsv.do?rsv_id=${rsv.rsv_id}">
-								<div class="mp-rsv-btn mp-rsv-btn-cancle" onclick="getRsvDelete(nRsvId${status.index}, nParkingId${status.index}, nNoticeUserId${status.index}, nParkingTitle${status.index})">
-									예약 취소하기
-								</div>
-							</a>
-							<div class="mp-rsv-btn mp-rsv-btn-chat">
-								<a href="chatroom.do?rsv_id=${rsv.rsv_id}&parker_id=${rsv.parker_id}" onClick="window.open(this.href, '', 'width=350, height=400, status=no, toolbar=no, scrollbars=no, location=no'); return false;">
-									상담하기&nbsp;<span style="background-color: #367FFF; border-radius: 50%; font-size: 0.92em; color: white; padding: 0 2px 4px 2px; box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);" id="chatCnt">&nbsp;&nbsp;${noRead[status.index]}&nbsp;&nbsp;</span>
-								</a>
-							</div>
-						</c:when>
-						<c:when test="${rsv.rsv_states eq 1 }">
-							<div class="mp-rsv-btn mp-rsv-btn-cancle">예약 진행중</div>
-							<div class="mp-rsv-btn mp-rsv-btn-chat">
-								<a href="chatroom.do?rsv_id=${rsv.rsv_id}&parker_id=${rsv.parker_id}" onClick="window.open(this.href, '', 'width=350, height=400'); return false;">
-									상담하기&nbsp;<span style="background-color: #367FFF; border-radius: 50%; font-size: 0.92em; color: white; padding: 0 2px 4px 2px; box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);" id="chatCnt">&nbsp;&nbsp;${noRead[status.index]}&nbsp;&nbsp;</span>
-								</a>
-							</div>
-						</c:when>
-						<c:when test="${rsv.rsv_states eq 2 && rsv.parkingVO.owner_id ne userId}">
-							<a href="review_wrt.do?rsv_id=${rsv.rsv_id}"><div class="mp-rsv-btn mp-rsv-btn-wrtreivew">리뷰 쓰기</div></a>
-						</c:when>
-						<c:otherwise>
-							<div class="mp-rsv-btn mp-rsv-btn-wrtreivew" style="width: 270px">
-							이용완료된 예약입니다</div>
-						</c:otherwise>
-					</c:choose>
+               <span style="font-size:smaller;">${rsv.parkingVO.parking_location}</span></p>
+               <input type="hidden" id =nNoticeUserId${status.index} value="${rsv.parkingVO.owner_id}" />
+<fmt:formatDate var="checkInDt" value="${rsv.rsv_intime}" pattern="yyyy-MM-dd"/>
+            </div></a>
+            <!--알림보내기위해서 값 전달-->
+            <input type="hidden" id=nRsvId${status.index} value="${rsv.rsv_id}" />
+            <input type="hidden" id =nParkingId${status.index} value="${rsv.parkingVO.parking_id}" />
+            <input type="hidden" id =nParkingTitle${status.index} value="${rsv.parkingVO.parking_title}" />
+            <div class="mp-rsv-btns">
+<c:choose>
+<c:when test="${rsv.rsv_states eq 0 }">
+               <a href="javascript:beforeDelete('${checkInDt}',${rsv.rsv_id})">
+               <div class="mp-rsv-btn mp-rsv-btn-cancle" onclick="getRsvDelete(nRsvId${status.index}, nParkingId${status.index}, nNoticeUserId${status.index}, nParkingTitle${status.index})">예약 취소하기</div></a>
+               <div class="mp-rsv-btn mp-rsv-btn-chat">
+               <a href="chatroom.do?rsv_id=${rsv.rsv_id}&parker_id=${rsv.parker_id}" onClick="window.open(this.href, '', 'width=350, height=400, status=no, toolbar=no, scrollbars=no, location=no'); return false;">
+                  상담하기&nbsp;<span style="background-color: #367FFF; border-radius: 50%; font-size: 0.92em; color: white; padding: 0 2px 4px 2px; box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);" id="chatCnt">&nbsp;&nbsp;${noRead[status.index]}&nbsp;&nbsp;</span></a>
+               </div>
+   </c:when>
+   <c:when test="${rsv.rsv_states eq 1 }">
+               <div class="mp-rsv-btn mp-rsv-btn-cancle">예약 진행중</div>
+               <div class="mp-rsv-btn mp-rsv-btn-chat">
+               <a href="chatroom.do?rsv_id=${rsv.rsv_id}&parker_id=${rsv.parker_id}" onClick="window.open(this.href, '', 'width=350, height=400'); return false;">
+                  상담하기&nbsp;<span style="background-color: #367FFF; border-radius: 50%; font-size: 0.92em; color: white; padding: 0 2px 4px 2px; box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);" id="chatCnt">&nbsp;&nbsp;${noRead[status.index]}&nbsp;&nbsp;</span></a>
+               </div>
+   </c:when>
+      <c:when test="${rsv.rsv_states eq 2 && rsv.parkingVO.owner_id ne userId}">
+               <a href="review_wrt.do?rsv_id=${rsv.rsv_id}"><div class="mp-rsv-btn mp-rsv-btn-wrtreivew">
+               리뷰 쓰기
+               </div></a>
+   </c:when>
+   <c:otherwise><div class="mp-rsv-btn mp-rsv-btn-wrtreivew" style="width:270px">이용완료된 예약입니다</div></c:otherwise>   
+</c:choose>
 
-				</div>
-			</div>
-		</c:forEach>
-      <!-- 
-        <div class="MpRsv-arti">2</div>
-        <div class="MpRsv-arti">3</div>
-        <div class="MpRsv-arti">4</div>
-         -->
-      <!-- 각자의 파트는 이곳까지 작업해주시면 되겠습니다. -->
+            </div>
+         </div>
+         
+      </c:forEach>
+     <script>
+
+     function beforeDelete(date,id){
+     var result = confirm("예약을 취소하시겠습니까?");
+     if(result){// 예
+        var d_day = new Date(date);
+        var today =new Date();
+     var gap = d_day.getTime()-today.getTime();
+     var min = gap/1000/60;
+     
+        if(min <= 60){
+           alert("예약 1 시간 전부터는 취소가 불가능합니다");
+           return false;
+       }
+        //날짜 확인
+        else{
+           
+           $(".mp-rsv-btn-cancle").trigger("click");
+           location.href="deleteRsv.do?rsv_id="+id;
+           
+        }
+         
+     }else{//아니오
+         return false;
+     }
+     }
+     </script>
+
    </div>
 </body>
 <script src="header_js.jsp"></script>

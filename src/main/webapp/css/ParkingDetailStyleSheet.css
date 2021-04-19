@@ -239,6 +239,11 @@ font-size: x-large;
    margin: 0 auto;
 }
  /*추천 알고리즘*/
+ 
+ .pk-recommendation{
+   height:500px;
+   
+ }
    #cntnr #recommendation {
       width: 100%;
       /* height: 350px; */
@@ -249,25 +254,21 @@ font-size: x-large;
       position: relative;
       z-index: 997;
    }
-   
-   #recommendation-title {
-      font-size: 1.5em;
-      font-weight: bold;
-      text-align: center;
-   }
+
    
    .recommendation-box {
-      width: 30%;
-      min-height: 240px;
-      height: 350px;
-      border: 1px solid #ccc;
-      box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
-      margin: 0 5% 0 0;
-      float: left;
-      box-sizing: border-box;
-      border-radius: 2px;
-      cursor: pointer;
-      /* position : absolute; */
+width: 29%;
+    min-height: 240px;
+    height: 350px;
+    border: 1px solid #ccc;
+    box-shadow: 1px 1px 3px rgb(0 0 0 / 10%);
+    margin: 0 40px 0 0;
+    float: left;
+    border-collapse: collapse;
+    box-sizing: border-box;
+    border-radius: 5px;
+    cursor: pointer;
+    /* position: absolute;*/
    }
    
    .reco-img{
@@ -277,27 +278,19 @@ font-size: x-large;
       border-radius: 2px;
    }
 
-   .recommendation-box:last-child {
-      margin: 0;
-   }
-   
-   .reco-content{
-      margin: 0 2% 0 2% ;
-   }
+
    .reco-type{
       font-size: 13px;
       font-weight: bold;
+      padding: 5px;
    }
    .reco-title{
       font-weight: bold;
       font-size: 15px;
       border-bottom: 1px solid #ccc;
-      padding: 5px 0 5px 0;
+      padding: 5px;
    }
-   .reco-cartype{
-      font-size: 15px;
-      font-weight: 400;
-      padding: 5px 0 0 0;
+
    }
    .reco-price{
       font-size: 15px;

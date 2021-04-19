@@ -182,47 +182,69 @@ text-align: center;
                         });
                         $("#sdate").val("시작날짜");
                         $("#edate").val("종료날짜");
-                  
+                        
+                 
                         function call(){
                             var sdd = document.getElementById("sdate").value;
                             var edd = document.getElementById("edate").value;
-                            var ar1 = sdd.split('-');
-                            var ar2 = edd.split('-');
-                            var da1 = new Date(ar1[0], ar1[1], ar1[2]);
-                            var da2 = new Date(ar2[0], ar2[1], ar2[2]);
-                            var dif = da2 - da1;
-                            var cDay = 24 * 60 * 60 * 1000;// 시 * 분 * 초 * 밀리세컨
-                            var cMonth = cDay * 30;// 월 만듬
-                            var cYear = cMonth * 12; // 년 만듬
-                            if(sdd && edd){
+                          
+                            //예약날짜 유효성 검사
+                            if(sdd !="시작날짜" && edd !="종료날짜"){
+                            	  var ar1 = sdd.split('-');
+                                  var ar2 = edd.split('-');
+                                  var da1 = new Date(ar1[0], ar1[1], ar1[2]);
+                                  var da2 = new Date(ar2[0], ar2[1], ar2[2]);
+                                  var dif = da2 - da1;
+                                
+                                var cDay = 24 * 60 * 60 * 1000;// 시 * 분 * 초 * 밀리세컨
+                                var cMonth = cDay * 30;// 월 만듬
+                                var cYear = cMonth * 12; // 년 만듬
                                 var days = parseInt(dif/cDay);
-                                var months = parseInt(dif/cMonth);
+                                
+                                if(days ==0){ 
+                               	 alert("최소 1일 이상 예약해주세요");
+                               	 var totalPrice = 0;
+
+                                }else{
+                            
                                 var totalPrice = ${p_detail.parking_price} * days;
-                                $("#days").text(days);
-                                $('#won').text(totalPrice);
-                                $('#hidden_price').attr('value',totalPrice)
-                                sdd = new Date(sdd);
-                                edd = new Date(edd);
-                                $('#hidden_sdate').attr('value',sdd);
-                                $('#hidden_edate').attr('value',edd);
-                            }
                             }
 
+                            }else{
+                            
+                            	var totalPrice=0;
+                            	var days = 0;
+                            }
+                            $("#days").text(days);
+                            $('#won').text(totalPrice);
+                            $('#hidden_price').attr('value',totalPrice)
+                            sdd = new Date(sdd);
+                            edd = new Date(edd);
+                            $('#hidden_sdate').attr('value',sdd);
+                            $('#hidden_edate').attr('value',edd);
+                            }
+                        $(document).ready(function(){
+                        	$("#pk-book-btn").on("click", function() {
+                        		if(  $("#sdate").val()=="시작날짜" ||
+                                $("#edate").val()=="종료날짜"){
+                        			alert("날짜를 선택해주세요");
+                        			return false;
+                        		}
+                        		if($("#won").text()=="0"){
+                        			alert("유효하지 않은 입력입니다. 날짜를 다시 선택해주세요");
+                        			return false;
+                        		}
+                        		
+                        	});
+                        });
                     </script>
 						</div>
 						<div class="pk-total-price">
-<c:choose>
-							<c:when test="${p_detail.parking_type eq '장기'}">
+
 							${p_detail.parking_price} 원 X <span id="days">0</span> 일 = <span
 								id="won" value="" style="font-size: larger; font-weight: 500;">
 								0</span>원 <input type="hidden" id="hidden_price" name="rsv_price" />
-						</c:when>
-						<c:when test="${p_detail.parking_type eq '단기'}">
-							${p_detail.parking_price} 원 X <span id="hours">0</span> 시간 = <span
-								id="won" value="" style="font-size: larger; font-weight: 500;">
-								0</span>원 <input type="hidden" id="hidden_price" name="rsv_price" />
-						</c:when>
-						</c:choose></div>
+</div>
 						<div class="pk-btn">
 							<c:choose>
 							<c:when test="${empty sessionScope.userId}">
@@ -230,12 +252,13 @@ text-align: center;
 										onclick="alert('로그인이 필요한 기능입니다.');location.href='<%=request.getContextPath()%>/user/userLogin.jsp' " />
 								</c:when>
 								<c:when test="${!empty sessionScope.userId and p_detail.owner_id ne userId}">
-									<input type="submit" value="주차장 예약하기" id="pk-book-btn"/>
+									<input type="submit" value="주차장 예약하기" id="pk-book-btn" onclick=""/>
 								</c:when>
 								<c:when test="${!empty sessionScope.userId and p_detail.owner_id eq userId}">
 									<input type="button" value="주차장 예약하기" id="pk-book-btn"
-										onclick="alert('자기 자신의 주차장은 예약할 수 없습니다');" />
+										onclick="alert('자기 자신의 주차장은 예약할 수 없습니다');location.href='#';" />
 								</c:when>
+
 							</c:choose>
 							<!-- parking의 owner_id 가 세션user와 동일한 경우 예외처리 -->
 						</div>
@@ -463,8 +486,7 @@ text-align: center;
 				</ul>
 			</nav>
 		</div>
-	</div>
-	<div class="segment pk-recommendation">
+			<div class="segment pk-recommendation">
 		<h1 class="pk-subject">이 주차장도 추천해요 !</h1>
 		<div id="recommendation">
 		<c:forEach items="${recomm}" var= "rcm">
@@ -477,24 +499,19 @@ text-align: center;
                <td id="recommendation-title" class="reco-title">${rcm.parking_title}</td>
             </tr>
             <tr>
-               <td>${rcm.parking_location}</td>
+               <td class="reco-type">${rcm.parking_location}</td>
             </tr>
                <tr>
-               <td class="reco-type">${rcm.parking_type}</td>
-            </tr>
-            
-             <tr>
-               <td class="reco-cartype">${rcm.parking_cartype}</td>
+               <td class="reco-type">${rcm.parking_type} | ${rcm.parking_cartype} | 1일 ${rcm.parking_price} 원</td>
             </tr>
             <tr>
                <td class="reco-intime"> ${rcm.parking_intime}</td>
             </tr>
-             <tr>
-               <td class="reco-content">${rcm.parking_content}</td>
+           <tr>
+               <td class="reco-intime"> ${rcm.parking_outtime}</td>
             </tr>
-            <tr>
-               <td class="reco-price">1일 ${rcm.parking_price} 원</td>
-            </tr>
+
+
             <!-- 찜 기능 작업중에 있습니다 -->
            </table></a>
 		</c:forEach>
@@ -503,6 +520,8 @@ text-align: center;
 		
 	</div>
 	<!-- 각자의 파트는 이곳까지 작업해주시면 되겠습니다. -->
+	</div>
+
 	</div>
 </body>
 <script src="header_js.jsp"></script>
