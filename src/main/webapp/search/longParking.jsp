@@ -14,7 +14,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="preconnect" href="https://fonts.gstatic.com">
-		<link rel="stylesheet" type="text/css" href="css/SearchParkingStyleSheet.css">
+		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/SearchParkingStyleSheet.css">
 		<link
 			href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
 			rel="stylesheet">
@@ -22,12 +22,21 @@
 		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<style>
-
-#tt{
-font-weight:500;
-}
-
-		
+			#tt{
+			font-weight:500;
+			}
+			#coloring-red-heart{
+				color:#d96b6b;
+			}
+			#coloring-gray-heart{
+				color:#dfdfdf;
+			}
+			.coloring-red-heart{
+				color:#d96b6b;
+			}
+			.coloring-gray-heart{
+				color:#dfdfdf;
+			}
 		</style>
 	</head>
 
@@ -243,10 +252,26 @@ font-weight:500;
 
                      <table class="parking-lot" border="1">
                         <tr>
-                           <td><a href="searchParkingDetail.do?parking_id=${parking.parking_id}"><img id='pkpic' src='images/${parking.parking_pic}'/></a></td>
+                           <td>
+                           	<a href="searchParkingDetail.do?parking_id=${parking.parking_id}"><img id='pkpic' src='images/${parking.parking_pic}'/></a>
+                           	<!-- 찜 기능 작업중에 있습니다 -->
+                           	<%-- <p>${parking.wishVO.wish_id}</p> --%>
+								<form class="positioning-of-heart">
+									<input type="hidden" name="" class="pidxn" value="${wishListStatus.index}"/>
+									<input type="hidden" name="wish_id"  value="${parking.wishVO.wish_id}" id=checkWishId${wishListStatus.index}/>
+									<input type="checkbox" name="parking_id" value="${parking.parking_id}" id=parkingWish${wishListStatus.index} class="wish-checkbox"></input>
+									<label for="chckheart" class="heartLabel" onclick="wishList(${wishListStatus.index}, parkingWish${wishListStatus.index});">
+										<i class="fas fa-heart"<c:if test="${null ne parking.wishVO.wish_id}">id='coloring-red-heart'</c:if>></i>
+									</label>
+
+								</form>
+                           </td>
                         </tr>
-                     
                         <tr>
+<<<<<<< HEAD
+=======
+                           <%-- <td><a href="searchParkingDetail.do?parking_id=${parking.parking_id}">제목: ${parking.parking_title}</a></td> --%>
+>>>>>>> 3eacf98cfa15a9dd8c81cafa4e9add0e107b6c16
                            <td><a href="searchParkingDetail.do?parking_id=${parking.parking_id}"><span id="tt">${parking.parking_title}</span></a></td>
                         </tr>
                         <tr>
@@ -261,66 +286,63 @@ font-weight:500;
                         <tr>
                            <td><a href="searchParkingDetail.do?parking_id=${parking.parking_id}">가격: ${parking.parking_price}</a></td>
                         </tr>
-                        <!-- 찜 기능 작업중에 있습니다 -->
+                        
                         <tr>
                            
-                              <td>
-                                 <form>
-                                    <input type="checkbox" name="parking_id" value="${parking.parking_id}" id=parkingWish${wishListStatus.index} class="wish-checkbox"></input>
-                                    <label for="chckheart" class="heartLabel" onclick="wishList(${wishListStatus.index}, parkingWish${wishListStatus.index} );"><i class="fas fa-heart"></i></label>
-                                    ${parking.wishVO.wish_id}
-                                 </form>
-                              </td>
+							<td>
+								
+							</td>
                         </tr>
                      </table>
                   
                </c:forEach>
                <script>
-                  var click = 0;
-                  var index = 0;
-                  //insert WishList
-                  function wishList (num, parkingWish){
-                     var parkingId = parkingWish.value;
-                     
-                     if(index != num){
-                        click = 0;
-                     }
-                     
-                     index = num;
-                     
-                     if(click == 0){
-                        console.log("찜될 주차장 : " + parkingId);
-                        var xhr = new XMLHttpRequest();
-                        xhr.onreadystatechange = function(){
-                           if(xhr.readyState === 4 && xhr.status === 200){
-                              var heart = document.getElementsByClassName("fa-heart");
-                              heart[num].setAttribute("style", "color : red;");
-                              click++;
-                              console.log("찜될 주차장  cnt: " + cnt);
-                           }
-                        }
-                        xhr.open('GET', 'insert_wish.do?parking_id='+parkingId);
-                        xhr.send(parkingId);
-                     }
-                     
-                     if(click == 1){
-                        var xhr = new XMLHttpRequest();
-                        console.log("찜삭제될 주차장 : " + parkingId);
-                        xhr.onreadystatechange = function(){
-                           if(xhr.readyState === 4 && xhr.status === 200){
-                              var heart = document.getElementsByClassName("fa-heart");
-                                 heart[num].setAttribute("style", "color : black;");
-                                 click--;
-                                 console.log("찜삭제된 주차장  cnt: " + cnt);
-                              }
-                           }
-                           xhr.open('GET', 'delete_wish.do?parking_id='+parkingId);
-                           xhr.send(parkingId);
-                     } 
-                  }
-                  
-               </script>
-               <!-- 여기까지 찜 기능 작업중에 있습니다 -->
+						var click = 0;
+						var index = 0;
+						//insert WishList
+						function wishList (num, parkingWish){
+							var heart = document.getElementsByClassName("fa-heart");
+							var parkingId = parkingWish.value;
+							console.log("ehosi");														
+							if(index != num){
+								click = 0;
+							}
+							
+							index = num;
+						
+							if(click == 0){
+								console.log("찜될 주차장 : " + parkingId);
+								var xhr = new XMLHttpRequest();
+								xhr.onreadystatechange = function(){
+									if(xhr.readyState === 4 && xhr.status === 200){
+										//var heart = document.getElementsByClassName("fa-heart");
+										heart[num].setAttribute("id", "coloring-red-heart");
+										click++;
+										console.log("찜될 주차장  click: " + click);
+									}
+								}
+								xhr.open('GET', 'insert_wish.do?parking_id='+parkingId);
+								xhr.send(parkingId);
+							}
+							
+							if(click == 1){
+								var xhr = new XMLHttpRequest();
+								console.log("찜삭제될 주차장 : " + parkingId);
+								xhr.onreadystatechange = function(){
+									if(xhr.readyState === 4 && xhr.status === 200){
+										var heart = document.getElementsByClassName("fa-heart");
+											heart[num].setAttribute("id", "coloring-gray-heart");
+											click--;
+											console.log("찜삭제된 주차장  click: " + click);
+										}
+									}
+									xhr.open('GET', 'delete_wish.do?parking_id='+parkingId);
+									xhr.send(parkingId);
+							} 
+						}
+						
+					</script>
+					<!-- 여기까지 찜 기능 작업중에 있습니다 -->
 					
 				</div>
 

@@ -36,10 +36,8 @@ function sortUrl(){  //접속해있는 url에따라서 각각 알림의 타입�
         noticeParkingTitle = info.parkingVO.parking_title;
         var noticeParkingType = info.parkingVO.parking_type;
         notType = "review";
-        notMessage = noticeParkingTitle  + "글에 새로운 리뷰가 등록되었습니다.";
-        sendMessage = noticeParkingTitle + "예약건에 관한 리뷰가 등록되었습니다";
+        notMessage = "\"" + noticeParkingTitle + "\"" + "글에 새로운 리뷰가 등록되었습니다.";
         notUrl = "searchParkingDetail.do?parking_id=" + noticeParkingId; //리뷰볼 수 있는 글페이지로 이동
-        console.log(notUrl+ "**");
     }else if(now.includes("notice")){
         selectNotice(1);
     }
@@ -51,8 +49,7 @@ function getRsvDelete(rsvId, noticeParkingId, noticeUser, parkingTitle){
     this.noticeUser = noticeUser.value;
     this.noticeParkingTitle = parkingTitle.value;
     notType="cancel";
-    notMessage = this.noticeParkingTitle + "에 등록된 예약이 취소되었습니다.";
-    sendMessage = " [ " +this.noticeParkingId + " ] " + this.noticeParkingTitle+"에 등록된 예약이 취소되었습니다.";
+    notMessage = "\"" + this.noticeParkingTitle + "\"" +"글에 등록된 예약이 취소되었습니다.";
     notUrl = "getRsvList.do";  //예약건 모아보는 페이지로 이동
     console.log("getRsvDelete : " + this.rsvId, this.noticeParkingId, this.noticeUser);
     send();
@@ -71,7 +68,7 @@ function disconnect() {
 
 function send() {
     insertNotice();
-    ws.send(JSON.stringify({ user_id: noticeUser, not_type: notType, rsv_id: rsvId, not_message: sendMessage, not_url : notUrl }));
+    ws.send(JSON.stringify({ user_id: noticeUser, not_type: notType, rsv_id: rsvId, not_message: notMessage, not_url : notUrl }));
 }
 
 function onOpen() {

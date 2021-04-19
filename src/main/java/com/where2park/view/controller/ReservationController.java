@@ -119,6 +119,10 @@ class ReservationController {
 
 	@RequestMapping("/updateRsv.do")
 	public String updateRsv(RsvVO vo) {
+//		vo.getUserVO().setCar_num(car_num);
+//		vo.getUserVO().setCar_type(car_type);
+//		vo.getUserVO().setUser_id(vo.getParker_id());
+//		
 		rsvService.updateRsv(vo);
 		return "getRsvList.do";
 	}

@@ -138,6 +138,8 @@ span.ui-state-default{
     border: none;
     border-radius: 5px;
     box-shadow: 2px 2px 10px rgb(0 0 0 / 20%);
+    border:solid 2px #ffffff;
+    position:relative;
 }
 
 .parking-lot:hover{
@@ -172,16 +174,47 @@ span.ui-state-default{
 #tt{
 font-weight:500;
 }
+<<<<<<< HEAD
 
 #pk-pic-upload{
     width: 100%;
     height: 200px;
 } 
-/* 찜 기능  */
-.wish-checkbox{
-   display:none;
-}
+=======
 #won{
 	font-weight:700;
 	color:#4c4c4c;
+}
+#pk-pic-upload{
+    width: 100%;
+    height: 200px;
+}
+
+>>>>>>> 3eacf98cfa15a9dd8c81cafa4e9add0e107b6c16
+/* 찜 기능  */
+.positioning-of-heart{
+	/* margin:-100px -100px 0 0; */
+	position:absolute;
+	top:25px;
+	right:25px;
+}
+.wish-checkbox{
+   display:none;
+}
+<<<<<<< HEAD
+#won{
+	font-weight:700;
+	color:#4c4c4c;
+=======
+.fa-heart{
+	color:#dfdfdf;
+	font-size:1.4em;
+	text-shadow:0.2px 0.2px 1px #000000;
+}
+#coloring-red-heart{
+	color:#d96b6b;
+}
+#coloring-gray-heart{
+	color:#dfdfdf;
+>>>>>>> 3eacf98cfa15a9dd8c81cafa4e9add0e107b6c16
 }
