@@ -129,6 +129,12 @@
 </div>
         </form>
         </div>
+
+        <!-- 
+        <a href="deletersv.do?id=${rsv.rsv_id}">예약 취소</a>&nbsp;&nbsp;&nbsp;
+        <a href="javascript:history.back();">예약 내역으로 돌아가기</a>
+        <a href="getRsvList.do">예약 내역으로 돌아가기</a>
+         -->
     </div>
     <hr>
 
