@@ -103,9 +103,9 @@ public class MainSearchController {
 
 	@RequestMapping(value ="/searchParkingList.do", method=RequestMethod.POST)
 	@ResponseBody
-	public HashMap<String, Object> searchLongParkingList(@RequestParam(value = "area", defaultValue = " ", required = false) String area,
-			@RequestParam(value = "sdate",defaultValue = "2021-04-19", required = false) String sdate,
-			@RequestParam(value = "edate",defaultValue = "2021-04-30", required = false) String edate,
+	public HashMap<String, Object> searchLongParkingList(@RequestParam(value = "area", defaultValue = "", required = false) String area,
+			@RequestParam(value = "sdate",defaultValue = "2021-04-20", required = false) String sdate,
+			@RequestParam(value = "edate",defaultValue = "2021-04-21", required = false) String edate,
 			@RequestParam(value = "keyword", defaultValue = "", required = false) String keyword,
 			@RequestParam(value = "price", defaultValue = "25000", required = false) int price, ParkingVO vo, Model model) {
 		System.out.println("지역: " + area);
@@ -146,12 +146,14 @@ public class MainSearchController {
 	      System.out.println("지역: " + area);
 	      System.out.println("키워드: " + keyword); 
 	      String sdatetime =sdate+" "+stime;
-	      System.out.println("시작시간: " + sdatetime);
+	      System.out.println("시작시간: " + sdate);
+	      System.out.println("시작시간: "+stime);
 	      System.out.println("가격: " + price);
 	      vo.setParking_title(keyword);
 	      vo.setParking_content(keyword);
 	      vo.setParking_price(price);
-	      vo.setParking_intime(sdatetime);
+	      vo.setParking_intime(sdate);
+	      vo.setParking_outtime(sdatetime);
 	      vo.setParking_location(area);
 	      
 	      HashMap<String, Object> parkingList = new HashMap<String, Object>();

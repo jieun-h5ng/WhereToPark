@@ -108,7 +108,7 @@
 	<select id="getLongParkingList" resultType="parking">
 	<![CDATA[
 		SELECT * 
-		FROM PARKINGBOARD, wishlist
+		FROM PARKINGBOARD
 		WHERE (parking_title LIKE CONCAT('%', #{parking_title}, '%') 
 		OR parking_content LIKE CONCAT('%', #{parking_content}, '%')
 		OR parking_location LIKE CONCAT('%', #{parking_content}, '%'))
@@ -116,15 +116,14 @@
 		AND parking_type = '장기' 
 		AND parking_deleted = 0 
 		AND parking_price <= #{parking_price}
-		AND parking_intime < #{parking_intime} 
+		AND parking_intime <= #{parking_intime} 
 		AND parking_outtime >= #{parking_outtime}
-		AND parkingboard.parking_id = wishlist.parking_id
 	]]>
 	</select>
 	   <select id="getShortParkingList" resultType="parking">
    <![CDATA[
       SELECT * 
-      FROM PARKINGBOARD, wishlist
+      FROM PARKINGBOARD
       WHERE (parking_title LIKE CONCAT('%', #{parking_title}, '%') 
       OR parking_content LIKE CONCAT('%', #{parking_content}, '%')
       OR parking_location LIKE CONCAT('%', #{parking_content}, '%'))
@@ -132,8 +131,8 @@
       AND parking_type = '단기' 
       AND parking_deleted = 0 
       AND parking_price <= #{parking_price}
-      AND parking_outtime > #{parking_intime}
-      AND parkingboard.parking_id = wishlist.parking_id
+      AND date_format(parking_outtime, '%Y-%m-%d' ) = #{parking_intime}
+      AND TIMESTAMPdiff(hour,#{parking_outtime}, parking_outtime)>0
    ]]>
    </select>
 		<select id = "getDateList" resultType="parking" resultMap = "parkingResult">

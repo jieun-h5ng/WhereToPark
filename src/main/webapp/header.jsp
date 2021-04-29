@@ -300,7 +300,7 @@ position:absolute;
    </script>
 </head>
 <body>
-		<a href="http://127.0.0.1:52273/" onClick="window.open(this.href, '_blank', 'width=500, height=430'); return false;" id="chatbot">
+		<a href="http://127.0.0.1:52273/" onClick="window.open(this.href, '_blank', 'width=500, height=430, left=900px, top=300px'); return false;" id="chatbot">
 		   	<p id = "ppp">말을 걸어보세요</p>
 		   	<img src="<%=request.getContextPath()%>/images/chatbot.png" id="bot">
    		</a>

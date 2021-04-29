@@ -28,14 +28,12 @@
    width: 80%;
 }
   #sdate{
-	padding: 10px;
+   padding: 10px;
     width: 115px;
     font-size: 1.3em;
     font-weight: 300;
     color: #4c4c4c;
   }
-
-  
 /*리뷰 ajax 부분*/
     .rating {display: inline-block;}
  .rating > input {display: none;}
@@ -98,26 +96,30 @@
                      <input type="hidden" name="rsv_intime" value="" id="hidden_sdate" />
                      <input type="hidden" name="rsv_outtime" value="" id="hidden_edate" />
 
-							<!-- 오너 아이디 - 은지 -->
-							<input type="hidden" name="parkingVO.owner_id" value="${p_detail.owner_id}"/>
+                     <!-- 오너 아이디 - 은지 -->
+                     <input type="hidden" name="parkingVO.owner_id" value="${p_detail.owner_id}"/>
                      <script>
                      
-                    
+        <c:if test="${booked[0].rsvVO.rsv_outtime ne null}">
          <fmt:formatDate var="rsvOutDt" value="${booked[0].rsvVO.rsv_outtime}" pattern="YYYY-MM-dd"/>
-                     
+                     var min = ${rsvOutDt};
+        </c:if>
+        
          var inDate = "${p_detail.parking_intime}";
+         var min = inDate.substr(11,5);
          inDate = inDate.substr(0,10);
+         
          var outDate = "${p_detail.parking_outtime}";
          var outTime = outDate.substr(11,5); 
+         
          
          $("#sdate").attr("value", inDate);
          
             $("#stime").timepicker({
                          timeFormat: 'HH:mm',
                          interval: 60,
-                         minTime: '${rsvOutDt}',
+                         minTime: min,
                          maxTime: outTime,
-                         defaultTime: '11',
                          startTime: '0:00am',
                          dynamic: false,
                          dropdown: true,
@@ -129,9 +131,8 @@
                      
                       timeFormat: 'HH:mm',
                       interval: 60,
-                      minTime: '${rsvOutDt}',
+                      minTime: min,
                       maxTime: outTime,
-                      defaultTime: '11',
                       startTime: '0:00am',
                       dynamic: false,
                       dropdown: true,
@@ -140,16 +141,19 @@
                       change: call
                
                });
-					$('#stime').timepicker("option", "change", function () {
-						var from_time = $("#stime").val();
-						$('#etime').timepicker('option','minTime', from_time);//etime의 mintime 지정
-	                      if ($('#etime').val() && $('#etime').val() < from_time) {
-	                          $('#etime').timepicker('setTime', from_time);
-	                      }
-					});
-               
-             $('#etime').timepicker({timeFormat:'H:i','minTime':'06:00','maxTime':'23:00'});//etime 시간 기본 설정
-			
+          
+               $('#stime').timepicker("option", "change", function () {
+            	 
+                  var from_time = $("#stime").val();
+                  $('#etime').timepicker('option','minTime', from_time);//etime의 mintime 지정
+                         if ($('#etime').val() && $('#etime').val() < from_time) {
+                             $('#etime').timepicker('setTime', from_time);
+                         }
+                  call();
+                  
+               });
+               $('#etime').timepicker("option", "change", call );
+     
                   function call(){
                      var time1 = document.getElementById("stime").value;
                      var time2 = document.getElementById("etime").value;
@@ -163,11 +167,11 @@
 
                      var interval = t2-t1;
                      
-                     if(time1&&time2){
+                     if(isNaN(interval)==false){
                      //0시간 차이나는 경우 예외처리
                      if(interval =="0"){ 
-                    	 alert("최소 1시간 이상 예약해주세요");
-                    	 var totalPrice = 0;
+                        alert("최소 1시간 이상 예약해주세요");
+                        var totalPrice = 0;
                      }
                      else{
                      var HH = Math.floor((interval % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)); //시
@@ -176,7 +180,7 @@
 
                      }
                      }else{// 하나만 선택한 경우 예외처리
-                     	var totalPrice = 0;
+                        var totalPrice = 0;
                      }
                      
                      $("#hours").text(HH);
@@ -185,20 +189,20 @@
                     $('#hidden_sdate').attr('value',t1);
                      $('#hidden_edate').attr('value',t2);
                   }
-					
+               
                   $(document).ready(function(){
-                  	$("#pk-book-btn").on("click", function() {
-                  		if(  $("#stime").val()=="시작시간" ||
+                     $("#pk-book-btn").on("click", function() {
+                        if(  $("#stime").val()=="시작시간" ||
                           $("#etime").val()=="종료시간"){
-                  			alert("날짜를 선택해주세요");
-                  			return false;
-                  		}
-                  		if($("#won").text()=="0"){
-                  			alert("유효하지 않은 입력입니다. 날짜를 다시 선택해주세요");
-                  			return false;
-                  		}
-                  		
-                  	});
+                           alert("날짜를 선택해주세요");
+                           return false;
+                        }
+                        if($("#won").text()=="0"){
+                           alert("유효하지 않은 입력입니다. 날짜를 다시 선택해주세요");
+                           return false;
+                        }
+                        
+                     });
                   });
                     </script>
                   </div>
@@ -279,17 +283,17 @@
          <c:choose>
          <c:when test="${totalReview[0].avrg eq null}">
          <div id="noRsv">
-         	<p id="noRsv_text">주차장의 첫 번째 후기를 남겨주세요😎</p>
+            <p id="noRsv_text">주차장의 첫 번째 후기를 남겨주세요😎</p>
          </div>
          </c:when>
          <c:when test="${totalReview[0].avrg ne null}">
-         
          <table id="rv-table" width=100%>
             <thead>
             
+            
                <tr>
-                  <th style="text-align: right; padding-right:100px;">평균 별점 <span style="font-size: 25pt; font-weight: 500;">${totalReview[0].avrg}</span>
-                     </th>
+                  <th style="text-align: right;">별점 <span
+                     style="font-size: 25pt; font-weight: 500;">${totalReview[0].avrg}</span></th>
                </tr>
             </thead>
             <tbody id="review-by-page">
@@ -299,35 +303,35 @@
                         <table class="rv-indiv">
                            <tr>
                               <td class='rv-pic'><img
-                                 src="images/profile/${p_reviews[i.index].userVO.user_pic}" /></td>
+                                 src="images/profile/${review.userVO.user_pic}" /></td>
                               <fmt:formatDate var="reviewDt"
-                                 value="${p_reviews[i.index].review_date}"
+                                 value="${review.review_date}"
                                  pattern="YYYY년  MM월 dd일" />
-                              <td>${p_reviews[i.index].userVO.user_nickname}<br>${reviewDt}
+                              <td>${review.userVO.user_nickname}<br>${reviewDt}
                               </td>
                            <tr>
                               <td colspan="2">
                                  <p class="mp-rvl-p mp-rvl-rate"
-                                    data-rate="${p_reviews[i.index].review_rating}">
+                                    data-rate="${review.review_rating}">
                                     <input type="radio" name="review_rating" value="1"
                                        class="rtng"
-                                       <c:if test="${p_reviews[i.index].review_rating eq '1'}">checked</c:if>
+                                       <c:if test="${review.review_rating eq '1'}">checked</c:if>
                                        id="rtng1" title="1"><label for="rtng1"
                                        class="starLabel"><i class="fas fa-star"></i></label> <input
                                        type="radio" name="review_rating" value="2" class="rtng"
-                                       <c:if test="${p_reviews[i.index].review_rating eq '2'}">checked</c:if>
+                                       <c:if test="${review.review_rating eq '2'}">checked</c:if>
                                        id="rtng2" title="2"><label for="rtng2"
                                        class="starLabel"><i class="fas fa-star"></i></label> <input
                                        type="radio" name="review_rating" value="3" class="rtng"
-                                       <c:if test="${p_reviews[i.index].review_rating eq '3'}">checked</c:if>
+                                       <c:if test="${review.review_rating eq '3'}">checked</c:if>
                                        id="rtng3" title="3"><label for="rtng3"
                                        class="starLabel"><i class="fas fa-star"></i></label> <input
                                        type="radio" name="review_rating" value="4" class="rtng"
-                                       <c:if test="${p_reviews[i.index].review_rating eq '4'}">checked</c:if>
+                                       <c:if test="${review.review_rating eq '4'}">checked</c:if>
                                        id="rtng4" title="4"><label for="rtng4"
                                        class="starLabel"><i class="fas fa-star"></i></label> <input
                                        type="radio" name="review_rating" value="5" class="rtng"
-                                       <c:if test="${p_reviews[i.index].review_rating eq '5'}">checked</c:if>
+                                       <c:if test="${review.review_rating eq '5'}">checked</c:if>
                                        id="rtng5" title="5"><label for="rtng5"
                                        class="starLabel"><i class="fas fa-star"></i></label>
                                  </p> <script>
@@ -342,7 +346,7 @@
                                           $(this).find('input:nth-child(n+' + targetScore*2 +') + label i').css({color:"#ccc"});
                                        });
                                     });
-                                 </script> <br> ${p_reviews[i.index].review_content}
+                                 </script> <br> ${review.review_content}
                               </td>
 
                            </tr>
@@ -419,38 +423,22 @@
                yy= date.getFullYear();
                mm = date.getMonth()+1;
                dd = date.getDate();
-               
                var txt = '<tr><td><table class="rv-indiv">';
                txt+='<tr><td class="rv-pic"><img src="images/profile/'+element.userVO.user_pic+'" /></td>';
                txt+='<td>'+element.userVO.user_nickname+'<br>'+yy+'년 '+mm+'월 '+dd+'일</td>';
                txt+='<tr><td colspan="2">';
-               txt+='<p class="mp-rvl-p mp-rvl-rate rating" data-rate="${'+element.review_rating+'}">';
-               txt+='<input type="checkbox" name="review_rating" value="5" class="rtng" <c:if test="'+element.review_rating+' eq \"1\"}">checked </c:if> id="rating_1_star5" title="1"><label for="rtng1" class="starLabel"><i class="fas fa-star"></i></label>'; 
-               txt+='<input type="checkbox" name="review_rating" value="4" class="rtng" <c:if test="'+element.review_rating+' eq \"2\"}">checked </c:if> id="rating_1_star4" title="2"><label for="rtng2" class="starLabel"><i class="fas fa-star"></i></label>'; 
-               txt+='<input type="checkbox" name="review_rating" value="3" class="rtng" <c:if test="'+element.review_rating+' eq \"3\"}">checked </c:if> id="rating_1_star3" title="3"><label for="rtng3" class="starLabel"><i class="fas fa-star"></i></label>';
-               txt+='<input type="checkbox" name="review_rating" value="2" class="rtng" <c:if test="'+element.review_rating+' eq \"4\"}">checked </c:if> id="rating_1_star2" title="4"><label for="rtng4" class="starLabel"><i class="fas fa-star"></i></label>';
-               txt+='<input type="checkbox" name="review_rating" value="1" class="rtng" <c:if test="'+element.review_rating+' eq \"5\"}">checked </c:if> id="rating_1_star1" title="5"><label for="rtng5" class="starLabel"><i class="fas fa-star"></i></label></p>';
+               txt+='<p class="mp-rvl-p mp-rvl-rate-sh" data-rate="${'+element.review_rating+'}">';
+               txt+='<p class="star-review" style="float:left;">' + '<i class="fas fa-star stt" style="color:#f5d108; margin-right:4px;"></i>'.repeat(element.review_rating) + '</p>';
+               txt+='<p class="star-review" style="float:left;">' + '<i class="fas fa-star stg" style="color:#dfdfdf; margin-right:4px;"></i>'.repeat(5-element.review_rating) + '</p>';
                txt+="<br>"+element.review_content+"</td></tr>"; 
                txt+="</td> </tr></table> </td></tr>";
-
                   list.append(txt);
-                  
                });
                 
               }
            });
        }
          </script>
-         <style>
-         	.rating {display: inline-block;}
-			.rating > input {display: none;}
-			.rating > label:before {display: inline-block;}
-			.rating > label:before i{color:#cccccc;}
-			.rating > input[type="radio"] + label {color: #999;}
-			.rating > input:checked ~ label{display: inline-block;}
-			.rating > input:checked ~ label i{color: #e4c61c;}
-			.rating > input:checked ~ label:before i{color:#cccccc;}
-         </style>
          <input type="hidden" name="page" id="pageNum" value="1" />
          <nav>
             <ul class="paging" id="pages">
@@ -467,13 +455,13 @@
          </nav>
       </div>
       
-         <div class="segment pk-recommendation">
+         <div class="pk-recommendation">
       <h1 class="pk-subject">이 주차장도 추천해요 !</h1>
       <div id="recommendation">
-      		<c:forEach items="${recomm}" var= "rcm">
-			<a href="searchParkingDetail.do?parking_id=${rcm.parking_id}">
-			<table class="recommendation-box">
-			<tr>
+            <c:forEach items="${recomm}" var= "rcm">
+         <a href="searchParkingDetail.do?parking_id=${rcm.parking_id}">
+         <table class="recommendation-box">
+         <tr>
                <td><img class='reco-img' src='images/${rcm.parking_pic}'/></td>
             </tr>
             <tr>
@@ -486,14 +474,14 @@
                <td class="reco-type">${rcm.parking_type} | ${rcm.parking_cartype} | 1일 ${rcm.parking_price} 원</td>
             </tr>
             <tr>
-               <td class="reco-intime"><span id="reco-in">주차: </span> ${rcm.parking_intime}</td>
+               <td class="reco-intime"> ${rcm.parking_intime}</td>
             </tr>
            <tr>
-               <td class="reco-intime"><span id="reco-out">반납: </span> ${rcm.parking_outtime}</td>
+               <td class="reco-intime"> ${rcm.parking_outtime}</td>
             </tr>
             <!-- 찜 기능 작업중에 있습니다 -->
            </table></a>
-		</c:forEach>
+      </c:forEach>
       </div>
       
       

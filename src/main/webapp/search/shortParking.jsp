@@ -71,7 +71,7 @@
 									list.empty();
 									
 									obj.forEach(element => {
-										var txt = "<a href='searchParkingDetail_short.do?parking_id=" + element.parking_id + "'><table class='parking-lot' border='1'>"
+										var txt = "<a href='searchParkingDetail.do?parking_id=" + element.parking_id + "'><table class='parking-lot' border='1'>"
 
 										txt += "<tr><td><img id='pkpic'src='images/" + element.parking_pic + "'/></td></tr>"
 										+ "<tr><td><span id='tt'>" + element.parking_title + "</span></td></tr>"

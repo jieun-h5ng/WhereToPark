@@ -509,7 +509,7 @@
 </script>
 </head>
 <body>
- 		<a href="http://127.0.0.1:52273/" onClick="window.open(this.href, '_blank', 'width=500, height=430'); return false;" id="chatbot">
+ 		<a href="http://127.0.0.1:52273/" onClick="window.open(this.href, '_blank', 'width=500, height=430, left=900px, top=300px'); return false;" id="chatbot">
 		   	<p id = "ppp">말을 걸어보세요</p>
 		   	<img src="images/chatbot.png" id="bot">
    		</a>
@@ -597,7 +597,7 @@
    <div id="cntnr">
       <!-- 각자의 파트는 이곳에서부터 작업하실 수 있습니다. -->
       <div class="cntnr-top-margin"></div>
-      <p id="recommendation-title">사용자 위치 기반 추천 주차장 목록</p>
+      <p id="recommendation-title">🚙 가까운 주차장 추천 🚙</p>
       <div class="main-margin"></div>   
       <div id="recommendation">
       </div>
